@@ -1,0 +1,178 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
+import 'package:go_router/go_router.dart';
+import '../data/location_service.dart';
+import '../../listings/presentation/listings_controller.dart';
+import '../../listings/domain/listing_model.dart';
+import '../../listings/presentation/widgets/listing_card.dart';
+import 'package:takash/shared/widgets/loading_indicator.dart';
+
+class MapScreen extends ConsumerStatefulWidget {
+  const MapScreen({super.key});
+
+  @override
+  ConsumerState<MapScreen> createState() => _MapScreenState();
+}
+
+class _MapScreenState extends ConsumerState<MapScreen> {
+  mapbox.MapboxMap? _mapboxMap;
+  mapbox.CircleAnnotationManager? _circleAnnotationManager;
+  List<ListingModel> _currentListings = [];
+  final Map<String, String> _markerToListing = {};
+
+  @override
+  void dispose() {
+    _mapboxMap = null;
+    _circleAnnotationManager = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final locationAsync = ref.watch(userLocationProvider);
+    
+    ref.listen(nearbyListingsProvider, (previous, next) {
+      if (next is AsyncData && _circleAnnotationManager != null) {
+        _currentListings = next.value!;
+        _updateMarkers(_currentListings);
+      }
+    });
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Yakınımdakiler'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.my_location),
+            onPressed: () => _centerOnUser(),
+          ),
+        ],
+      ),
+      body: locationAsync.when(
+        data: (position) {
+          return mapbox.MapWidget(
+            key: ValueKey('mapbox_widget_${GoRouterState.of(context).uri}'),
+            styleUri: mapbox.MapboxStyles.MAPBOX_STREETS,
+            onMapCreated: (mapboxMap) {
+              _mapboxMap = mapboxMap;
+            },
+            onStyleLoadedListener: (styleLoadedEvent) async {
+              // Circle manager kullanıyoruz (Daha güvenli ve ikon gibi durur)
+              _circleAnnotationManager = await _mapboxMap?.annotations.createCircleAnnotationManager();
+              
+              _circleAnnotationManager?.addOnCircleAnnotationClickListener(
+                _MarkerClickListener(
+                  onMarkerTap: (listingId) => _showListingSummary(listingId),
+                  markerMap: _markerToListing,
+                ),
+              );
+
+              await _mapboxMap?.location.updateSettings(
+                mapbox.LocationComponentSettings(enabled: true, pulsingEnabled: true),
+              );
+
+              _centerOnUser();
+              
+              final listings = ref.read(nearbyListingsProvider).value;
+              if (listings != null) {
+                _currentListings = listings;
+                _updateMarkers(listings);
+              }
+            },
+            cameraOptions: mapbox.CameraOptions(
+              center: mapbox.Point(coordinates: mapbox.Position(position.longitude, position.latitude)),
+              zoom: 11.0,
+            ),
+          );
+        },
+        loading: () => const LoadingIndicator(message: 'Harita hazırlanıyor...'),
+        error: (err, _) => Center(child: Text('Konum alınamadı: $err')),
+      ),
+    );
+  }
+
+  Future<void> _updateMarkers(List<ListingModel> listings) async {
+    if (_circleAnnotationManager == null || !mounted) return;
+    
+    try {
+      await _circleAnnotationManager?.deleteAll();
+      _markerToListing.clear();
+      
+      final List<mapbox.CircleAnnotationOptions> options = [];
+      
+      for (final listing in listings) {
+        if (listing.location != null) {
+          options.add(
+            mapbox.CircleAnnotationOptions(
+              geometry: mapbox.Point(
+                coordinates: mapbox.Position(listing.location!.longitude, listing.location!.latitude),
+              ),
+              circleColor: const Color(0xFF2E7D32).value, // Takash Yeşili
+              circleRadius: 10.0,
+              circleStrokeColor: Colors.white.value,
+              circleStrokeWidth: 3.0,
+            ),
+          );
+        }
+      }
+      
+      if (options.isNotEmpty) {
+        final annotations = await _circleAnnotationManager?.createMulti(options);
+        if (annotations != null) {
+          for (int i = 0; i < annotations.length; i++) {
+            if (annotations[i] != null) {
+              _markerToListing[annotations[i]!.id] = listings[i].id;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('📍 [MapScreen] Marker hatası: $e');
+    }
+  }
+
+  void _showListingSummary(String listingId) {
+    try {
+      final listing = _currentListings.firstWhere((l) => l.id == listingId);
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(width: 40, height: 4, margin: const EdgeInsets.only(bottom: 16), decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(2))),
+              ListingCard(listing: listing, onTap: () { Navigator.pop(context); context.push('/listing/${listing.id}'); }),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      );
+    } catch (_) {}
+  }
+
+  void _centerOnUser() {
+    final position = ref.read(userLocationProvider).value;
+    if (position != null && _mapboxMap != null) {
+      _mapboxMap?.setCamera(mapbox.CameraOptions(center: mapbox.Point(coordinates: mapbox.Position(position.longitude, position.latitude)), zoom: 12.0));
+    }
+  }
+}
+
+class _MarkerClickListener extends mapbox.OnCircleAnnotationClickListener {
+  final Function(String) onMarkerTap;
+  final Map<String, String> markerMap;
+  _MarkerClickListener({required this.onMarkerTap, required this.markerMap});
+  @override
+  bool onCircleAnnotationClick(mapbox.CircleAnnotation annotation) {
+    final listingId = markerMap[annotation.id];
+    if (listingId != null) onMarkerTap(listingId);
+    return true;
+  }
+}

@@ -1,0 +1,31 @@
+🏗️ Flutter ile Sıfırdan Bir Takas Platformu: 5 Faz, 5 Büyük Öğreti
+
+Takaş projesini geliştirirken her faz bana farklı bir ders verdi:
+
+📌 FAZ 1 — Altyapı & Auth
+Ders: Clean Architecture başta daha fazla dosya demek ama uzun vadede "bu kod ne yapıyor?" diye sormayı önlüyor. Feature-first yapı, büyük projelerde hayat kurtarıyor.
+
+📌 FAZ 2 — İlan Yönetimi
+Ders: UI/UX detayları fark yaratır. 4pt grid sistemi, tutarlı renk paleti ve doğru tipografi hiyerarşisi, uygulamayı "amateur MVP"den "profesyonel ürün"e taşır.
+
+📌 FAZ 3 — Harita & Konum
+Ders: Harita entegrasyonlarında dış dosya bağımlılıklarından kaçının. CircleAnnotation gibi "doğrudan çizim" yöntemleri, ikon yükleme sorunlarını kökten çözer.
+
+📌 FAZ 4 — Mesajlaşma
+Ders: İstemci tarafı optimizasyon (resize + compression) olmadan büyük dosya göndermek, hem maliyeti hem kullanıcı deneyimini mahveder. 10MB → 300KB mümkün!
+
+📌 FAZ 5 — Puanlama & Güven
+Ders: Firestore Transaction, eşzamanlı yazışmalarda veri tutarlılığını garanti eder. Ortalama puan gibi "okuma-yazma" bağımlı işlemlerde şart.
+
+🔧 Teknoloji Stack:
+• Flutter + Riverpod
+• Firebase (Auth, Firestore, Storage)
+• Mapbox SDK
+• GoRouter
+
+📊 Sonuç:
+5 faz tamamlandı. Uygulama artık kullanıcıların birbiriyle güvenli ve optimize bir şekilde takas yapabildiği canlı bir platform.
+
+Bir sonraki hedef: Bildirimler (FCM) ve mağaza yayınlama! 🚀
+
+#Flutter #Firebase #MobileDevelopment #CleanArchitecture #Riverpod #Yazılım #ProjeGeliştirme #Takas

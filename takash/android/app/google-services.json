@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "754684332828",
+    "firebase_url": "https://takash196-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "takash196",
+    "storage_bucket": "takash196.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754684332828:android:30a6066d36655c241ec8d9",
+        "android_client_info": {
+          "package_name": "com.takash.takash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754684332828-cf9c01tbttekqjis90egc4o73h2o2bh3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.takash.takash",
+            "certificate_hash": "ccf12eb6ae1ae73cae1f13ba2f6d3e29bf985d45"
+          }
+        },
+        {
+          "client_id": "754684332828-q9398tscf192c0e4qovf4tp7gj5ihmd8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.takash.takash",
+            "certificate_hash": "863468b77e4586b1fafdb761f0329c57f2a3c68d"
+          }
+        },
+        {
+          "client_id": "754684332828-4tgntolgqis0r8i8601inrnau29p50mc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSjWyQFyLFJFAU2BLEtalW3DbFdFuY5N4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754684332828-4tgntolgqis0r8i8601inrnau29p50mc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
