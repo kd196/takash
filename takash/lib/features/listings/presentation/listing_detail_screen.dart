@@ -89,7 +89,7 @@ class ListingDetailScreen extends ConsumerWidget {
                         listing.description,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               height: 1.5,
-                              color: Colors.black87,
+                              color: colorScheme.onSurface,
                             ),
                       ),
                       const SizedBox(height: 32),
@@ -130,15 +130,43 @@ class ListingDetailScreen extends ConsumerWidget {
   Widget _buildSliverAppBar(BuildContext context, WidgetRef ref,
       ListingModel listing, ColorScheme colorScheme, bool isFavorite) {
     return SliverAppBar(
-      expandedHeight: 350,
+      expandedHeight: 380,
       pinned: true,
+      stretch: true,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      backgroundColor: colorScheme.surfaceContainerHighest,
+      leading: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: colorScheme.surface.withValues(alpha: 0.9),
+          shape: BoxShape.circle,
+        ),
+        child: IconButton(
+          icon: Icon(Icons.arrow_back_rounded,
+              color: colorScheme.onSurface, size: 22),
+          onPressed: () => context.pop(),
+        ),
+      ),
       actions: [
-        CircleAvatar(
-          backgroundColor: Colors.white,
+        Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: colorScheme.surface.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: IconButton(
             icon: Icon(
               isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: isFavorite ? Colors.red : Colors.black87,
+              color: isFavorite ? Colors.red : colorScheme.onSurface,
+              size: 22,
             ),
             onPressed: () {
               ref
@@ -147,11 +175,22 @@ class ListingDetailScreen extends ConsumerWidget {
             },
           ),
         ),
-        const SizedBox(width: 8),
-        CircleAvatar(
-          backgroundColor: Colors.white,
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+          decoration: BoxDecoration(
+            color: colorScheme.surface.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: IconButton(
-            icon: const Icon(Icons.share, color: Colors.black87),
+            icon: Icon(Icons.share_rounded,
+                color: colorScheme.onSurface, size: 22),
             onPressed: () {
               Share.share(
                 '🔄 ${listing.title}\n\n${listing.description}\n\nKarşılığında: ${listing.wantedItem}\n\nTakaş ile takas yap!',
@@ -159,7 +198,6 @@ class ListingDetailScreen extends ConsumerWidget {
             },
           ),
         ),
-        const SizedBox(width: 16),
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: listing.imageUrls.isNotEmpty
@@ -197,16 +235,16 @@ class ListingDetailScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: listing.status == ListingStatus.active
-                ? Colors.green.withOpacity(0.15)
-                : Colors.orange.withOpacity(0.15),
+                ? colorScheme.primary.withValues(alpha: 0.15)
+                : colorScheme.tertiary.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
             listing.status.label,
             style: TextStyle(
               color: listing.status == ListingStatus.active
-                  ? Colors.green[700]
-                  : Colors.orange[700],
+                  ? colorScheme.primary
+                  : colorScheme.tertiary,
               fontWeight: FontWeight.w600,
               fontSize: 13,
             ),
@@ -223,31 +261,48 @@ class ListingDetailScreen extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: colorScheme.secondaryContainer.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorScheme.secondaryContainer),
+        gradient: LinearGradient(
+          colors: [
+            colorScheme.secondaryContainer,
+            colorScheme.secondaryContainer.withValues(alpha: 0.3),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colorScheme.secondary.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(Icons.swap_horiz, color: colorScheme.secondary, size: 28),
-          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: colorScheme.secondary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(Icons.swap_horiz_rounded,
+                color: colorScheme.secondary, size: 24),
+          ),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Karşılığında İstenen',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onSecondaryContainer,
-                      ),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: colorScheme.onSecondaryContainer,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.3,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   listing.wantedItem,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSecondaryContainer,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: colorScheme.onSecondaryContainer,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
@@ -330,18 +385,31 @@ class ListingDetailScreen extends ConsumerWidget {
             height: 54,
             child: OutlinedButton.icon(
               onPressed: () async {
-                final ownerAsync = ref.read(userDataProvider(listing.ownerId));
-                if (ownerAsync.value == null) return;
+                final owner = ref.read(userDataProvider(listing.ownerId)).value;
+                if (owner == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('İlan sahibi bilgisi yüklenemedi')),
+                  );
+                  return;
+                }
+                try {
+                  final chat =
+                      await ref.read(chatControllerProvider.notifier).startChat(
+                            otherUser: owner,
+                            listingId: listing.id,
+                            listingTitle: listing.title,
+                          );
 
-                final chat =
-                    await ref.read(chatControllerProvider.notifier).startChat(
-                          otherUser: ownerAsync.value!,
-                          listingId: listing.id,
-                          listingTitle: listing.title,
-                        );
-
-                if (chat != null && context.mounted) {
-                  context.push('/chats/${chat.id}');
+                  if (chat != null && context.mounted) {
+                    context.push('/chat/${chat.id}');
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Hata: $e')),
+                    );
+                  }
                 }
               },
               icon: const Icon(Icons.chat_bubble_outline),
@@ -360,28 +428,40 @@ class ListingDetailScreen extends ConsumerWidget {
             child: ElevatedButton.icon(
               onPressed: listing.status == ListingStatus.active
                   ? () async {
-                      final ownerAsync =
-                          ref.read(userDataProvider(listing.ownerId));
-                      if (ownerAsync.value == null) return;
-
-                      final chat = await ref
-                          .read(chatControllerProvider.notifier)
-                          .startChat(
-                            otherUser: ownerAsync.value!,
-                            listingId: listing.id,
-                            listingTitle: listing.title,
-                          );
-
-                      if (chat != null) {
-                        // Otomatik teklif mesajı gönder
-                        await ref
+                      final owner =
+                          ref.read(userDataProvider(listing.ownerId)).value;
+                      if (owner == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('İlan sahibi bilgisi yüklenemedi')),
+                        );
+                        return;
+                      }
+                      try {
+                        final chat = await ref
                             .read(chatControllerProvider.notifier)
-                            .sendTextMessage(
-                              chat.id,
-                              'Merhaba, "${listing.title}" ilanın için bir takas teklifim var! 🤝',
+                            .startChat(
+                              otherUser: owner,
+                              listingId: listing.id,
+                              listingTitle: listing.title,
                             );
+
+                        if (chat != null) {
+                          await ref
+                              .read(chatControllerProvider.notifier)
+                              .sendTextMessage(
+                                chat.id,
+                                'Merhaba, "${listing.title}" ilanın için bir takas teklifim var! 🤝',
+                              );
+                          if (context.mounted) {
+                            context.push('/chat/${chat.id}');
+                          }
+                        }
+                      } catch (e) {
                         if (context.mounted) {
-                          context.push('/chats/${chat.id}');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Hata: $e')),
+                          );
                         }
                       }
                     }
@@ -527,7 +607,7 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                   decoration: BoxDecoration(
                     color: _currentIndex == index
                         ? Colors.white
-                        : Colors.white.withOpacity(0.5),
+                        : Colors.white.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 );

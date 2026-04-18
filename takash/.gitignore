@@ -43,3 +43,23 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Node modules (Firebase CLI)
+node_modules/
+package-lock.json
+package.json
+
+# Heap dumps
+*.hprof
+
+# Env file (contains secrets)
+.env
+
+# Firebase login helpers
+firebase_login.txt
+firestore_rules.txt
+
+# Android build artifacts
+android/app/build/
+android/.gradle/
+android/build/

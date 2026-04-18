@@ -31,13 +31,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             password: _passwordController.text.trim(),
             displayName: _displayNameController.text.trim(),
           );
-      
+
       if (mounted && ref.read(authControllerProvider).hasError) {
         final error = ref.read(authControllerProvider).error;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Kayıt hatası: ${error.toString()}')),
         );
       }
+    }
+  }
+
+  void _onGoogleRegister() async {
+    await ref.read(authControllerProvider.notifier).signInWithGoogle();
+
+    if (mounted && ref.read(authControllerProvider).hasError) {
+      final error = ref.read(authControllerProvider).error;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google Kayıt hatası: ${error.toString()}')),
+      );
     }
   }
 
@@ -61,9 +72,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 8),
-              const Text('Mahallendeki takas dünyasına katıl!'),
+              const Text('Yakınındaki takas dünyasına katıl!'),
               const SizedBox(height: 32),
-              
               TextFormField(
                 controller: _displayNameController,
                 decoration: const InputDecoration(
@@ -78,7 +88,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -94,7 +103,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
@@ -110,7 +118,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 },
               ),
               const SizedBox(height: 32),
-              
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -121,7 +128,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+              const Text('veya'),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: authState.isLoading ? null : _onGoogleRegister,
+                  icon: const Icon(Icons.login),
+                  label: const Text('Google ile Kayıt Ol'),
+                ),
+              ),
+              const SizedBox(height: 24),
               TextButton(
                 onPressed: () => context.pop(),
                 child: const Text('Zaten hesabın var mı? Giriş Yap'),

@@ -16,13 +16,6 @@ final listingRepositoryProvider = Provider<ListingRepository>((ref) {
   );
 });
 
-/// Kullanıcının ilanlarını izleyen provider
-final userListingsProvider = StreamProvider.family<List<ListingModel>, String>((ref, userId) {
-  final repo = ref.watch(listingRepositoryProvider);
-  return repo.getUserListings(userId);
-});
-
-/// İlan CRUD işlemleri ve Firebase Storage yönetimi
 class ListingRepository {
   final FirebaseFirestore _firestore;
   final FirebaseStorage _storage;
@@ -111,15 +104,18 @@ class ListingRepository {
     final GeoCollectionReference<Map<String, dynamic>> geoRef =
         GeoCollectionReference(_listingsRef);
 
-    return geoRef.subscribeWithin(
-      center: GeoFirePoint(center),
-      radiusInKm: radiusInKm,
-      field: 'location',
-      geopointFrom: (data) => data['location'] as GeoPoint,
-      queryBuilder: (query) => query.where('status', isEqualTo: ListingStatus.active.name),
-    ).map((snapshots) => snapshots
-        .map((doc) => ListingModel.fromJson(doc.data()!))
-        .toList());
+    return geoRef
+        .subscribeWithin(
+          center: GeoFirePoint(center),
+          radiusInKm: radiusInKm,
+          field: 'location',
+          geopointFrom: (data) => data['location'] as GeoPoint,
+          queryBuilder: (query) =>
+              query.where('status', isEqualTo: ListingStatus.active.name),
+        )
+        .map((snapshots) => snapshots
+            .map((doc) => ListingModel.fromJson(doc.data()!))
+            .toList());
   }
 
   /// Bir kullanıcının ilanlarını getir (Stream)

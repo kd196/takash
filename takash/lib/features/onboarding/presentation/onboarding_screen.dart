@@ -18,7 +18,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: Icons.swap_horiz,
       title: 'Eşya ve Yetenek Takası',
       description:
-          'İhtiyacın olan şeyi para harcamadan al!\nMahallendeki insanlarla eşya ve yetenek takası yap.',
+          'İhtiyacın olan şeyi para harcamadan al!\nYakınındaki insanlarla eşya ve yetenek takası yap.',
       color: Colors.green,
     ),
     _OnboardingPage(

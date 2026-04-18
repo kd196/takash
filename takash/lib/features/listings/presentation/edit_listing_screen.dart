@@ -33,13 +33,14 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
     _wantedItemController = TextEditingController();
-    
+
     // Veriyi çek
     Future.microtask(() => _fetchListing());
   }
 
   Future<void> _fetchListing() async {
-    final listing = await ref.read(singleListingProvider(widget.listingId).future);
+    final listing =
+        await ref.read(singleListingProvider(widget.listingId).future);
     if (listing != null && mounted) {
       setState(() {
         _originalListing = listing;
@@ -171,7 +172,7 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
     }
 
     final asyncState = ref.watch(createListingControllerProvider);
-    final isLoading = asyncState is AsyncLoading;
+    final isLoading = asyncState.isLoading;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -198,7 +199,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
                   prefixIcon: Icon(Icons.title),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Başlık gerekli';
+                  if (value == null || value.trim().isEmpty)
+                    return 'Başlık gerekli';
                   return null;
                 },
               ),
@@ -215,7 +217,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
                   alignLabelWithHint: true,
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Açıklama gerekli';
+                  if (value == null || value.trim().isEmpty)
+                    return 'Açıklama gerekli';
                   return null;
                 },
               ),
@@ -249,7 +252,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
                   prefixIcon: Icon(Icons.swap_horiz),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Bu alan gerekli';
+                  if (value == null || value.trim().isEmpty)
+                    return 'Bu alan gerekli';
                   return null;
                 },
               ),
@@ -262,11 +266,13 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
                   onPressed: isLoading ? null : _updateListing,
                   icon: isLoading
                       ? const SizedBox(
-                          width: 20, height: 20,
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.save),
-                  label: Text(isLoading ? 'Güncelleniyor...' : 'Değişiklikleri Kaydet'),
+                  label: Text(
+                      isLoading ? 'Güncelleniyor...' : 'Değişiklikleri Kaydet'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
                     foregroundColor: colorScheme.onPrimary,
@@ -324,7 +330,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
         onTap: _showImageSourceSheet,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          width: 120, height: 120,
+          width: 120,
+          height: 120,
           decoration: BoxDecoration(
             border: Border.all(color: colorScheme.outline, width: 2),
             borderRadius: BorderRadius.circular(12),
@@ -354,7 +361,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
                 : Image.file(file!, width: 120, height: 120, fit: BoxFit.cover),
           ),
           Positioned(
-            top: 4, right: 4,
+            top: 4,
+            right: 4,
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -364,7 +372,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
               },
               child: Container(
                 padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(color: Colors.black54, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: Colors.black54, shape: BoxShape.circle),
                 child: const Icon(Icons.close, color: Colors.white, size: 16),
               ),
             ),

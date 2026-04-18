@@ -19,7 +19,8 @@ final allListingsProvider = StreamProvider<List<ListingModel>>((ref) {
 });
 
 /// Arama yarıçapı (km)
-final searchRadiusProvider = StateProvider<double>((ref) => 100.0); // Test için 100km yaptık
+final searchRadiusProvider =
+    StateProvider<double>((ref) => 100.0); // Test için 100km yaptık
 
 /// Yakındaki ilanları dinle
 final nearbyListingsProvider = StreamProvider<List<ListingModel>>((ref) {
@@ -28,23 +29,20 @@ final nearbyListingsProvider = StreamProvider<List<ListingModel>>((ref) {
   final allListingsAsync = ref.watch(allListingsProvider);
 
   if (userLocation == null) {
-    print('📍 [NearbyListings] Kullanıcı konumu henüz alınamadı.');
     return Stream.value([]);
   }
 
   final repo = ref.watch(listingRepositoryProvider);
-  print('📍 [NearbyListings] Sorgu başlatılıyor: (${userLocation.latitude}, ${userLocation.longitude})');
 
-  return repo.getNearbyListings(
+  return repo
+      .getNearbyListings(
     center: GeoPoint(userLocation.latitude, userLocation.longitude),
     radiusInKm: radius,
-  ).map((nearbyListings) {
+  )
+      .map((nearbyListings) {
     if (nearbyListings.isEmpty && allListingsAsync.hasValue) {
-      print('📍 [NearbyListings] Yakında ilan yok, tüm ilanlar gösteriliyor (Fallback)');
-      // Konumu olan tüm ilanları filtrele
       return allListingsAsync.value!.where((l) => l.location != null).toList();
     }
-    print('📍 [NearbyListings] ${nearbyListings.length} adet yakın ilan bulundu.');
     return nearbyListings;
   });
 });
@@ -64,10 +62,11 @@ final singleListingProvider =
 });
 
 /// İlan favorilerde mi?
-final isFavoriteProvider = StreamProvider.family<bool, String>((ref, listingId) {
+final isFavoriteProvider =
+    StreamProvider.family<bool, String>((ref, listingId) {
   final user = ref.watch(authStateProvider).value;
   if (user == null) return Stream.value(false);
-  
+
   final repo = ref.watch(listingRepositoryProvider);
   return repo.isFavorite(user.uid, listingId);
 });
@@ -76,7 +75,7 @@ final isFavoriteProvider = StreamProvider.family<bool, String>((ref, listingId) 
 final userFavoritesProvider = StreamProvider<List<ListingModel>>((ref) {
   final user = ref.watch(authStateProvider).value;
   if (user == null) return Stream.value([]);
-  
+
   final repo = ref.watch(listingRepositoryProvider);
   return repo.getUserFavorites(user.uid);
 });
@@ -95,7 +94,8 @@ final categoryFilterProvider = StateProvider<ListingCategory?>((ref) => null);
 final showMyListingsProvider = StateProvider<bool>((ref) => false);
 
 /// Filtrelenmiş ilan listesi
-final filteredListingsProvider = Provider<AsyncValue<List<ListingModel>>>((ref) {
+final filteredListingsProvider =
+    Provider<AsyncValue<List<ListingModel>>>((ref) {
   final listingsAsync = ref.watch(allListingsProvider);
   final searchQuery = ref.watch(searchQueryProvider);
   final categoryFilter = ref.watch(categoryFilterProvider);
@@ -112,9 +112,7 @@ final filteredListingsProvider = Provider<AsyncValue<List<ListingModel>>>((ref) 
 
     // Kategori filtresi
     if (categoryFilter != null) {
-      filtered = filtered
-          .where((l) => l.category == categoryFilter)
-          .toList();
+      filtered = filtered.where((l) => l.category == categoryFilter).toList();
     }
 
     // Arama filtresi

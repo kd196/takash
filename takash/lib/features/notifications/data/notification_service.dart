@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,19 +39,22 @@ Future<void> _saveInAppNotification(RemoteMessage message) async {
         .doc(notification.id)
         .set(notification.toJson());
   } catch (e) {
-    print('Bildirim kaydetme hatası: $e');
+    debugPrint('Bildirim kaydetme hatası: $e');
   }
 }
 
 class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
+      _notificationSubscription;
 
   Future<void> initialize() async {
-    // Android notification channel'ları oluştur
+    _notificationSubscription?.cancel();
+    _notificationSubscription = null;
+
     await _createNotificationChannels();
 
-    // Local notifications plugin'i başlat
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const darwinSettings = DarwinInitializationSettings(
@@ -67,7 +72,6 @@ class NotificationService {
       onDidReceiveNotificationResponse: _onNotificationTapped,
     );
 
-    // FCM izinlerini al
     final fcmSettings = await _messaging.requestPermission(
       alert: true,
       badge: true,
@@ -80,8 +84,85 @@ class NotificationService {
       _messaging.onTokenRefresh.listen(_updateToken);
     }
 
-    // Foreground mesajları dinle → local notification göster
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+
+    _listenFirestoreNotifications();
+  }
+
+  void onUserChanged(User? user) {
+    _notificationSubscription?.cancel();
+    _notificationSubscription = null;
+
+    if (user != null) {
+      _saveToken();
+      _listenFirestoreNotifications();
+    }
+  }
+
+  void _listenFirestoreNotifications() {
+    _notificationSubscription?.cancel();
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    _notificationSubscription = _firestore
+        .collection('notifications')
+        .where('userId', isEqualTo: user.uid)
+        .where('isRead', isEqualTo: false)
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .snapshots()
+        .skip(1)
+        .listen((snapshot) {
+      for (final change in snapshot.docChanges) {
+        if (change.type == DocumentChangeType.added) {
+          final data = change.doc.data();
+          if (data == null) return;
+          _showSystemNotification(
+            title: data['title'] ?? 'Yeni Bildirim',
+            body: data['body'] ?? '',
+            type: data['type'] ?? 'system',
+          );
+        }
+      }
+    });
+  }
+
+  Future<void> _showSystemNotification({
+    required String title,
+    required String body,
+    required String type,
+  }) async {
+    String channelId = 'system';
+    switch (type) {
+      case 'newMessage':
+        channelId = 'chat_messages';
+        break;
+      case 'newOffer':
+        channelId = 'offers';
+        break;
+      case 'tradeCompleted':
+        channelId = 'trades';
+        break;
+      case 'newRating':
+        channelId = 'ratings';
+        break;
+    }
+
+    await flutterLocalNotificationsPlugin.show(
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      title,
+      body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channelId,
+          _getChannelName(channelId),
+          importance: Importance.high,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+        ),
+      ),
+    );
   }
 
   Future<void> _createNotificationChannels() async {
@@ -203,8 +284,7 @@ class NotificationService {
   }
 
   void _onNotificationTapped(NotificationResponse response) {
-    // payload'dan data'yı parse edip yönlendirme yapılabilir
-    print('Bildirim tıklandı: ${response.payload}');
+    debugPrint('Bildirim tıklandı: ${response.payload}');
   }
 
   Future<String?> getToken() async {

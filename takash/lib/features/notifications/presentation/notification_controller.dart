@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../data/notification_service.dart';
@@ -6,14 +7,17 @@ import '../../../core/providers.dart';
 
 final unreadNotificationCountProvider = StateProvider<int>((ref) => 0);
 
-final userNotificationsProvider = StreamProvider<List<NotificationModel>>((ref) {
+final userNotificationsProvider =
+    StreamProvider<List<NotificationModel>>((ref) {
   final user = ref.watch(authStateProvider).value;
   if (user == null) return Stream.value([]);
 
   return ref.watch(notificationServiceProvider).getUserNotifications(user.uid);
 });
 
-final notificationControllerProvider = AsyncNotifierProvider<NotificationController, void>(NotificationController.new);
+final notificationControllerProvider =
+    AsyncNotifierProvider<NotificationController, void>(
+        NotificationController.new);
 
 class NotificationController extends AsyncNotifier<void> {
   late final NotificationService _notificationService;
@@ -49,8 +53,7 @@ class NotificationController extends AsyncNotifier<void> {
   void _handleNotificationTap(RemoteMessage message) {
     final data = message.data;
     if (data['relatedId'] != null) {
-      // İlgili ekrana yönlendirme yapılacak (router ile)
-      print('Bildirim tıklandı: ${data['type']} - ${data['relatedId']}');
+      debugPrint('Bildirim tıklandı: ${data['type']} - ${data['relatedId']}');
     }
   }
 

@@ -1,4 +1,6 @@
+import 'dart:developer' as developer;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,16 +36,13 @@ class AuthRepository {
 
     // Firestore'da profil var mı kontrol et, yoksa oluştur
     if (credential.user != null) {
-      final doc = await _firestore
-          .collection('users')
-          .doc(credential.user!.uid)
-          .get();
+      final doc =
+          await _firestore.collection('users').doc(credential.user!.uid).get();
 
       if (!doc.exists) {
         await _saveUserToFirestore(
           credential.user!,
-          credential.user!.displayName ??
-              email.split('@').first,
+          credential.user!.displayName ?? email.split('@').first,
         );
       }
     }
@@ -69,34 +68,47 @@ class AuthRepository {
   }
 
   Future<UserCredential?> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    if (googleUser == null) return null;
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final OAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return null;
 
-    final userCredential = await _auth.signInWithCredential(credential);
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    if (userCredential.user != null) {
-      final doc = await _firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-
-      // Yeni kullanıcı veya profili eksik olan kullanıcı
-      if (!doc.exists) {
-        await _saveUserToFirestore(
-          userCredential.user!,
-          userCredential.user!.displayName ?? 'Kullanıcı',
-        );
+      if (googleAuth.idToken == null) {
+        throw Exception('idToken null');
       }
-    }
 
-    return userCredential;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await _auth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        final doc = await _firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+
+        if (!doc.exists) {
+          await _saveUserToFirestore(
+            userCredential.user!,
+            userCredential.user!.displayName ?? 'Kullanıcı',
+          );
+        }
+      }
+
+      return userCredential;
+    } catch (e, stack) {
+      developer.log('=== GOOGLE SIGN-IN ERROR ===');
+      developer.log('Error: $e');
+      developer.log('Stack: $stack');
+      rethrow;
+    }
   }
 
   Future<void> signOut() async {

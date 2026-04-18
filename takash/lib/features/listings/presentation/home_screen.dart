@@ -6,7 +6,6 @@ import 'listings_controller.dart';
 import 'widgets/listing_card.dart';
 import 'widgets/filter_sheet.dart';
 
-/// Ana sayfa — Letgo tarzı grid layout
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -17,77 +16,115 @@ class HomeScreen extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Keşfet'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.tune),
-            onPressed: () => _showFilterSheet(context),
+      backgroundColor: colorScheme.surface,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            backgroundColor: colorScheme.surface,
+            title: Row(
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: colorScheme.primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(Icons.swap_horiz_rounded,
+                      color: Colors.white, size: 22),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  'Keşfet',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerHighest,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.tune_rounded, color: colorScheme.onSurface),
+                  onPressed: () => _showFilterSheet(context),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // ── Arama Çubuğu ──
-          _buildSearchBar(context, ref),
-
-          // ── Kategori Filtreleri ──
-          _buildCategoryChips(context, ref, selectedCategory, colorScheme),
-
-          // ── Aktif Arama Göstergesi ──
-          _buildActiveSearchBanner(context, ref),
-
-          // ── İlan Listesi ──
-          Expanded(
-            child: filteredListings.when(
-              data: (listings) {
-                if (listings.isEmpty) {
-                  return _buildEmptyState(context, ref, colorScheme);
-                }
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    // ignore: unused_result
-                    ref.refresh(allListingsProvider);
-                  },
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: listings.length,
-                    itemBuilder: (context, index) {
+          SliverToBoxAdapter(
+            child: _buildSearchBar(context, ref),
+          ),
+          SliverToBoxAdapter(
+            child: _buildCategoryChips(
+                context, ref, selectedCategory, colorScheme),
+          ),
+          SliverToBoxAdapter(
+            child: _buildActiveSearchBanner(context, ref),
+          ),
+          filteredListings.when(
+            data: (listings) {
+              if (listings.isEmpty) {
+                return SliverFillRemaining(
+                  child: _buildEmptyState(context, ref, colorScheme),
+                );
+              }
+              return SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 0.55,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
                       final listing = listings[index];
-                      final cardHeight =
-                          (MediaQuery.of(context).size.height - 300) / 2;
-                      return SizedBox(
-                        height: cardHeight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: ListingCard(
-                            listing: listing,
-                            onTap: () {
-                              context.go('/listing/${listing.id}');
-                            },
-                          ),
-                        ),
+                      return ListingCard(
+                        listing: listing,
+                        onTap: () {
+                          context.go('/listing/${listing.id}');
+                        },
                       );
                     },
+                    childCount: listings.length,
                   ),
-                );
-              },
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              error: (error, stack) => Center(
+                ),
+              );
+            },
+            loading: () => const SliverFillRemaining(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            error: (error, stack) => SliverFillRemaining(
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.error_outline,
-                        size: 48, color: colorScheme.error),
+                    Icon(Icons.error_outline_rounded,
+                        size: 56, color: colorScheme.error),
                     const SizedBox(height: 16),
-                    Text('İlanlar yüklenirken hata oluştu',
-                        style: TextStyle(color: colorScheme.error)),
+                    Text('Bir şeyler ters gitti',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: colorScheme.onSurface)),
                     const SizedBox(height: 8),
-                    TextButton(
+                    Text(error.toString(),
+                        style: TextStyle(
+                            fontSize: 14, color: colorScheme.outline)),
+                    const SizedBox(height: 20),
+                    FilledButton(
                       onPressed: () => ref.refresh(allListingsProvider),
                       child: const Text('Tekrar Dene'),
                     ),
@@ -101,43 +138,42 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Minimal arama çubuğu
   Widget _buildSearchBar(BuildContext context, WidgetRef ref) {
     final query = ref.watch(searchQueryProvider);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
       child: GestureDetector(
         onTap: () => _showSearchDialog(context, ref),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
           decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(12),
+            color: colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(14),
           ),
           child: Row(
             children: [
-              Icon(Icons.search, color: Colors.grey.shade600),
+              Icon(Icons.search_rounded, size: 22, color: colorScheme.outline),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   query.isNotEmpty ? query : 'Ne arıyorsun?',
                   style: TextStyle(
                     color: query.isNotEmpty
-                        ? Colors.black87
-                        : Colors.grey.shade600,
+                        ? colorScheme.onSurface
+                        : colorScheme.outline,
                     fontSize: 15,
+                    fontWeight: FontWeight.w500,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               if (query.isNotEmpty)
                 GestureDetector(
-                  onTap: () {
-                    ref.read(searchQueryProvider.notifier).state = '';
-                  },
-                  child: Icon(Icons.clear, color: Colors.grey.shade600),
+                  onTap: () =>
+                      ref.read(searchQueryProvider.notifier).state = '',
+                  child: Icon(Icons.close_rounded,
+                      size: 20, color: colorScheme.outline),
                 ),
             ],
           ),
@@ -146,28 +182,25 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Kategori filtre chip'leri
   Widget _buildCategoryChips(BuildContext context, WidgetRef ref,
       ListingCategory? selectedCategory, ColorScheme colorScheme) {
     return SizedBox(
-      height: 52,
+      height: 44,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         children: [
-          // "Hepsi" chip'i
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: FilterChip(
-              label: const Text('Hepsi'),
+              label: const Text('Tümü'),
               selected: selectedCategory == null,
               onSelected: (_) {
                 ref.read(categoryFilterProvider.notifier).state = null;
               },
-              selectedColor: colorScheme.primaryContainer,
+              showCheckmark: false,
             ),
           ),
-          // Kategori chip'leri
           ...ListingCategory.values.map((category) {
             return Padding(
               padding: const EdgeInsets.only(right: 8),
@@ -178,7 +211,7 @@ class HomeScreen extends ConsumerWidget {
                   ref.read(categoryFilterProvider.notifier).state =
                       selectedCategory == category ? null : category;
                 },
-                selectedColor: colorScheme.primaryContainer,
+                showCheckmark: false,
               ),
             );
           }),
@@ -187,46 +220,43 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Aktif arama varsa banner göster
   Widget _buildActiveSearchBanner(BuildContext context, WidgetRef ref) {
     final query = ref.watch(searchQueryProvider);
     if (query.isEmpty) return const SizedBox.shrink();
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(8),
+        color: colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Icon(Icons.search,
-              size: 18,
-              color: Theme.of(context).colorScheme.onSecondaryContainer),
+          Icon(Icons.search_rounded,
+              size: 18, color: colorScheme.onSecondaryContainer),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               '"$query" için sonuçlar',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: colorScheme.onSecondaryContainer,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
           GestureDetector(
-            onTap: () {
-              ref.read(searchQueryProvider.notifier).state = '';
-            },
-            child: Icon(Icons.close,
-                size: 18,
-                color: Theme.of(context).colorScheme.onSecondaryContainer),
+            onTap: () => ref.read(searchQueryProvider.notifier).state = '',
+            child: Icon(Icons.close_rounded,
+                size: 18, color: colorScheme.onSecondaryContainer),
           ),
         ],
       ),
     );
   }
 
-  /// Boş durum ekranı
   Widget _buildEmptyState(
       BuildContext context, WidgetRef ref, ColorScheme colorScheme) {
     final query = ref.watch(searchQueryProvider);
@@ -237,39 +267,49 @@ class HomeScreen extends ConsumerWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.inventory_2_outlined,
-                size: 80, color: colorScheme.outline),
-            const SizedBox(height: 16),
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: colorScheme.surfaceContainerHighest,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.inventory_2_outlined,
+                  size: 36, color: colorScheme.outline),
+            ),
+            const SizedBox(height: 20),
             Text(
-              hasFilters ? 'Eşleşen ilan bulunamadı' : 'Henüz ilan yok',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+              hasFilters ? 'Sonuç bulunamadı' : 'Henüz ilan yok',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: colorScheme.onSurface,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               hasFilters
-                  ? 'Farklı bir arama yapmayı veya filtreleri temizlemeyi dene.'
-                  : 'İlk ilanı sen oluştur!',
+                  ? 'Farklı filtreler deneyebilirsin'
+                  : 'İlk ilanı sen ver!',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.outline,
-                  ),
+              style: TextStyle(
+                fontSize: 14,
+                color: colorScheme.outline,
+              ),
             ),
             if (hasFilters) ...[
               const SizedBox(height: 24),
-              OutlinedButton.icon(
+              FilledButton.tonal(
                 onPressed: () {
                   ref.read(searchQueryProvider.notifier).state = '';
                   ref.read(categoryFilterProvider.notifier).state = null;
                   ref.read(showMyListingsProvider.notifier).state = false;
                 },
-                icon: const Icon(Icons.clear_all),
-                label: const Text('Filtreleri Temizle'),
+                child: const Text('Filtreleri Temizle'),
               ),
             ],
           ],
@@ -278,7 +318,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Filtre sheet'i göster
   void _showFilterSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -288,7 +327,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Arama dialog'u
   void _showSearchDialog(BuildContext context, WidgetRef ref) {
     final controller =
         TextEditingController(text: ref.read(searchQueryProvider));

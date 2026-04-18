@@ -22,7 +22,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _wantedItemController = TextEditingController();
-  
+
   ListingCategory _selectedCategory = ListingCategory.other;
   GeoPoint? _selectedLocation;
   bool _isGettingLocation = false;
@@ -65,7 +65,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
     setState(() => _isGettingLocation = true);
     try {
       final service = ref.read(locationServiceProvider);
-      final position = await service.getCurrentLocation();
+      final position = await service.getCurrentLocationOnce();
       if (position != null) {
         setState(() {
           _selectedLocation = GeoPoint(position.latitude, position.longitude);
@@ -81,7 +81,8 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Konum izni verilmedi veya GPS kapalı.')),
+            const SnackBar(
+                content: Text('Konum izni verilmedi veya GPS kapalı.')),
           );
         }
       }
@@ -151,7 +152,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
   @override
   Widget build(BuildContext context) {
     final asyncState = ref.watch(createListingControllerProvider);
-    final isLoading = asyncState is AsyncLoading;
+    final isLoading = asyncState.isLoading;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -177,7 +178,9 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   labelText: 'İlan Başlığı',
                   prefixIcon: Icon(Icons.title),
                 ),
-                validator: (value) => (value == null || value.trim().isEmpty) ? 'Başlık gerekli' : null,
+                validator: (value) => (value == null || value.trim().isEmpty)
+                    ? 'Başlık gerekli'
+                    : null,
               ),
               const SizedBox(height: 16),
 
@@ -191,31 +194,30 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   prefixIcon: Icon(Icons.description),
                   alignLabelWithHint: true,
                 ),
-                validator: (value) => (value == null || value.trim().length < 10) ? 'En az 10 karakter' : null,
+                validator: (value) =>
+                    (value == null || value.trim().length < 10)
+                        ? 'En az 10 karakter'
+                        : null,
               ),
               const SizedBox(height: 16),
 
               // ── Kategori ──
               DropdownButtonFormField<ListingCategory>(
                 value: _selectedCategory,
-                decoration: const InputDecoration(labelText: 'Kategori', prefixIcon: Icon(Icons.category)),
+                decoration: const InputDecoration(
+                    labelText: 'Kategori', prefixIcon: Icon(Icons.category)),
                 items: ListingCategory.values.map((category) {
-                  return DropdownMenuItem(value: category, child: Text('${category.icon}  ${category.label}'));
+                  return DropdownMenuItem(
+                      value: category,
+                      child: Text('${category.icon}  ${category.label}'));
                 }).toList(),
-                onChanged: (value) { if (value != null) setState(() => _selectedCategory = value); },
+                onChanged: (value) {
+                  if (value != null) setState(() => _selectedCategory = value);
+                },
               ),
               const SizedBox(height: 16),
 
-              // ── Karşılığında Ne İstiyorum ──
-              TextFormField(
-                controller: _wantedItemController,
-                maxLength: 200,
-                decoration: const InputDecoration(
-                  labelText: 'Karşılığında Ne İstiyorsun?',
-                  prefixIcon: Icon(Icons.swap_horiz),
-                ),
-                validator: (value) => (value == null || value.trim().isEmpty) ? 'Bu alan gerekli' : null,
-              ),
+              _buildWantedItemSection(colorScheme),
               const SizedBox(height: 24),
 
               // ── Konum Seçici ──
@@ -228,16 +230,259 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 child: ElevatedButton.icon(
                   onPressed: isLoading ? null : _submitListing,
                   icon: isLoading
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2))
                       : const Icon(Icons.publish),
                   label: Text(isLoading ? 'Yayınlanıyor...' : 'İlanı Yayınla'),
-                  style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary, foregroundColor: colorScheme.onPrimary),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary),
                 ),
               ),
               const SizedBox(height: 16),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildWantedItemSection(ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: _wantedItemController,
+          maxLength: 200,
+          decoration: InputDecoration(
+            labelText: 'Karşılığında Ne İstiyorsun?',
+            prefixIcon: const Icon(Icons.swap_horiz),
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.category_outlined),
+              onPressed: _showWantedItemPicker,
+              tooltip: 'Kategoriden Seç',
+            ),
+          ),
+          validator: (value) => (value == null || value.trim().isEmpty)
+              ? 'Bu alan gerekli'
+              : null,
+          onChanged: (value) => setState(() {}),
+        ),
+        if (_wantedItemController.text.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _buildQuickChip('Kitap'),
+                _buildQuickChip('Elektronik'),
+                _buildQuickChip('Giyim'),
+                _buildQuickChip('Mobilya'),
+                _buildQuickChip('Spor Malzemesi'),
+                _buildQuickChip('Oyuncak'),
+                _buildQuickChip('Nakit'),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildQuickChip(String label) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return ActionChip(
+      label: Text(label),
+      avatar: Icon(_getChipIcon(label), size: 16),
+      onPressed: () {
+        _wantedItemController.text = label;
+        setState(() {});
+      },
+      backgroundColor: colorScheme.surfaceContainerHighest,
+      side: BorderSide(color: colorScheme.outlineVariant),
+    );
+  }
+
+  IconData _getChipIcon(String label) {
+    switch (label.toLowerCase()) {
+      case 'kitap':
+        return Icons.menu_book_outlined;
+      case 'elektronik':
+        return Icons.phone_android_outlined;
+      case 'giyim':
+        return Icons.checkroom_outlined;
+      case 'mobilya':
+        return Icons.chair_outlined;
+      case 'spor malzemesi':
+        return Icons.sports_soccer_outlined;
+      case 'oyuncak':
+        return Icons.toys_outlined;
+      case 'nakit':
+        return Icons.payments_outlined;
+      default:
+        return Icons.swap_horiz;
+    }
+  }
+
+  void _showWantedItemPicker() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.7,
+          maxChildSize: 0.9,
+          minChildSize: 0.4,
+          expand: false,
+          builder: (context, scrollController) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Ne İstiyorsun?',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    controller: scrollController,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    children: _buildWantedCategories(context),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    ).then((selectedItem) {
+      if (selectedItem != null && selectedItem is String) {
+        _wantedItemController.text = selectedItem;
+        setState(() {});
+      }
+    });
+  }
+
+  List<Widget> _buildWantedCategories(BuildContext context) {
+    return [
+      _buildWantedCategoryGroup(context,
+          icon: '📱',
+          title: 'Elektronik',
+          items: [
+            'Telefon',
+            'Tablet',
+            'Laptop',
+            'Kulaklık',
+            'Şarj Aleti',
+            'Kamera',
+            'Akıllı Saat',
+            'Hoparlör',
+            'Oyun Konsolu',
+          ]),
+      _buildWantedCategoryGroup(context, icon: '👕', title: 'Giyim', items: [
+        'Tişört',
+        'Pantolon',
+        'Mont',
+        'Ayakkabı',
+        'Çanta',
+        'Şapka',
+        'Atkı',
+        'Eldiven',
+      ]),
+      _buildWantedCategoryGroup(context, icon: '📚', title: 'Kitap', items: [
+        'Roman',
+        'Kişisel Gelişim',
+        'Akademik Kitap',
+        'Çizgi Roman',
+        'Dergi',
+      ]),
+      _buildWantedCategoryGroup(context, icon: '🪑', title: 'Mobilya', items: [
+        'Masa',
+        'Sandalye',
+        'Kitaplık',
+        'Yatak',
+        'Dolap',
+        'Sehpa',
+        'Koltuk',
+      ]),
+      _buildWantedCategoryGroup(context, icon: '⚽', title: 'Spor', items: [
+        'Bisiklet',
+        'Dambıl',
+        'Yoga Matı',
+        'Spor Ayakkabı',
+        'Top',
+        'Kamp Malzemesi',
+      ]),
+      _buildWantedCategoryGroup(context, icon: '🧸', title: 'Oyuncak', items: [
+        'Lego',
+        'Peluş',
+        'Puzzle',
+        'Board Game',
+        'Figür',
+      ]),
+      _buildWantedCategoryGroup(context, icon: '💰', title: 'Diğer', items: [
+        'Nakit',
+        'Hediye Kartı',
+        'Takas Yapılır',
+        'Sürpriz',
+      ]),
+      const SizedBox(height: 24),
+    ];
+  }
+
+  Widget _buildWantedCategoryGroup(
+    BuildContext context, {
+    required String icon,
+    required String title,
+    required List<String> items,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              '$icon  $title',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: colorScheme.primary,
+              ),
+            ),
+          ),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: items.map((item) {
+              return ActionChip(
+                label: Text(item),
+                onPressed: () => Navigator.pop(context, item),
+                backgroundColor: colorScheme.surfaceContainerHighest,
+                side: BorderSide(color: colorScheme.outlineVariant),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
@@ -254,34 +499,51 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
-              color: _selectedLocation != null ? colorScheme.primary.withOpacity(0.05) : colorScheme.surfaceContainerHighest,
+              color: _selectedLocation != null
+                  ? colorScheme.primary.withValues(alpha: 0.05)
+                  : colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: _selectedLocation != null ? colorScheme.primary : Colors.transparent),
+              border: Border.all(
+                  color: _selectedLocation != null
+                      ? colorScheme.primary
+                      : Colors.transparent),
             ),
             child: Row(
               children: [
                 Icon(
-                  _selectedLocation != null ? Icons.location_on : Icons.location_on_outlined,
-                  color: _selectedLocation != null ? colorScheme.primary : colorScheme.onSurfaceVariant,
+                  _selectedLocation != null
+                      ? Icons.location_on
+                      : Icons.location_on_outlined,
+                  color: _selectedLocation != null
+                      ? colorScheme.primary
+                      : colorScheme.onSurfaceVariant,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    _selectedLocation != null 
-                      ? 'Konum Eklendi (${_selectedLocation!.latitude.toStringAsFixed(4)}, ${_selectedLocation!.longitude.toStringAsFixed(4)})'
-                      : 'Mevcut Konumumu Kullan',
+                    _selectedLocation != null
+                        ? 'Konum Eklendi (${_selectedLocation!.latitude.toStringAsFixed(4)}, ${_selectedLocation!.longitude.toStringAsFixed(4)})'
+                        : 'Konum Ekle',
                     style: TextStyle(
-                      color: _selectedLocation != null ? colorScheme.primary : colorScheme.onSurfaceVariant,
-                      fontWeight: _selectedLocation != null ? FontWeight.bold : FontWeight.normal,
+                      color: _selectedLocation != null
+                          ? colorScheme.primary
+                          : colorScheme.onSurfaceVariant,
+                      fontWeight: _selectedLocation != null
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                 ),
                 if (_isGettingLocation)
-                  const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                  const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2))
                 else if (_selectedLocation != null)
                   GestureDetector(
                     onTap: () => setState(() => _selectedLocation = null),
-                    child: Icon(Icons.close, size: 20, color: colorScheme.primary),
+                    child:
+                        Icon(Icons.close, size: 20, color: colorScheme.primary),
                   ),
               ],
             ),
@@ -295,7 +557,8 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Fotoğraflar (${_selectedImages.length}/5)', style: Theme.of(context).textTheme.titleMedium),
+        Text('Fotoğraflar (${_selectedImages.length}/5)',
+            style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         SizedBox(
           height: 120,
@@ -311,21 +574,44 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                       builder: (context) => SafeArea(
                         child: Wrap(
                           children: [
-                            ListTile(leading: const Icon(Icons.photo_library), title: const Text('Galeriden Seç'), onTap: () { Navigator.pop(context); _pickImage(ImageSource.gallery); }),
-                            ListTile(leading: const Icon(Icons.camera_alt), title: const Text('Fotoğraf Çek'), onTap: () { Navigator.pop(context); _pickImage(ImageSource.camera); }),
+                            ListTile(
+                                leading: const Icon(Icons.photo_library),
+                                title: const Text('Galeriden Seç'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _pickImage(ImageSource.gallery);
+                                }),
+                            ListTile(
+                                leading: const Icon(Icons.camera_alt),
+                                title: const Text('Fotoğraf Çek'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _pickImage(ImageSource.camera);
+                                }),
                           ],
                         ),
                       ),
                     ),
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
-                      width: 120, height: 120,
+                      width: 120,
+                      height: 120,
                       decoration: BoxDecoration(
-                        border: Border.all(color: colorScheme.outline, width: 2, strokeAlign: BorderSide.strokeAlignInside),
+                        border: Border.all(
+                            color: colorScheme.outline,
+                            width: 2,
+                            strokeAlign: BorderSide.strokeAlignInside),
                         borderRadius: BorderRadius.circular(12),
                         color: colorScheme.surfaceContainerHighest,
                       ),
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.add_a_photo, size: 32, color: colorScheme.primary), const Text('Ekle', style: TextStyle(fontWeight: FontWeight.w500))]),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_a_photo,
+                                size: 32, color: colorScheme.primary),
+                            const Text('Ekle',
+                                style: TextStyle(fontWeight: FontWeight.w500))
+                          ]),
                     ),
                   ),
                 ),
@@ -334,8 +620,23 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                   padding: const EdgeInsets.only(right: 8),
                   child: Stack(
                     children: [
-                      ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.file(_selectedImages[index], width: 120, height: 120, fit: BoxFit.cover)),
-                      Positioned(top: 4, right: 4, child: GestureDetector(onTap: () => setState(() => _selectedImages.removeAt(index)), child: Container(padding: const EdgeInsets.all(4), decoration: const BoxDecoration(color: Colors.black54, shape: BoxShape.circle), child: const Icon(Icons.close, color: Colors.white, size: 16)))),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(_selectedImages[index],
+                              width: 120, height: 120, fit: BoxFit.cover)),
+                      Positioned(
+                          top: 4,
+                          right: 4,
+                          child: GestureDetector(
+                              onTap: () => setState(
+                                  () => _selectedImages.removeAt(index)),
+                              child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                      color: Colors.black54,
+                                      shape: BoxShape.circle),
+                                  child: const Icon(Icons.close,
+                                      color: Colors.white, size: 16)))),
                     ],
                   ),
                 );

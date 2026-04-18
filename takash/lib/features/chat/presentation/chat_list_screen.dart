@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'chat_controller.dart';
-import '../domain/chat_model.dart';
 import '../../../core/providers.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../shared/widgets/loading_indicator.dart';
@@ -30,7 +29,8 @@ class ChatListScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.chat_bubble_outline, size: 64, color: colorScheme.outline),
+                  Icon(Icons.chat_bubble_outline,
+                      size: 64, color: colorScheme.outline),
                   const SizedBox(height: 16),
                   Text(
                     'Henüz bir sohbetiniz yok',
@@ -52,26 +52,31 @@ class ChatListScreen extends ConsumerWidget {
           return ListView.separated(
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: chats.length,
-            separatorBuilder: (context, index) => const Divider(height: 1, indent: 88),
+            separatorBuilder: (context, index) =>
+                const Divider(height: 1, indent: 88),
             itemBuilder: (context, index) {
               final chat = chats[index];
-              
+
               // Karşı tarafın bilgilerini bul (Katılımcılardan kendimiz olmayanı seçiyoruz)
-              final otherUserId = chat.participants.firstWhere((id) => id != currentUserId);
-              final otherUserDetails = chat.participantDetails[otherUserId] as Map<String, dynamic>?;
+              final otherUserId =
+                  chat.participants.firstWhere((id) => id != currentUserId);
+              final otherUserDetails =
+                  chat.participantDetails[otherUserId] as Map<String, dynamic>?;
               final otherUserName = otherUserDetails?['name'] ?? 'Kullanıcı';
               final otherUserPhoto = otherUserDetails?['photo'];
 
               return ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 leading: CircleAvatar(
                   radius: 28,
                   backgroundColor: colorScheme.primaryContainer,
-                  backgroundImage: otherUserPhoto != null 
-                      ? CachedNetworkImageProvider(otherUserPhoto) 
+                  backgroundImage: otherUserPhoto != null
+                      ? CachedNetworkImageProvider(otherUserPhoto)
                       : null,
-                  child: otherUserPhoto == null 
-                      ? Icon(Icons.person, color: colorScheme.onPrimaryContainer) 
+                  child: otherUserPhoto == null
+                      ? Icon(Icons.person,
+                          color: colorScheme.onPrimaryContainer)
                       : null,
                 ),
                 title: Text(
@@ -105,17 +110,23 @@ class ChatListScreen extends ConsumerWidget {
                 ),
                 trailing: Text(
                   Helpers.timeAgo(chat.lastMessageAt),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontSize: 11),
                 ),
                 onTap: () {
-                  ref.read(chatControllerProvider.notifier).markMessagesAsRead(chat.id, currentUserId);
-                  context.push('/chats/${chat.id}');
+                  ref
+                      .read(chatControllerProvider.notifier)
+                      .markMessagesAsRead(chat.id, currentUserId);
+                  context.push('/chat/${chat.id}');
                 },
               );
             },
           );
         },
-        loading: () => const LoadingIndicator(message: 'Mesajlar yükleniyor...'),
+        loading: () =>
+            const LoadingIndicator(message: 'Mesajlar yükleniyor...'),
         error: (err, stack) => Center(child: Text('Hata: $err')),
       ),
     );

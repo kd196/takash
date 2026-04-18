@@ -125,14 +125,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       children: [
                         CircleAvatar(
                           radius: 60,
-                          backgroundColor: Colors.grey[200],
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
                           backgroundImage: _selectedImage != null
                               ? FileImage(_selectedImage!)
                               : (user.photoUrl != null
-                                  ? CachedNetworkImageProvider(user.photoUrl!) as ImageProvider
+                                  ? CachedNetworkImageProvider(user.photoUrl!)
+                                      as ImageProvider
                                   : null),
                           child: _selectedImage == null && user.photoUrl == null
-                              ? const Icon(Icons.person, size: 60, color: Colors.grey)
+                              ? const Icon(Icons.person,
+                                  size: 60, color: Colors.grey)
                               : null,
                         ),
                         Positioned(
@@ -142,7 +146,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             backgroundColor: Theme.of(context).primaryColor,
                             radius: 18,
                             child: IconButton(
-                              icon: const Icon(Icons.camera_alt, size: 18, color: Colors.white),
+                              icon: const Icon(Icons.camera_alt,
+                                  size: 18, color: Colors.white),
                               onPressed: _pickImage,
                             ),
                           ),
@@ -157,7 +162,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     controller: _nameController,
                     prefixIcon: Icons.person_outline,
                     validator: (value) {
-                      if (value == null || value.isEmpty) return 'İsim boş olamaz.';
+                      if (value == null || value.isEmpty)
+                        return 'İsim boş olamaz.';
                       return null;
                     },
                   ),

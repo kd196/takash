@@ -71,21 +71,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             leading: const Icon(Icons.email_outlined),
             title: const Text('E-posta Değiştir'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Bu özellik yakında eklenecek')),
-              );
-            },
+            onTap: () => context.push('/change-email'),
           ),
           ListTile(
             leading: const Icon(Icons.lock_outline),
             title: const Text('Şifre Değiştir'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Bu özellik yakında eklenecek')),
-              );
-            },
+            onTap: () => context.push('/change-password'),
           ),
 
           // ── GÖRÜNÜM ──

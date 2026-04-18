@@ -7,16 +7,13 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'chat_controller.dart';
 import '../domain/message_model.dart';
-import '../domain/chat_model.dart';
 import '../../../core/providers.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../shared/widgets/loading_indicator.dart';
-import '../../auth/data/auth_repository.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/data/rating_repository.dart';
 import '../../listings/data/listing_repository.dart';
 import '../../listings/presentation/listings_controller.dart';
-import '../../listings/domain/listing_model.dart';
 import '../../listings/domain/listing_category.dart';
 
 class ChatDetailScreen extends ConsumerStatefulWidget {
@@ -244,11 +241,13 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final otherUserDetails =
         chat?.participantDetails[otherUserId] as Map<String, dynamic>?;
 
-    final isListingOwner = chat?.participants[0] == currentUser?.uid;
-
-    // Check if listing is already completed
     final listingAsync =
         ref.watch(singleListingProvider(chat?.listingId ?? ''));
+    final isListingOwner = listingAsync
+            .whenData((listing) => listing?.ownerId == currentUser?.uid)
+            .valueOrNull ??
+        false;
+
     final isCompleted = listingAsync.when(
       data: (listing) => listing?.status == ListingStatus.completed,
       loading: () => false,
@@ -309,9 +308,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               Expanded(
                 child: messagesAsync.when(
                   data: (messages) {
-                    if (messages.isEmpty)
+                    if (messages.isEmpty) {
                       return const Center(
                           child: Text('Sohbeti başlatın... 👋'));
+                    }
                     return ListView.builder(
                       controller: _scrollController,
                       reverse: true,
@@ -443,8 +443,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         border: Border(
-            top:
-                BorderSide(color: colorScheme.outlineVariant.withOpacity(0.3))),
+            top: BorderSide(
+                color: colorScheme.outlineVariant.withValues(alpha: 0.3))),
       ),
       child: SafeArea(
         child: Row(
@@ -458,7 +458,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHighest.withOpacity(0.4),
+                  color: colorScheme.surfaceContainerHighest
+                      .withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: TextField(
@@ -660,7 +661,7 @@ class _MessageBubble extends ConsumerWidget {
                     style: TextStyle(
                       color:
                           (isMe ? colorScheme.onPrimary : colorScheme.onSurface)
-                              .withOpacity(0.5),
+                              .withValues(alpha: 0.5),
                       fontSize: 9,
                     ),
                   ),
@@ -669,7 +670,7 @@ class _MessageBubble extends ConsumerWidget {
                     Icon(
                       message.isRead ? Icons.done_all : Icons.done,
                       size: 12,
-                      color: colorScheme.onPrimary.withOpacity(0.5),
+                      color: colorScheme.onPrimary.withValues(alpha: 0.5),
                     ),
                   ],
                 ],

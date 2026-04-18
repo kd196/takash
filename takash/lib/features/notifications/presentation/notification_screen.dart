@@ -79,7 +79,7 @@ class NotificationScreen extends ConsumerWidget {
     if (notification.relatedId != null) {
       switch (notification.type) {
         case NotificationType.newMessage:
-          context.push('/chats/${notification.relatedId}');
+          context.push('/chat/${notification.relatedId}');
           break;
         case NotificationType.newOffer:
           context.push('/listing/${notification.relatedId}');
