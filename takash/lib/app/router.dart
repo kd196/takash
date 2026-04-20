@@ -175,7 +175,7 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final unreadCount = ref.watch(unreadCountProvider);
+    final badge = ref.watch(badgeTextProvider);
     final currentIndex = navigationShell.currentIndex;
 
     return Scaffold(
@@ -221,7 +221,7 @@ class MainScreen extends ConsumerWidget {
                   activeIcon: Icons.chat,
                   label: 'Sohbet',
                   isActive: currentIndex == 3,
-                  badge: unreadCount > 0 ? '$unreadCount' : null,
+                  badge: badge,
                   onTap: () => navigationShell.goBranch(3),
                 ),
                 _NavItem(
