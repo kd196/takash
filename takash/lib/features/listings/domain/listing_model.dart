@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'listing_category.dart';
 
-/// İlan veri modeli — Firestore ile senkronize
 class ListingModel {
   final String id;
   final String ownerId;
@@ -9,11 +8,12 @@ class ListingModel {
   final String description;
   final ListingCategory category;
   final List<String> imageUrls;
-  final String wantedItem; // "Karşılığında ne istiyorum"
+  final String wantedItem;
   final GeoPoint? location;
-  final String? geohash; // Geofencing için (Faz 3)
+  final String? geohash;
   final ListingStatus status;
   final DateTime createdAt;
+  final DateTime? updatedAt;
 
   ListingModel({
     required this.id,
@@ -27,9 +27,9 @@ class ListingModel {
     this.geohash,
     this.status = ListingStatus.active,
     required this.createdAt,
+    this.updatedAt,
   });
 
-  /// Firestore'a kaydetmek için Map'e dönüştür
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -43,10 +43,10 @@ class ListingModel {
       'geohash': geohash,
       'status': status.name,
       'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
     };
   }
 
-  /// Firestore dökümanından model oluştur
   factory ListingModel.fromJson(Map<String, dynamic> json) {
     return ListingModel(
       id: json['id'] as String,
@@ -66,10 +66,12 @@ class ListingModel {
         orElse: () => ListingStatus.active,
       ),
       createdAt: (json['createdAt'] as Timestamp).toDate(),
+      updatedAt: json['updatedAt'] != null
+          ? (json['updatedAt'] as Timestamp).toDate()
+          : null,
     );
   }
 
-  /// Nesnenin bir kopyasını belirli alanları değiştirerek oluştur
   ListingModel copyWith({
     String? id,
     String? ownerId,
@@ -82,6 +84,7 @@ class ListingModel {
     String? geohash,
     ListingStatus? status,
     DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return ListingModel(
       id: id ?? this.id,
@@ -95,6 +98,7 @@ class ListingModel {
       geohash: geohash ?? this.geohash,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

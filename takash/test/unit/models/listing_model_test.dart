@@ -123,7 +123,7 @@ void main() {
         wantedItem: 'W',
         location: null,
         geohash: null,
-        status: ListingStatus.reserved,
+        status: ListingStatus.traded,
         createdAt: DateTime.now(),
       );
 
@@ -169,13 +169,13 @@ void main() {
 
       final copied = listing.copyWith(
         title: 'Updated',
-        status: ListingStatus.completed,
+        status: ListingStatus.traded,
       );
 
       expect(copied.id, 'listing-8');
       expect(copied.title, 'Updated');
       expect(copied.description, 'Original desc');
-      expect(copied.status, ListingStatus.completed);
+      expect(copied.status, ListingStatus.traded);
     });
 
     test('varsayılan status active olmalı', () {

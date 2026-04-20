@@ -1,0 +1,29 @@
+Context:
+- Flutter project "Takaş", using flutter_svg package
+- 67 SVG icon files located in assets/icons/ with subfolders:
+  actions/, form/, listing/, navigation/, profile/, map/, rating/, buttons/
+- All SVGs use currentColor for stroke (except: favorite_active uses hardcoded #EF4444, star_active uses #FFB300)
+- SVG viewBox is 24x24 for icons, 220x52 for buttons/
+
+Task:
+Create lib/shared/widgets/takas_icon.dart containing:
+
+1. A TakasIcons class with static const String paths for every icon:
+   - TakasIcons.arrowBack = 'assets/icons/navigation/arrow_back.svg'
+   - TakasIcons.favoriteActive = 'assets/icons/actions/favorite_active.svg'
+   - ... (all 67 files, snake_case names matching filenames without extension)
+
+2. A TakasIcon widget (StatelessWidget) with:
+   - required String path (takes a TakasIcons constant)
+   - double size = 24 (default)
+   - Color? color — applied as ColorFilter.mode(color, BlendMode.srcIn)
+   - When color is null, do NOT apply colorFilter (preserves hardcoded colors like red heart, gold star)
+
+Usage example to match:
+  TakasIcon(TakasIcons.swap, size: 24, color: AppColors.primary)
+  TakasIcon(TakasIcons.favoriteActive) // no color override — stays red
+  TakasIcon(TakasIcons.starActive)     // no color override — stays amber
+
+Also add assets/icons/ to pubspec.yaml flutter.assets section (with all subfolders listed individually).
+
+Do NOT use Icon() widget. Do NOT use IconData. Only SvgPicture.asset() inside TakasIcon.

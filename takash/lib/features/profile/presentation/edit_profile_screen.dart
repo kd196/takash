@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:takash/features/auth/domain/user_model.dart';
 import 'package:takash/features/profile/data/profile_repository.dart';
 import 'package:takash/features/profile/presentation/profile_controller.dart';
@@ -22,6 +22,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController _nameController;
   late TextEditingController _bioController;
   File? _selectedImage;
+  File? _selectedBanner;
   bool _initialized = false;
 
   @override
@@ -63,7 +64,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
       source: source,
-      imageQuality: 70,
+      imageQuality: 80,
     );
 
     if (pickedFile != null) {
@@ -73,24 +74,51 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
   }
 
+  Future<void> _pickBanner() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
+    if (picked == null) return;
+
+    setState(() {
+      _selectedBanner = File(picked.path);
+    });
+  }
+
   Future<void> _saveProfile(UserModel user) async {
     if (!_formKey.currentState!.validate()) return;
 
     final controller = ref.read(profileControllerProvider.notifier);
 
-    // Tek bir çağrıda tüm güncellemeleri yap
-    await controller.updateProfile(
-      user: user,
-      displayName: _nameController.text.trim(),
-      bio: _bioController.text.trim(),
-      imageFile: _selectedImage,
-    );
-
-    if (mounted && !ref.read(profileControllerProvider).hasError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profil başarıyla güncellendi.')),
+    try {
+      await controller.updateProfile(
+        user: user,
+        displayName: _nameController.text.trim(),
+        bio: _bioController.text.trim(),
+        imageFile: _selectedImage,
       );
-      Navigator.pop(context);
+
+      if (_selectedBanner != null) {
+        await controller.uploadBanner(
+          user: user,
+          imageFile: _selectedBanner!,
+        );
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profil başarıyla güncellendi.')),
+        );
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Hata: $e')),
+        );
+      }
     }
   }
 

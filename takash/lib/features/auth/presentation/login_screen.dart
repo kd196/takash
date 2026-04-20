@@ -65,10 +65,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             TextField(
               controller: controller,
               keyboardType: TextInputType.emailAddress,
+              autofocus: true,
               decoration: const InputDecoration(
                 labelText: 'E-posta',
                 prefixIcon: Icon(Icons.email_outlined),
               ),
+              onSubmitted: (value) async {
+                final email = value.trim();
+                if (email.isEmpty || !email.contains('@')) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Geçerli bir e-posta girin')),
+                  );
+                  return;
+                }
+                try {
+                  await FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: email);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Sıfırlama bağlantısı gönderildi')),
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Hata: $e')),
+                    );
+                  }
+                }
+              },
             ),
           ],
         ),
@@ -80,7 +108,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           FilledButton(
             onPressed: () async {
               final email = controller.text.trim();
-              if (email.isEmpty || !email.contains('@')) return;
+              if (email.isEmpty || !email.contains('@')) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Geçerli bir e-posta girin')),
+                );
+                return;
+              }
               try {
                 await FirebaseAuth.instance
                     .sendPasswordResetEmail(email: email);

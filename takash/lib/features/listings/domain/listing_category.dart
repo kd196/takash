@@ -1,4 +1,3 @@
-/// İlan kategorileri
 enum ListingCategory {
   electronics,
   clothing,
@@ -6,10 +5,11 @@ enum ListingCategory {
   furniture,
   sports,
   toys,
+  home,
+  automotive,
   other,
 }
 
-/// Türkçe label'lar için extension
 extension ListingCategoryExtension on ListingCategory {
   String get label {
     switch (this) {
@@ -25,12 +25,15 @@ extension ListingCategoryExtension on ListingCategory {
         return 'Spor';
       case ListingCategory.toys:
         return 'Oyuncak';
+      case ListingCategory.home:
+        return 'Ev';
+      case ListingCategory.automotive:
+        return 'Otomotiv';
       case ListingCategory.other:
         return 'Diğer';
     }
   }
 
-  /// Kategori ikonu
   String get icon {
     switch (this) {
       case ListingCategory.electronics:
@@ -45,29 +48,42 @@ extension ListingCategoryExtension on ListingCategory {
         return '⚽';
       case ListingCategory.toys:
         return '🧸';
+      case ListingCategory.home:
+        return '🏠';
+      case ListingCategory.automotive:
+        return '🚗';
       case ListingCategory.other:
         return '📦';
     }
   }
 }
 
-/// İlan durumu
 enum ListingStatus {
   active,
-  reserved,
-  completed,
+  traded,
+  cancelled,
 }
 
-/// Türkçe label'lar için extension
 extension ListingStatusExtension on ListingStatus {
   String get label {
     switch (this) {
       case ListingStatus.active:
         return 'Aktif';
-      case ListingStatus.reserved:
-        return 'Rezerve';
-      case ListingStatus.completed:
-        return 'Tamamlandı';
+      case ListingStatus.traded:
+        return 'Takaslandı';
+      case ListingStatus.cancelled:
+        return 'İptal';
+    }
+  }
+
+  String get icon {
+    switch (this) {
+      case ListingStatus.active:
+        return '✅';
+      case ListingStatus.traded:
+        return '🔄';
+      case ListingStatus.cancelled:
+        return '❌';
     }
   }
 }

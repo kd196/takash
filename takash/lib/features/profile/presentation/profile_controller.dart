@@ -19,40 +19,42 @@ class ProfileController extends _$ProfileController {
     String? bio,
     File? imageFile,
   }) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final repo = ref.read(profileRepositoryProvider);
-      
-      String? photoUrl = user.photoUrl;
-      
-      // 1. Eğer yeni bir fotoğraf seçildiyse yükle
-      if (imageFile != null) {
-        photoUrl = await repo.uploadProfilePhoto(user.uid, imageFile);
-      }
-      
-      // 2. Güncellenmiş kullanıcı nesnesini oluştur
-      final updatedUser = user.copyWith(
-        displayName: displayName,
-        bio: bio,
-        photoUrl: photoUrl,
-      );
-      
-      // 3. Firestore'da güncelle
-      await repo.updateProfile(updatedUser);
-    });
+    final repo = ref.read(profileRepositoryProvider);
+
+    String? photoUrl = user.photoUrl;
+
+    if (imageFile != null) {
+      photoUrl = await repo.uploadProfilePhoto(user.uid, imageFile);
+    }
+
+    final updatedUser = user.copyWith(
+      displayName: displayName,
+      bio: bio,
+      photoUrl: photoUrl,
+    );
+
+    await repo.updateProfile(updatedUser);
   }
 
-  /// Sadece profil fotoğrafını yükler ve Firestore'daki photoUrl'i günceller (Tekil kullanım için)
+  /// Sadece profil fotoğrafını yükler ve Firestore'daki photoUrl'i günceller
   Future<void> uploadPhoto({
     required UserModel user,
     required File imageFile,
   }) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final repo = ref.read(profileRepositoryProvider);
-      final photoUrl = await repo.uploadProfilePhoto(user.uid, imageFile);
-      final updatedUser = user.copyWith(photoUrl: photoUrl);
-      await repo.updateProfile(updatedUser);
-    });
+    final repo = ref.read(profileRepositoryProvider);
+    final photoUrl = await repo.uploadProfilePhoto(user.uid, imageFile);
+    final updatedUser = user.copyWith(photoUrl: photoUrl);
+    await repo.updateProfile(updatedUser);
+  }
+
+  /// Banner fotoğrafını yükler ve Firestore'daki bannerUrl'i günceller
+  Future<void> uploadBanner({
+    required UserModel user,
+    required File imageFile,
+  }) async {
+    final repo = ref.read(profileRepositoryProvider);
+    final bannerUrl = await repo.uploadBannerPhoto(user.uid, imageFile);
+    final updatedUser = user.copyWith(bannerUrl: bannerUrl);
+    await repo.updateProfile(updatedUser);
   }
 }

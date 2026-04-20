@@ -152,7 +152,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       try {
         await ref
             .read(listingRepositoryProvider)
-            .updateListingStatus(listingId, ListingStatus.completed);
+            .updateListingStatus(listingId, ListingStatus.traded);
 
         if (mounted) {
           _showRatingDialog(otherUserId, listingId);
@@ -249,7 +249,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         false;
 
     final isCompleted = listingAsync.when(
-      data: (listing) => listing?.status == ListingStatus.completed,
+      data: (listing) => listing?.status == ListingStatus.traded,
       loading: () => false,
       error: (_, __) => false,
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Özelleştirilebilir text field widget'ı
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String label;
   final String? hint;
   final TextEditingController? controller;
@@ -28,19 +27,41 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      validator: validator,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      enabled: enabled,
+      controller: widget.controller,
+      validator: widget.validator,
+      obscureText: _obscureText,
+      keyboardType: widget.keyboardType,
+      maxLines: widget.maxLines,
+      enabled: widget.enabled,
       decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon: suffixIcon,
+        labelText: widget.label,
+        hintText: widget.hint,
+        prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  setState(() => _obscureText = !_obscureText);
+                },
+              )
+            : widget.suffixIcon,
       ),
     );
   }

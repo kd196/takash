@@ -10,6 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Internationalization
+  flutter_localizations:
+    sdk: flutter
+
   cupertino_icons: ^1.0.8
 
   # State Management
@@ -42,7 +46,7 @@ dependencies:
   image_picker: ^1.1.2
   image_cropper: ^8.0.2
   cached_network_image: ^3.4.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   uuid: ^4.5.1
   permission_handler: ^11.3.1
   flutter_dotenv: ^5.2.1
@@ -58,6 +62,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  integration_test:
+    sdk: flutter
   riverpod_generator: ^2.6.2
   build_runner: ^2.4.13
   mockito: ^5.4.4
@@ -65,6 +71,7 @@ dev_dependencies:
   firebase_auth_mocks: ^0.14.0
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - .env

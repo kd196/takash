@@ -6,6 +6,7 @@ class UserModel {
   final String displayName;
   final String email;
   final String? photoUrl;
+  final String? bannerUrl;
   final String? bio;
   final double rating;
   final int ratingCount;
@@ -17,6 +18,7 @@ class UserModel {
     required this.displayName,
     required this.email,
     this.photoUrl,
+    this.bannerUrl,
     this.bio,
     this.rating = 0.0,
     this.ratingCount = 0,
@@ -30,6 +32,7 @@ class UserModel {
       displayName: json['displayName'] ?? '',
       email: json['email'] ?? '',
       photoUrl: json['photoUrl'],
+      bannerUrl: json['bannerUrl'],
       bio: json['bio'],
       rating: (json['rating'] ?? 0.0).toDouble(),
       ratingCount: json['ratingCount'] ?? 0,
@@ -46,17 +49,18 @@ class UserModel {
       'displayName': displayName,
       'email': email,
       'photoUrl': photoUrl,
+      'bannerUrl': bannerUrl,
       'bio': bio,
       'rating': rating,
       'ratingCount': ratingCount,
       'createdAt': Timestamp.fromDate(createdAt),
-      // totalImageCount buraya eklenmiyor!
     };
   }
 
   UserModel copyWith({
     String? displayName,
     String? photoUrl,
+    String? bannerUrl,
     String? bio,
     double? rating,
     int? ratingCount,
@@ -67,6 +71,7 @@ class UserModel {
       displayName: displayName ?? this.displayName,
       email: email,
       photoUrl: photoUrl ?? this.photoUrl,
+      bannerUrl: bannerUrl ?? this.bannerUrl,
       bio: bio ?? this.bio,
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,

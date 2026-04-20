@@ -202,9 +202,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         child: const Text('İptal'),
                       ),
                       FilledButton(
-                        onPressed: () {
+                        onPressed: () async {
                           Navigator.pop(context);
-                          ref.read(authRepositoryProvider).signOut();
+                          try {
+                            await ref.read(authRepositoryProvider).signOut();
+                          } catch (_) {}
                           if (context.mounted) {
                             context.go('/');
                           }

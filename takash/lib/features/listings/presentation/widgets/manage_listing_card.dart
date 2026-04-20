@@ -143,10 +143,10 @@ class ManageListingCard extends ConsumerWidget {
     switch (status) {
       case ListingStatus.active:
         return Colors.green;
-      case ListingStatus.reserved:
-        return Colors.orange;
-      case ListingStatus.completed:
+      case ListingStatus.traded:
         return Colors.blue;
+      case ListingStatus.cancelled:
+        return Colors.red;
     }
   }
 

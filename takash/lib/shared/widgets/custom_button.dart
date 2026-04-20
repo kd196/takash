@@ -22,10 +22,13 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttonChild = isLoading
-        ? const SizedBox(
+        ? SizedBox(
             height: 20,
             width: 20,
-            child: CircularProgressIndicator(strokeWidth: 2),
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           )
         : Row(
             mainAxisSize: MainAxisSize.min,

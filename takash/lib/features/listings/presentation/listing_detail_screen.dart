@@ -499,7 +499,7 @@ class ListingDetailScreen extends ConsumerWidget {
               if (confirm == true) {
                 await ref
                     .read(createListingControllerProvider.notifier)
-                    .updateStatus(listing.id, ListingStatus.reserved);
+                    .updateStatus(listing.id, ListingStatus.traded);
               }
             },
             icon: const Icon(Icons.bookmark),

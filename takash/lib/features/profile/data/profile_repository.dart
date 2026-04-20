@@ -39,7 +39,22 @@ class ProfileRepository {
 
   /// Profil fotoğrafını Storage'a yükler ve URL'sini döner
   Future<String> uploadProfilePhoto(String uid, File file) async {
-    final ref = _storage.ref().child('users').child(uid).child('profile_photo.jpg');
+    final ref = _storage
+        .ref()
+        .child('listings')
+        .child('profiles')
+        .child('${uid}_profile.jpg');
+    final uploadTask = await ref.putFile(file);
+    return await uploadTask.ref.getDownloadURL();
+  }
+
+  /// Banner fotoğrafını Storage'a yükler ve URL'sini döner
+  Future<String> uploadBannerPhoto(String uid, File file) async {
+    final ref = _storage
+        .ref()
+        .child('listings')
+        .child('banners')
+        .child('${uid}_banner.jpg');
     final uploadTask = await ref.putFile(file);
     return await uploadTask.ref.getDownloadURL();
   }
@@ -55,12 +70,14 @@ final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
 final userProfileProvider = StreamProvider<UserModel?>((ref) {
   final authUser = ref.watch(authStateProvider).value;
   if (authUser == null) return Stream.value(null);
-  
+
   return ref.watch(profileRepositoryProvider).watchProfile(authUser.uid);
 });
 
 /// Belirli bir kullanıcıyı izleyen provider
 final userDataProvider = StreamProvider.family<UserModel?, String>((ref, uid) {
+  final authState = ref.watch(authStateProvider);
+  if (authState.value == null) return Stream.value(null);
   final repo = ref.watch(profileRepositoryProvider);
   return repo.watchProfile(uid);
 });
