@@ -10,6 +10,7 @@ class ChatModel {
   final String lastMessage;
   final DateTime lastMessageAt;
   final int imageCount;
+  final Map<String, int> imageCountPerUser;
   final String? listingId;
   final String? listingTitle;
   final String? listingThumbnailUrl;
@@ -19,6 +20,7 @@ class ChatModel {
   final String? targetListingId;
   final String? offerSenderId;
   final DateTime? offerUpdatedAt;
+  final List<String> hiddenFor;
 
   ChatModel({
     required this.id,
@@ -27,6 +29,7 @@ class ChatModel {
     required this.lastMessage,
     required this.lastMessageAt,
     this.imageCount = 0,
+    this.imageCountPerUser = const {},
     this.listingId,
     this.listingTitle,
     this.listingThumbnailUrl,
@@ -36,6 +39,7 @@ class ChatModel {
     this.targetListingId,
     this.offerSenderId,
     this.offerUpdatedAt,
+    this.hiddenFor = const [],
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> json, String id) {
@@ -56,6 +60,9 @@ class ChatModel {
       lastMessage: json['lastMessage'] ?? '',
       lastMessageAt: (json['lastMessageAt'] as Timestamp).toDate(),
       imageCount: json['imageCount'] ?? 0,
+      imageCountPerUser: json['imageCountPerUser'] != null
+          ? Map<String, int>.from(json['imageCountPerUser'])
+          : {},
       listingId: json['listingId'],
       listingTitle: json['listingTitle'],
       listingThumbnailUrl: json['listingThumbnailUrl'],
@@ -69,6 +76,7 @@ class ChatModel {
       offerUpdatedAt: json['offerUpdatedAt'] != null
           ? (json['offerUpdatedAt'] as Timestamp).toDate()
           : null,
+      hiddenFor: List<String>.from(json['hiddenFor'] ?? []),
     );
   }
 
@@ -79,6 +87,7 @@ class ChatModel {
       'lastMessage': lastMessage,
       'lastMessageAt': Timestamp.fromDate(lastMessageAt),
       'imageCount': imageCount,
+      'imageCountPerUser': imageCountPerUser,
       'listingId': listingId,
       'listingTitle': listingTitle,
       'listingThumbnailUrl': listingThumbnailUrl,
@@ -89,6 +98,7 @@ class ChatModel {
       'offerSenderId': offerSenderId,
       'offerUpdatedAt':
           offerUpdatedAt != null ? Timestamp.fromDate(offerUpdatedAt!) : null,
+      'hiddenFor': hiddenFor,
     };
   }
 
@@ -96,6 +106,7 @@ class ChatModel {
     String? lastMessage,
     DateTime? lastMessageAt,
     int? imageCount,
+    Map<String, int>? imageCountPerUser,
     String? listingId,
     String? listingTitle,
     String? listingThumbnailUrl,
@@ -105,6 +116,7 @@ class ChatModel {
     String? targetListingId,
     String? offerSenderId,
     DateTime? offerUpdatedAt,
+    List<String>? hiddenFor,
   }) {
     return ChatModel(
       id: id,
@@ -113,6 +125,7 @@ class ChatModel {
       lastMessage: lastMessage ?? this.lastMessage,
       lastMessageAt: lastMessageAt ?? this.lastMessageAt,
       imageCount: imageCount ?? this.imageCount,
+      imageCountPerUser: imageCountPerUser ?? this.imageCountPerUser,
       listingId: listingId ?? this.listingId,
       listingTitle: listingTitle ?? this.listingTitle,
       listingThumbnailUrl: listingThumbnailUrl ?? this.listingThumbnailUrl,
@@ -122,6 +135,7 @@ class ChatModel {
       targetListingId: targetListingId ?? this.targetListingId,
       offerSenderId: offerSenderId ?? this.offerSenderId,
       offerUpdatedAt: offerUpdatedAt ?? this.offerUpdatedAt,
+      hiddenFor: hiddenFor ?? this.hiddenFor,
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 import '../domain/listing_category.dart';
 import 'listings_controller.dart';
 import 'widgets/manage_listing_card.dart';
@@ -75,7 +74,6 @@ class MyListingsScreen extends ConsumerWidget {
             child: Text('Hata: $error'),
           ),
         ),
-        // Yeni ilan oluşturma FAB
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => context.push('/create-listing'),
           icon: const Icon(Icons.add),
@@ -99,10 +97,8 @@ class MyListingsScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TakashIcon(
-                  assetName: TakashIcon.inventory,
-                  size: 64,
-                  color: Theme.of(context).colorScheme.outline),
+              Icon(Icons.inventory_2_outlined,
+                  size: 64, color: Theme.of(context).colorScheme.outline),
               const SizedBox(height: 16),
               Text(
                 emptyMessage,

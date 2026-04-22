@@ -7,7 +7,6 @@ import 'package:takash/features/listings/presentation/listings_controller.dart';
 import 'package:takash/features/listings/presentation/widgets/listing_card.dart';
 import 'package:takash/features/listings/domain/listing_category.dart';
 import 'package:takash/shared/widgets/loading_indicator.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 
 class PublicProfileScreen extends ConsumerWidget {
   final String userId;
@@ -16,9 +15,7 @@ class PublicProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Kullanıcı bilgilerini izle
     final userAsync = ref.watch(userDataProvider(userId));
-    // Kullanıcının ilanlarını izle
     final userListingsAsync = ref.watch(userListingsProvider(userId));
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -34,14 +31,12 @@ class PublicProfileScreen extends ConsumerWidget {
 
           return CustomScrollView(
             slivers: [
-              // ── Profil Üst Kısım ──
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      // Profil Fotoğrafı
                       Center(
                         child: CircleAvatar(
                           radius: 60,
@@ -50,15 +45,12 @@ class PublicProfileScreen extends ConsumerWidget {
                               ? CachedNetworkImageProvider(user.photoUrl!)
                               : null,
                           child: user.photoUrl == null
-                              ? TakashIcon(
-                                  assetName: TakashIcon.person,
-                                  size: 60,
-                                  color: colorScheme.outline)
+                              ? Icon(Icons.person_rounded,
+                                  size: 60, color: colorScheme.outline)
                               : null,
                         ),
                       ),
                       const SizedBox(height: 20),
-                      // İsim
                       Text(
                         user.displayName,
                         style:
@@ -67,24 +59,19 @@ class PublicProfileScreen extends ConsumerWidget {
                                 ),
                       ),
                       const SizedBox(height: 16),
-                      // Puan
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const TakashIcon(
-                              assetName: TakashIcon.starActive,
-                              color: Colors.amber,
-                              size: 20),
+                          const Icon(Icons.star_rounded,
+                              color: Colors.amber, size: 20),
                           const SizedBox(width: 4),
                           Text(
                             '${user.rating.toStringAsFixed(1)} (${user.ratingCount} değerlendirme)',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: 16),
-                          const TakashIcon(
-                              assetName: TakashIcon.swap,
-                              color: Colors.green,
-                              size: 20),
+                          const Icon(Icons.swap_horiz_rounded,
+                              color: Colors.green, size: 20),
                           const SizedBox(width: 4),
                           Text(
                             '${user.completedTradesCount} takas',
@@ -93,7 +80,6 @@ class PublicProfileScreen extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      // Hakkında (Bio)
                       if (user.bio != null && user.bio!.isNotEmpty) ...[
                         Align(
                           alignment: Alignment.centerLeft,
@@ -122,7 +108,6 @@ class PublicProfileScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 32),
                       ],
-                      // İlanlar Başlığı
                       const Divider(),
                       const SizedBox(height: 16),
                       Align(
@@ -140,11 +125,8 @@ class PublicProfileScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-
-              // ── İlan Listesi (Sliver) ──
               userListingsAsync.when(
                 data: (listings) {
-                  // Sadece aktif ilanları göster
                   final activeListings = listings
                       .where((l) => l.status == ListingStatus.active)
                       .toList();
@@ -156,10 +138,8 @@ class PublicProfileScreen extends ConsumerWidget {
                         child: Center(
                           child: Column(
                             children: [
-                              TakashIcon(
-                                  assetName: TakashIcon.inventory,
-                                  size: 48,
-                                  color: Colors.grey),
+                              Icon(Icons.inventory_2_outlined,
+                                  size: 48, color: Colors.grey),
                               SizedBox(height: 12),
                               Text('Bu kullanıcının aktif ilanı bulunmuyor.'),
                             ],

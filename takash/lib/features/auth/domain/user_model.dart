@@ -13,6 +13,8 @@ class UserModel {
   final int completedTradesCount;
   final DateTime createdAt;
   final int totalImageCount;
+  final bool isLocationShared;
+  final String profileVisibility;
 
   UserModel({
     required this.uid,
@@ -26,6 +28,8 @@ class UserModel {
     this.completedTradesCount = 0,
     required this.createdAt,
     this.totalImageCount = 0,
+    this.isLocationShared = true,
+    this.profileVisibility = 'public',
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +45,8 @@ class UserModel {
       completedTradesCount: json['completedTradesCount'] ?? 0,
       createdAt: (json['createdAt'] as Timestamp).toDate(),
       totalImageCount: json['totalImageCount'] ?? 0,
+      isLocationShared: json['isLocationShared'] ?? true,
+      profileVisibility: json['profileVisibility'] ?? 'public',
     );
   }
 
@@ -69,6 +75,8 @@ class UserModel {
     int? ratingCount,
     int? completedTradesCount,
     int? totalImageCount,
+    bool? isLocationShared,
+    String? profileVisibility,
   }) {
     return UserModel(
       uid: uid,
@@ -82,6 +90,8 @@ class UserModel {
       completedTradesCount: completedTradesCount ?? this.completedTradesCount,
       createdAt: createdAt,
       totalImageCount: totalImageCount ?? this.totalImageCount,
+      isLocationShared: isLocationShared ?? this.isLocationShared,
+      profileVisibility: profileVisibility ?? this.profileVisibility,
     );
   }
 }

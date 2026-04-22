@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#bdcac0",
+                    "primary-fixed": "#92f7c3",
+                    "on-primary-fixed": "#002113",
+                    "surface": "#131315",
+                    "on-secondary": "#003824",
+                    "surface-container-highest": "#353437",
+                    "primary-fixed-dim": "#75daa8",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#95d4b3",
+                    "surface-tint": "#75daa8",
+                    "surface-container-high": "#2a2a2c",
+                    "tertiary": "#ffb3b3",
+                    "background": "#131315",
+                    "on-secondary-fixed-variant": "#0e5138",
+                    "inverse-surface": "#e5e1e4",
+                    "outline-variant": "#3e4942",
+                    "surface-dim": "#131315",
+                    "secondary-container": "#12533a",
+                    "on-secondary-fixed": "#002114",
+                    "on-tertiary-container": "#6c1f26",
+                    "outline": "#88948b",
+                    "on-primary": "#003823",
+                    "surface-container-low": "#1c1b1d",
+                    "surface-variant": "#353437",
+                    "primary-container": "#52b788",
+                    "tertiary-fixed": "#ffdad9",
+                    "secondary-fixed": "#b1f0ce",
+                    "on-tertiary-fixed": "#40000a",
+                    "on-secondary-container": "#87c6a5",
+                    "inverse-on-surface": "#313032",
+                    "on-tertiary": "#5e141c",
+                    "tertiary-fixed-dim": "#ffb3b3",
+                    "tertiary-container": "#f18689",
+                    "primary": "#75daa8",
+                    "secondary": "#95d4b3",
+                    "surface-bright": "#39393b",
+                    "on-tertiary-fixed-variant": "#7c2b31",
+                    "on-primary-container": "#00442c",
+                    "surface-container": "#201f22",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-primary-fixed-variant": "#005235",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e1e4",
+                    "inverse-primary": "#006c48",
+                    "on-surface": "#e5e1e4",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #131315; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 flex justify-between items-center px-4 h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a young woman with a friendly expression, soft lighting, urban background, professional headshot style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKWYPErdgcNt54hqlSeILPgNPGd0HOw9SZWCyQ3gxNUi8kiR_1vJIj2K3x166F5v5FIGIj53832otC7_eNfJzscooCMLNDQDB2wO8lya433A4npHSf6PvXGJPJ_CO_OFiq4RBDN0y0Lx_6PwxaOh5AB8tYS-g6TFx47N-H4SYIHteFeTHkugQhbWEBtyYHAGLk3-fJ3kIDHbLB2dLBjLbL46SMj2zbhb_3LFAOGJwmb4WBDWNMWLgVCVqJCEr8o9bJu7kynJLp4Qix"/>
+</div>
+<span class="text-xl font-bold text-emerald-400 font-['Plus_Jakarta_Sans'] tracking-tight">Takaş</span>
+</div>
+<button class="text-zinc-400 hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</header>
+<main class="pt-20 px-4 space-y-8">
+<!-- Profile Header Section -->
+<section class="flex flex-col items-center text-center mt-6">
+<div class="relative">
+<div class="w-28 h-28 rounded-3xl overflow-hidden ring-4 ring-primary/20 bg-surface-container-low">
+<img alt="Large Profile Photo" class="w-full h-full object-cover" data-alt="Artistic portrait of a woman with natural lighting, soft emerald green background tones, editorial photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxVteJz_SHHZQz77IRFBboMEGD-E1nGyGlkGmtaIbK1mENCsXFCpytbU94TubsNCCQatn-Ol9zw0UN894VtqLYZE5giN4BMVqXhYeVqS3hUcDKOqM68ydV0q2q8hkLUH6W4ayonFy0hJefEtMUz23hcfQXTrG02Sxc_3Z-pcnPJqa498Z-PTM80VShUabsXxpv6jelSD1Q498vaKGcu1FAuUVEqNcACM1GM1KcE9kKsEQw7HHz2-iTOp4kjTT4jwASHFD6PX-o9vTb"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-4 border-surface">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="mt-4">
+<h1 class="text-2xl font-extrabold tracking-tight text-on-surface">Melisa Yıldız</h1>
+<div class="flex items-center justify-center gap-1 mt-1">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-on-surface">4.8</span>
+<span class="text-on-surface-variant text-sm ml-1">(124 değerlendirme)</span>
+</div>
+<p class="mt-3 text-on-surface-variant max-w-xs leading-relaxed text-sm">
+                    Sürdürülebilirlik aşığı 🌱 | İkinci el moda ve vintage dekorasyon koleksiyoneri. Doğayı korumak için takas yapalım!
+                </p>
+</div>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-3 gap-3">
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col items-center justify-center text-center">
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1">Durum</span>
+<span class="text-on-surface font-extrabold text-lg">Aktif</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col items-center justify-center text-center">
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1">Takaslar</span>
+<span class="text-on-surface font-extrabold text-lg">42</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col items-center justify-center text-center">
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1">Beğeniler</span>
+<span class="text-on-surface font-extrabold text-lg">312</span>
+</div>
+</section>
+<!-- My Listings (Horizontal Scroll) -->
+<section>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="text-lg font-bold">İlanlarım</h2>
+<button class="text-primary text-sm font-semibold">Tümünü Gör</button>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+<!-- Listing Card 1 -->
+<div class="min-w-[160px] bg-surface-container-low rounded-2xl overflow-hidden group">
+<div class="h-40 bg-zinc-800 relative">
+<img alt="Product 1" class="w-full h-full object-cover" data-alt="Minimalist white wrist watch on a dark stone surface, moody lighting, emerald green accent highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq-eIwiSjL2qYC4yLyYNXPC0YcC4iLZeyYgRb6lfHzcewLqfy0XBGWwxqdtfGNvgpL-U2H59PUApYkF9ihVNVa7P_u7eacV8AAQjwWaeWkdNnW55etACl31tcvMMELjsNmoHBAAs0zhLoimS39g4Kd7XFnUVTED3RKpfJ31bcgRlotZQ8Bmg918nwMCCijMLh5Etqfu6Kw0YNXYFVysh5WNY__1_UuPsbK0BU38lAwdTyxEGiytt_F_glwm53IQNMhGm2VxfoK3qAs"/>
+<div class="absolute top-2 right-2 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg text-[10px] font-bold text-primary">
+                            AKTİF
+                        </div>
+</div>
+<div class="p-3">
+<p class="text-sm font-medium truncate">Minimalist Saat</p>
+<p class="text-xs text-on-surface-variant">Moda</p>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="min-w-[160px] bg-surface-container-low rounded-2xl overflow-hidden">
+<div class="h-40 bg-zinc-800 relative">
+<img alt="Product 2" class="w-full h-full object-cover" data-alt="Vintage film camera on a dark wooden table, soft shadows, warm cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMCDuHMoBFfJTSz-MIW6NnqRlgk8neyziDSRUu-5A2b1vO24-CSB9Tc9PWr8PArlLoEhga9dqipbQ4ANJVwYNPCKJERg_d1qsB564Kt7dFFs_Z98CHVkMQC9YmKkkwfUwC5H8JuI05WaMOcg5p1iR02bLjVCiZcR0nL1YaVx_IlTzaQli6OoyHwOW9q9QUP8jwqp0VlggnPgS2Z_8C2AuBLZc8WImogw097iDQcYAOq-rAQ7mt2xhowNAc6l-LwDwtPVmyWVpR54U8"/>
+<div class="absolute top-2 right-2 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg text-[10px] font-bold text-primary">
+                            AKTİF
+                        </div>
+</div>
+<div class="p-3">
+<p class="text-sm font-medium truncate">Retro Kamera</p>
+<p class="text-xs text-on-surface-variant">Elektronik</p>
+</div>
+</div>
+<!-- Listing Card 3 -->
+<div class="min-w-[160px] bg-surface-container-low rounded-2xl overflow-hidden">
+<div class="h-40 bg-zinc-800 relative">
+<img alt="Product 3" class="w-full h-full object-cover" data-alt="Sleek modern table lamp in a dark minimalist room, glowing with soft ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvVKKYgQWBa8fs_dznmjGl4BGYKKHaM60kBiiKCtbJuxSAiPJoksjKyZ6Rxv-tUo3algUqMmJoj6BbSzckNbEs5joyTMZDxJwt4JkSCYsXsaITL107zAVC89soZX9fk2REYHfS-14h3GYR_5dm7FxNdyUATheKyS3VD-F-bjHg2dTUDOM0ZFuDSugn14mHEzyllN1DdYitrGhwql8aqDVK5haqaTwuW_Fq3kBhei2fQ3oCdF4q2GVvcryWAhf9HETbBpKazr4jOgA4"/>
+<div class="absolute top-2 right-2 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg text-[10px] font-bold text-zinc-400">
+                            TASLAK
+                        </div>
+</div>
+<div class="p-3">
+<p class="text-sm font-medium truncate">Modern Lamba</p>
+<p class="text-xs text-on-surface-variant">Ev &amp; Dekor</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Favorites Grid (Asymmetric Bento Style) -->
+<section>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="text-lg font-bold">Favorilerim</h2>
+<button class="text-primary text-sm font-semibold">Düzenle</button>
+</div>
+<div class="grid grid-cols-2 gap-3 h-48">
+<div class="bg-surface-container-high rounded-3xl overflow-hidden relative group">
+<img alt="Favorite 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="High-end leather jacket hanging against a dark textured wall, dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaYJMHAHCgRaZ_CNmYJduYJPj9N9ihcJfP3i7N2Gn8qD3p20ViPVpFQ3WzdFnakEr1gnOJ3kRAPqntXBYQy9BtaD8hBKYWjb9uZKAoDHNsUvQL7ClfA0oirYbg1HQxOPUUbJOdy01hNRSnfkfQZzTJ_KEdMHQbrscV35e3Pdr3bjipsT1TsjwBWwyPfK_6v2NEJ3LOsBBU0nFRi2MBdjRz1JXMkV6507d9JPFjWTPi8jnWZ_-3xEQAFaYYRM9BmZO_fYVokThN_fwv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 to-transparent flex items-end p-3">
+<span class="text-xs font-bold">Deri Ceket</span>
+</div>
+</div>
+<div class="grid grid-rows-2 gap-3">
+<div class="bg-surface-container-high rounded-2xl overflow-hidden relative">
+<img alt="Favorite 2" class="w-full h-full object-cover" data-alt="Vibrant red sneakers on a dark reflective surface, neon highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCURJ6KF6krLvSs9ibKWpDbwAWsl3EKrIYgw12RM6VwvPe4sKy6Sibx0OtkMM0lIDn5HIijbgLaVech0NHDPOa1ayhKKdU9_9k386jRow3_d7PfHKEYGsg9v5iwznfKFNhWP_5NuQ6osus2ZdjP9NSjA6zKakjngAjTOmPa4G-I6qYcjgVrC5_bg1TE2CDd5AZGqkXM3xT_geOlWJgY91IftGpZUhfEVE1bI-EeHH6tLNNNKCVADTodqkqclXt48iqTZiVNA1GFNwL0"/>
+</div>
+<div class="bg-surface-container-high rounded-2xl overflow-hidden relative flex items-center justify-center">
+<div class="text-center">
+<span class="text-primary font-bold text-sm">+14</span>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">DAHA FAZLA</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Settings List -->
+<section class="space-y-2 mb-8">
+<h2 class="text-lg font-bold px-1 mb-4">Ayarlar</h2>
+<div class="bg-surface-container-low rounded-3xl overflow-hidden">
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person_outline</span>
+</div>
+<span class="font-medium">Hesap Bilgileri</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<span class="font-medium">Bildirimler</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">lock</span>
+</div>
+<span class="font-medium">Gizlilik</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer border-t border-zinc-800/50 group">
+<div class="flex items-center gap-4 text-error">
+<div class="w-10 h-10 rounded-xl bg-error/10 flex items-center justify-center">
+<span class="material-symbols-outlined">logout</span>
+</div>
+<span class="font-medium">Oturumu Kapat</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-3 pb-safe bg-zinc-950/90 backdrop-blur-lg rounded-t-2xl z-50 tonal-shift bg-zinc-900/50 shadow-[0_-4px_20px_rgba(82,183,136,0.05)]">
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl text-emerald-400">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Swap</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Chats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-emerald-400 bg-emerald-500/10 rounded-xl px-3 py-1 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Profile</span>
+</div>
+</nav>
+</body></html>

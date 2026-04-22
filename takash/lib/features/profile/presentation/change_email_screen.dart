@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/providers.dart';
 
@@ -42,6 +43,12 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
       final user = auth.currentUser;
       if (user == null) return;
 
+      final credential = EmailAuthProvider.credential(
+        email: user.email ?? '',
+        password: _passwordController.text.trim(),
+      );
+      await user.reauthenticateWithCredential(credential);
+
       await user.verifyBeforeUpdateEmail(_emailController.text.trim());
 
       await _updateEmailInFirestore(user.uid, _emailController.text.trim());
@@ -58,7 +65,10 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
     } catch (e) {
       if (mounted) {
         String message = 'Bir hata oluştu';
-        if (e.toString().contains('requires-recent-login')) {
+        if (e.toString().contains('wrong-password') ||
+            e.toString().contains('invalid-credential')) {
+          message = 'Şifre yanlış';
+        } else if (e.toString().contains('requires-recent-login')) {
           message = 'Bu işlem için yeniden giriş yapmanız gerekiyor';
         } else if (e.toString().contains('email-already-in-use')) {
           message = 'Bu e-posta adresi zaten kullanımda';

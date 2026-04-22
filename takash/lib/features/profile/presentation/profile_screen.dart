@@ -10,7 +10,6 @@ import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/profile_controller.dart';
 import '../../listings/presentation/listings_controller.dart';
 import '../../auth/domain/user_model.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   final String? userId;
@@ -154,10 +153,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     ? CachedNetworkImageProvider(user.photoUrl!)
                                     : null,
                                 child: user.photoUrl == null
-                                    ? const TakashIcon(
-                                        assetName: TakashIcon.person,
-                                        size: 48,
-                                        color: Colors.white)
+                                    ? const Icon(Icons.person_rounded,
+                                        size: 48, color: Colors.white)
                                     : null,
                               ),
                             ),
@@ -193,10 +190,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const TakashIcon(
-                                    assetName: TakashIcon.starActive,
-                                    color: Colors.amber,
-                                    size: 20),
+                                const Icon(Icons.star_rounded,
+                                    color: Colors.amber, size: 20),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${user.rating.toStringAsFixed(1)} ',

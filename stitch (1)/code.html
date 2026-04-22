@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Takaş Profile Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#a3e2c0",
+                        "on-secondary-fixed-variant": "#456c62",
+                        "surface-container-low": "#f2f4f3",
+                        "surface-container-highest": "#dfe3e2",
+                        "primary": "#2d6a4f",
+                        "primary-container": "#b1f0ce",
+                        "inverse-on-surface": "#9b9d9d",
+                        "on-secondary-container": "#3b6158",
+                        "tertiary-dim": "#7e4500",
+                        "tertiary": "#8f4f00",
+                        "surface-variant": "#dfe3e2",
+                        "surface-dim": "#d5dbda",
+                        "secondary-fixed": "#cffaed",
+                        "error-container": "#f56965",
+                        "on-tertiary-container": "#552d00",
+                        "outline": "#767c7b",
+                        "inverse-primary": "#beffdc",
+                        "secondary-container": "#cffaed",
+                        "inverse-surface": "#0c0f0e",
+                        "on-background": "#2e3333",
+                        "secondary-dim": "#345a51",
+                        "surface-container-high": "#e5e9e8",
+                        "on-tertiary-fixed": "#351a00",
+                        "surface-tint": "#2d6a4f",
+                        "secondary-fixed-dim": "#c1ebdf",
+                        "primary-fixed": "#b1f0ce",
+                        "error": "#ac3434",
+                        "tertiary-container": "#ffa44c",
+                        "on-surface-variant": "#5b605f",
+                        "primary-dim": "#1f5e44",
+                        "surface-container": "#eceeed",
+                        "background": "#f9f9f8",
+                        "on-primary-container": "#1d5c42",
+                        "on-tertiary-fixed-variant": "#613400",
+                        "surface": "#f9f9f8",
+                        "on-surface": "#2e3333",
+                        "tertiary-fixed-dim": "#fd9000",
+                        "on-secondary-fixed": "#284f46",
+                        "tertiary-fixed": "#ffa44c",
+                        "on-error-container": "#65000b",
+                        "secondary": "#40665d",
+                        "on-primary-fixed": "#014931",
+                        "outline-variant": "#aeb3b2",
+                        "on-primary-fixed-variant": "#29664c",
+                        "on-error": "#fff7f6",
+                        "on-secondary": "#e3fff6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 8px 24px -4px rgba(46, 51, 51, 0.06);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex items-center justify-between px-6 h-16 bg-[#f9f9f8]/80 dark:bg-zinc-950/80 backdrop-blur-xl z-50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="close up portrait of a smiling young woman with natural light in a bright modern studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP8Y3hOewme6XPxR3KW5iLhbWWNTjd-cvpvk6wp5jHDPoR96cmApXISYx737a_ncvoWYN4gRxe1kueel0HnXOwVhh17H4f0s_BFaW5O2NKDnDJHS82vDpE8T9xOHPZ43S0-6ezYldoZ4e-MI8jd5pRyNPWslBWcTZ8riW4xhAKUN1rSWbyFP_HXJVPpwclbB48a4ninVzNYa1Qs2_3QLwdlbMmfQXmEniCoSlCTjWTG54gLviTYnDEluIzS1HooJVCE9b8K7Lo6tmI"/>
+</div>
+<h1 class="text-xl font-bold text-[#2d6a4f] dark:text-[#52b788] Plus Jakarta Sans Display md tight tracking -0.02em">Takaş</h1>
+</div>
+<button class="p-2 rounded-full hover:bg-[#eceeed]/50 dark:hover:bg-zinc-800/50 transition-all duration-200">
+<span class="material-symbols-outlined text-[#2d6a4f] dark:text-[#52b788]">tune</span>
+</button>
+</header>
+<main class="mt-20 px-6 max-w-2xl mx-auto">
+<!-- Profile Header -->
+<section class="flex flex-col items-center text-center mb-10">
+<div class="relative mb-6">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary-container">
+<img alt="User Avatar" class="w-full h-full object-cover rounded-full border-4 border-background" data-alt="professional headshot of a young woman with a warm friendly expression against a soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP2U97gdklNQuSddovOrteACkIorsN_D75Cv5ZX_V4OlYsn41Bwb-xr42Q6V6l-GiTbUSt0bzXmJYlKAHBK97SOehXYxhiuSnw0d6b2W8X19zm6yKvyGpjh6v-Dik6k9-stzdKSGV8IMuZzs22lHh3U6jIMoHY4CF7YWAma6MOHIxKgjO-NFxl9UqrA27dev267tnm6Jzd-Wt8poUo0bmbL57WbL8ctMPQtilWjnYOL5nTOBTYhS-mzXRf_8kC7bXgmNiWSh-7J8WD"/>
+</div>
+<div class="absolute bottom-1 right-1 bg-primary text-white p-1.5 rounded-full editorial-shadow">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<h2 class="text-3xl font-extrabold tracking-tight mb-2">Selina Waters</h2>
+<p class="text-on-surface-variant max-w-xs mb-4 text-lg">Urban gardener &amp; vintage tech collector. Swap for greens or circuits! 🌿🔌</p>
+<div class="flex items-center gap-2 bg-secondary-container px-4 py-2 rounded-full">
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<span class="text-on-secondary-container font-semibold text-sm">4.8 (124 swaps)</span>
+</div>
+</section>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-3 gap-4 mb-12">
+<div class="bg-surface-container rounded-2xl p-5 flex flex-col items-center justify-center transition-transform hover:scale-95 duration-200">
+<span class="text-2xl font-bold text-primary">12</span>
+<span class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Active</span>
+</div>
+<div class="bg-surface-container rounded-2xl p-5 flex flex-col items-center justify-center transition-transform hover:scale-95 duration-200">
+<span class="text-2xl font-bold text-primary">86</span>
+<span class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Swaps</span>
+</div>
+<div class="bg-surface-container rounded-2xl p-5 flex flex-col items-center justify-center transition-transform hover:scale-95 duration-200">
+<span class="text-2xl font-bold text-primary">42</span>
+<span class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Hearts</span>
+</div>
+</section>
+<!-- My Listings Section -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold tracking-tight">My Listings</h3>
+<button class="text-primary font-semibold text-sm">View All</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Card 1 -->
+<div class="group relative bg-surface-container-low rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+<div class="aspect-[4/5] overflow-hidden">
+<img alt="Listing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="minimalist photo of a white digital watch on a clean aesthetic background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARoT9hM6uKn5iLsiiSNujybuPQ1to4b6nAhZfgsxqyirKxwSo6m6lCfet0vtX276K-Nlu3GDFOH5GCZ57PZufzshGdXZOCcN4lqAP-5sCX9rQAGQLkjPvogrlg8rLRMvBc5SLyL8Q_q6vwymQZoEYnIBxsj2tiVRBcIEqWx8d4U-hv2mtqCpdxui9jmBjprZmijP07cfsmoAf8fgfkHz3laYwki5MVZBoOMusTRSakZEcu1tDE2V5Y63yKLOjLN31qVFDyJneF2H69"/>
+</div>
+<div class="p-4 bg-white/60 backdrop-blur-md absolute bottom-0 w-full">
+<p class="font-bold text-sm truncate">Minimalist Smartwatch</p>
+<p class="text-xs text-on-surface-variant">2 miles away</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container-low rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+<div class="aspect-[4/5] overflow-hidden">
+<img alt="Listing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="bright red athletic sneaker floating against a clean studio background with professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeqzeNql2_2yz1Y2tBWP3vPbZ2p6yttd5FYbVRYU6kG7JwPH6UVmG80mmejhBCokyTvUum3RN-96n3QP4ZV75U3Q0AuYECIk3JPKx--Vu1M8DgWmpL_hbHX50paI02hu-wz61Lu01Mbs-QI4l02jHWRwD9QY0IUFntV0CpuMFUlHy3rm6AEiI_R8dAa0HAptWUXbG3MWNhG700FtjQphKulgghZ5ZPE39PEy0FC_VLo3nQAzV3ExgGoNrzWyA1sScKpDPE0VmYka_5"/>
+</div>
+<div class="p-4 bg-white/60 backdrop-blur-md absolute bottom-0 w-full">
+<p class="font-bold text-sm truncate">Speed Runners X</p>
+<p class="text-xs text-on-surface-variant">Active swap</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Favorites Section -->
+<section class="mb-12 overflow-hidden">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold tracking-tight">Favorites</h3>
+<button class="text-primary font-semibold text-sm">Organize</button>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-4 -mx-6 px-6">
+<div class="flex-shrink-0 w-24 h-24 rounded-2xl bg-surface-container relative overflow-hidden">
+<img alt="Fav 1" class="w-full h-full object-cover" data-alt="high quality studio photo of sleek black headphones on a light gray background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnxH22bni0hjH08896XpcbDcgNa3B7vfAjx-iIOz9N0fo6_6tTjz_KtvKGFRsE54iG9dEBUSmLRGmc0wX9ibQCbTR_zW-XaXdPrUO3l7ijyhkmYlF6-dcx1F1oDuaWPfWcHuax7WPeECp0pyGFL-CTxE4xIPnDgZ9lrotpw1aTgsfe1KqHjBhK3YDk2P17UNwrZw6VZyGErLVlaqDGdbBJS6vbA-Iov4Gq642WJr6HROIg4mI1eUFWBFgOYxUyF1xMLADvMiNOe9Z9"/>
+</div>
+<div class="flex-shrink-0 w-24 h-24 rounded-2xl bg-surface-container relative overflow-hidden">
+<img alt="Fav 2" class="w-full h-full object-cover" data-alt="cool stylish sunglasses with dark lenses on a neutral bright surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_ZFm7dLuLqzelr_rLp_YP1axoGCh7fOKI8VEvyAXn-PKw2lUp8MWtipO86c-IBisT3pxnZIpDKklYRw8GGMRKPd1-fcxWQsIGItW4woaN_eplrfsc09vV8iQ3FHkp3RGtigU6dtPptWt5PXDuNFUuMKo8wlyftaDcavDx8neztCNjvS9f-qW-1_dLK-E8Rru-tRhIXbObi9Bf-GS1arEnsuSyPnG5RigwaIQSEr1vIchdUE-Vis5W1Oi3Udzg2SOnYJkUnzpZTgAw"/>
+</div>
+<div class="flex-shrink-0 w-24 h-24 rounded-2xl bg-surface-container relative overflow-hidden">
+<img alt="Fav 3" class="w-full h-full object-cover" data-alt="pair of grey running shoes in a clean minimalist composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYJP2V09-6QyUZdiNEScbJ6axKFyGRLooA5P_a9uafSrkXhsaAs7LLAgBPn-boN57DK_madxPNNlIRDfGSY_ih-1YkQfhP5Oa2htyPA509KA4RsPug1Wjp4saX7WQfJEYF3MEsKmqfmN3d-vQiOIaLiZZliL-xTpX6EAu50kUvUB03sZMrvyT7aslydUvNMr68BeOXMHMDXqxVWsrlmQRcyak_IljisHYVqlS_LHRXvJ5ikkayDFHXW8TVYIwPu8k-ar5YzcOQLDtW"/>
+</div>
+<div class="flex-shrink-0 w-24 h-24 rounded-2xl bg-surface-container relative overflow-hidden">
+<img alt="Fav 4" class="w-full h-full object-cover" data-alt="vintage style analog camera with chrome accents on a wooden desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD68w9h2SvESumjProT1SSK5iUdXdYj9FdrJJa5RtbhHJUmx__mFkL8RmPUjYh6uyaOAmW8qKsWrQEZrleJrdrTfxO9h9CE8XvAEoJ7Gy0mJdYgp-bHNzHXGpF2N3Kmdfwe9VA__OrRov3qNB3_IIBX0M-EIFXjLSU_queUKchqTZgwXz6YQtH6dv_uSjGGyvhReW_3Y6LTJ-gcSJCRgKxDHiaihQ8R4zUeXO8twe06LhjStRCBqfxjbTFpTv-y7xiymyS4u3edZP5W"/>
+</div>
+</div>
+</section>
+<!-- Settings Section -->
+<section class="mb-12">
+<h3 class="text-2xl font-bold tracking-tight mb-6">Settings</h3>
+<div class="bg-surface-container-low rounded-3xl p-2">
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-highest transition-colors rounded-2xl group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<span class="font-semibold text-on-surface">Account Information</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-highest transition-colors rounded-2xl group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<span class="font-semibold text-on-surface">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-highest transition-colors rounded-2xl group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">lock</span>
+</div>
+<span class="font-semibold text-on-surface">Privacy &amp; Security</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-error-container/10 transition-colors rounded-2xl group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">logout</span>
+</div>
+<span class="font-semibold text-error">Sign Out</span>
+</div>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#f9f9f8]/85 dark:bg-zinc-950/85 backdrop-blur-xl z-50 shadow-[0_-8px_24px_-4px_rgba(46,51,51,0.06)]">
+<a class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="Plus Jakarta Sans Label md font-medium text-[10px] mt-1">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="Plus Jakarta Sans Label md font-medium text-[10px] mt-1">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors" href="#">
+<span class="material-symbols-outlined text-3xl">add_circle</span>
+<span class="Plus Jakarta Sans Label md font-medium text-[10px] mt-1">Swap</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="Plus Jakarta Sans Label md font-medium text-[10px] mt-1">Chats</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#cffaed] dark:bg-[#1f5e44]/30 text-[#3b6158] dark:text-[#cffaed] rounded-full px-5 py-1.5 scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="Plus Jakarta Sans Label md font-medium text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

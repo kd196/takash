@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#a3e2c0",
+                    "on-secondary-fixed-variant": "#456c62",
+                    "surface-container-low": "#f2f4f3",
+                    "surface-container-highest": "#dfe3e2",
+                    "primary": "#2d6a4f",
+                    "primary-container": "#b1f0ce",
+                    "inverse-on-surface": "#9b9d9d",
+                    "on-secondary-container": "#3b6158",
+                    "tertiary-dim": "#7e4500",
+                    "tertiary": "#8f4f00",
+                    "surface-variant": "#dfe3e2",
+                    "surface-dim": "#d5dbda",
+                    "secondary-fixed": "#cffaed",
+                    "error-container": "#f56965",
+                    "on-tertiary-container": "#552d00",
+                    "outline": "#767c7b",
+                    "inverse-primary": "#beffdc",
+                    "secondary-container": "#cffaed",
+                    "inverse-surface": "#0c0f0e",
+                    "on-background": "#2e3333",
+                    "secondary-dim": "#345a51",
+                    "surface-container-high": "#e5e9e8",
+                    "on-tertiary-fixed": "#351a00",
+                    "surface-tint": "#2d6a4f",
+                    "secondary-fixed-dim": "#c1ebdf",
+                    "primary-fixed": "#b1f0ce",
+                    "error": "#ac3434",
+                    "tertiary-container": "#ffa44c",
+                    "on-surface-variant": "#5b605f",
+                    "primary-dim": "#1f5e44",
+                    "surface-container": "#eceeed",
+                    "background": "#f9f9f8",
+                    "on-primary-container": "#1d5c42",
+                    "on-tertiary-fixed-variant": "#613400",
+                    "surface": "#f9f9f8",
+                    "surface-bright": "#f9f9f8",
+                    "on-surface": "#2e3333",
+                    "tertiary-fixed-dim": "#fd9000",
+                    "on-secondary-fixed": "#284f46",
+                    "tertiary-fixed": "#ffa44c",
+                    "on-error-container": "#65000b",
+                    "secondary": "#40665d",
+                    "on-primary-fixed": "#014931",
+                    "outline-variant": "#aeb3b2",
+                    "on-primary-fixed-variant": "#29664c",
+                    "on-error": "#fff7f6",
+                    "on-secondary": "#e3fff6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background-color: rgba(249, 249, 248, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex items-center justify-between px-6 h-16 bg-[#f9f9f8]/80 dark:bg-zinc-950/80 backdrop-blur-xl z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-outline-variant/15">
+<img alt="user profile picture" class="w-full h-full object-cover" data-alt="close up studio portrait of a smiling young man with dark hair and a friendly expression, soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGaobqAgvTXwRSMd1KrJNlvP285O9sbp75Qs60QvzGYuDqxQ_KCdx5gfBhj_daz70tHWcj0K1tVea8agRcyKXuC1FuaE-P8uwVsNJrqFyB1iKJ2e1BofGi5U6X7ksFQo3xgfi_sLbNDbS9vQqlFsjltZWH24xTLq7m6yMqrDznWXURFHk8Gcwn4ipr1jdPeTTtBllHQwgfTxJlVajT0J9XZ_mZyJOJrbYkk13qo9gpEO1FfNVAof_bws2-tU7XG0Uz8Qg5mJZQTWer"/>
+</div>
+<span class="text-xl font-bold text-[#2d6a4f] dark:text-[#52b788] Plus Jakarta Sans Display md tight tracking -0.02em">Takaş</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-[#5b605f] hover:bg-[#eceeed]/50 dark:hover:bg-zinc-800/50 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Editorial Section Title -->
+<div class="mb-8 ml-2">
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Messages</h1>
+<p class="text-on-surface-variant font-medium">Coordinate your next neighborhood swap</p>
+</div>
+<!-- Chat List - Bento Inspired Layout -->
+<div class="space-y-3">
+<!-- Active/Unread Chat Card -->
+<div class="relative group cursor-pointer">
+<div class="flex items-center gap-4 p-5 bg-surface-container-lowest rounded-2xl transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="avatar" class="w-full h-full object-cover" data-alt="professional headshot of a woman with a confident smile, warm lighting, outdoor setting with soft bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgc9fNNGb2fr7Vtyw--NMtgn0HlI8ZFqCnjIEzm34o4B_w8tCYgNO7jixjMGtayVLJqGGA5aDS74G0rdEzWqrsY-naf9fxXo57WOGgaJU4FjcjMlbbebMBi4TklzwjmEco4hNRS-HdxN61Tzc511683t9ncwv44uTPLCKuWs07kiub39u49C84R8tWC_DL_1q7-zkcyqytIAAa-ta-CeLWG66_1PCmqWjoD6ld5d41uBx55jB9bxHU59Kk0uIeo4oc8zAoiXuaoWS"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-primary border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-lg truncate">Ayşe Yılmaz</span>
+<span class="text-xs font-semibold text-primary">12:45</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-on-surface-variant text-sm font-medium truncate">Hey! Is the espresso machine still...</span>
+<span class="flex-shrink-0 bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 bg-tertiary-container text-on-tertiary-container text-[11px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Swap Offer Pending
+                            </span>
+</div>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden bg-surface-container border border-outline-variant/10">
+<img alt="item thumbnail" class="w-full h-full object-cover" data-alt="vintage style manual espresso machine on a kitchen counter, warm natural sunlight, matte finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-UIfc7TB5PRTwRHh6-qSwK8zoVKSpqfC-7CsR8SkN4AKb1fD9BXrLB66jgr28tJsTS-6GKRl50bcH0Uyrr3ZdGbCPcCQwuw46Z6v142l_wf4TFfGeNqhS9OwD5d8-_Ih1olFSl1IKgWhbykD_-m6V3-V_hVuum8h4q9Yz6gR0VLlcD7fIBt9WQ2P3tbD-kijQO8Cct5BtkfNHT6mKT5wvQOATFlpRatc-bCxvLBRJQJv4ovxRWC6Fw-wYkE7K2ixht83CKGkQpS4z"/>
+</div>
+</div>
+</div>
+<!-- Accepted/Completed Style -->
+<div class="relative group cursor-pointer">
+<div class="flex items-center gap-4 p-5 bg-surface-container rounded-2xl opacity-90 transition-all duration-200 hover:bg-surface-container-high">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="avatar" class="w-full h-full object-cover" data-alt="headshot of a middle-aged man with glasses, kind eyes, wearing a casual linen shirt, bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHcU4ZM7L4_jpeS7iCSXosBDxhe9iLuxJou7hlrCW2WbtEaS5SQ0gueZj1mRzHgNrKd4DFwk9qMFjrdGU20BV6aqdDqgWCgr_PF7DK9AT9LNI-jGv9mn_U7Zd1m3NgVvs4FMErpYAspX3HeyTZgo6p7RfkwdGkrV32E0q_0bZUhazBjMMK8Q5peGN87RoeBFbdYzB68VE11HhrFYPSmqxvSChLE2zDWL-jEdZANKXXRskEoiJRO-03eGPZDi8T1oCiuJKalUkIh2Lj"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-lg truncate">Can Aras</span>
+<span class="text-xs font-medium text-on-surface-variant">Yesterday</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-2 truncate">The bike works perfectly, thanks again!</p>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 bg-secondary-container text-on-secondary-container text-[11px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Accepted
+                            </span>
+</div>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden bg-surface-container border border-outline-variant/10 grayscale-[0.2]">
+<img alt="item thumbnail" class="w-full h-full object-cover" data-alt="modern road bicycle leaning against a textured urban wall, crisp morning light, high contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUf22NdDbB0M9umgSaPMdgPZMCrV_1ntcHH-mmY9ebRKXybvbABVZbYBc-p11l-5zNQI7rz57fKjGq6LIUMAyVbL2SCjGaaF85XioOH_rv3xTa4VXNHFIWUDZQF4g3_Y4oCcDIs_Bv9bVxN2yQolSHvzVApt7si24Fs-uHT8qGj-J9d9vk67GX6kYnWVpok9ra4rbeeztGTc078UYwSmogGwHhPgjLTXmbgv5673iarIpngCn9F_rBQ1TBUuOtW34GCkIifDrNJZEN"/>
+</div>
+</div>
+</div>
+<!-- Standard Chat Item -->
+<div class="relative group cursor-pointer">
+<div class="flex items-center gap-4 p-5 bg-surface-container-lowest rounded-2xl transition-all duration-200 hover:scale-[1.01]">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="avatar" class="w-full h-full object-cover" data-alt="close up portrait of a young woman with curly hair, natural look, soft side lighting from a window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWDomHMeSB927hchnjsYIeknb63wDrQF_DKzYUfZ8tVkN1dHCERJGOYgOt34CVY8t-QleN_t0olyXttL-wVUlQw_8HvjhL4oZITKOzNG3pYA1sjnogwrNumd0L3pgOIQKlTZcziGEEz2MEr6KZgF-p5gzGKVC8T5YLSqFUiZs8kLHdjhDTKj9HMdG6w5KijwLVQoFSG4mBMUdWGGCowpwiporKODewPDgYl63h_BXyUDv0wESU2mwb4ovA_ry7hLSCnWjBehJDz6PJ"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-lg truncate">Merve Günay</span>
+<span class="text-xs font-medium text-on-surface-variant">Monday</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-2 truncate">Are you interested in a plant swap for the...</p>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 bg-surface-container-highest text-on-surface-variant text-[11px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Inquiry
+                            </span>
+</div>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden bg-surface-container border border-outline-variant/10">
+<img alt="item thumbnail" class="w-full h-full object-cover" data-alt="aesthetic collection of indoor succulents in ceramic pots on a wooden shelf, bright minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxcX6RPUf_ZNUsxrPnPmpWEuV_xWB3BBKBBgpY7JhW145wusWxHQEv2iJFL4EwG1rM5f5PQu-8i6oAed9norQy-d6esT0gdiFRgjmkaT75iUjq8S_pH7RV5r0sxzp02jiFjSRqJBQsL0zc49DtCmnguJJ1cOq5JeMrVr4Oh7EKbTcxKU_qxM-dU53Hx-Bo-dWtQBPZ3cZLfo2v5Cbn2JiFLhpS16UPRi5lOWGzUDwVcPW3MCQeEb0hqH8JhgLKBR9XserdaTX6RvqI"/>
+</div>
+</div>
+</div>
+<!-- Newest Message Style -->
+<div class="relative group cursor-pointer">
+<div class="flex items-center gap-4 p-5 bg-surface-container-lowest rounded-2xl border-2 border-primary/10 shadow-sm transition-all duration-200 hover:scale-[1.01]">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="avatar" class="w-full h-full object-cover" data-alt="waist up shot of a man in a denim jacket standing in a sunlit garden, warm earthy tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu5ZbVpMwH5o9RhKFEVF73ZFvvZrnuwW_Ez4WmoovMT5bUxWsRMrYgqMXH_cizHmJIbii6zTeI9rrkIIVI7wMVkpmuFyLVS9CUAZ6XpVbPDq2Var155Nfi1BwvIHEDAEFXsi4quDuR2bZXlLnGtI9pYGSS-IrrwCkOhY9MXWrHo0VqE-tncG_aUz4KCCOOMoHMWIT1i5o6dC1wPbjfJ-U0HoDHKw89gQtX2iT5VUvOEbMGxjDrRunmqczN3vCUw1JRusqkTxasGSOg"/>
+</div>
+<div class="absolute -top-1 -right-1 w-5 h-5 bg-tertiary-container flex items-center justify-center rounded-full border-2 border-surface-container-lowest">
+<span class="text-[10px] font-bold text-on-tertiary-container">!</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-lg truncate">Bora Tekin</span>
+<span class="text-xs font-semibold text-primary">Just now</span>
+</div>
+<p class="text-on-surface font-semibold text-sm mb-2 truncate">New offer received: Film Camera</p>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 bg-primary-container text-on-primary-container text-[11px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                New Offer
+                            </span>
+</div>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden bg-surface-container border border-outline-variant/10">
+<img alt="item thumbnail" class="w-full h-full object-cover" data-alt="classic vintage 35mm film camera with a leather strap on a rustic wooden table, soft focus background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_NiTI_8rEFo3xfXUdneaBU9e0ZoiYm4Ep4narK5sNSiSPEuEhmvV7P_I1aau8x0tvs6SblisW4RrQqDROJgN0eW9_APSQbQeALsyG0jd9GtRGickJ5I8pgSWtQ_dcIgsCgZF2104vrfBBxvKHPGlMFvtX3qgi-H5pyosWYzZ_33XYAK5lFqPU-y9tmIy4c_KufS0Kay-hKIChucDkBmhqedMZDmvTRZw0eGOwfY1jsrhccdOGlzfklX8uhKtgPAa8u6695hAf2b8V"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#f9f9f8]/85 dark:bg-zinc-950/85 backdrop-blur-xl z-50 shadow-[0_-8px_24px_-4px_rgba(46,51,51,0.06)]">
+<div class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="explore">explore</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="map">map</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 text-3xl group-active:scale-90 duration-150" data-icon="add_circle">add_circle</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Swap</span>
+</div>
+<!-- ACTIVE TAB -->
+<div class="flex flex-col items-center justify-center bg-[#cffaed] dark:bg-[#1f5e44]/30 text-[#3b6158] dark:text-[#cffaed] rounded-full px-5 py-1.5 cursor-pointer">
+<span class="material-symbols-outlined mb-0.5" data-icon="chat_bubble" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Chats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="person">person</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Profile</span>
+</div>
+</nav>
+</body></html>

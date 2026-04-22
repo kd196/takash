@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'chat_controller.dart';
+import '../data/chat_repository.dart';
 import '../domain/chat_model.dart';
 import '../../../core/providers.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../shared/widgets/loading_indicator.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 
 /// Sohbet listesi ekranı — Tüm aktif konuşmalar burada listelenir
 class ChatListScreen extends ConsumerWidget {
@@ -31,10 +31,8 @@ class ChatListScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TakashIcon(
-                      assetName: TakashIcon.chatBubble,
-                      size: 64,
-                      color: colorScheme.outline),
+                  Icon(Icons.chat_bubble_outline_rounded,
+                      size: 64, color: colorScheme.outline),
                   const SizedBox(height: 16),
                   Text(
                     'Henüz bir sohbetiniz yok',
@@ -61,7 +59,6 @@ class ChatListScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final chat = chats[index];
 
-              // Karşı tarafın bilgilerini bul (Katılımcılardan kendimiz olmayanı seçiyoruz)
               final otherUserId =
                   chat.participants.firstWhere((id) => id != currentUserId);
               final otherUserDetails =
@@ -69,119 +66,148 @@ class ChatListScreen extends ConsumerWidget {
               final otherUserName = otherUserDetails?['name'] ?? 'Kullanıcı';
               final otherUserPhoto = otherUserDetails?['photo'];
 
-              return ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                leading: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (chat.listingThumbnailUrl != null)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: CachedNetworkImage(
-                          imageUrl: chat.listingThumbnailUrl!,
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
+              return Dismissible(
+                key: Key(chat.id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 20),
+                  child: const Icon(Icons.delete, color: Colors.white),
+                ),
+                confirmDismiss: (direction) async {
+                  return await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Sohbeti Sil'),
+                      content: const Text(
+                          'Bu sohbeti listenizden kaldırmak istediğinize emin misiniz?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: const Text('İptal'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('Sil',
+                              style: TextStyle(color: Colors.red)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                onDismissed: (direction) {
+                  ref
+                      .read(chatRepositoryProvider)
+                      .deleteChatForUser(chat.id, currentUserId);
+                },
+                child: ListTile(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  leading: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (chat.listingThumbnailUrl != null)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: CachedNetworkImage(
+                            imageUrl: chat.listingThumbnailUrl!,
                             width: 32,
                             height: 32,
-                            color: colorScheme.surfaceContainerHighest,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            width: 32,
-                            height: 32,
-                            color: colorScheme.surfaceContainerHighest,
-                            child: const TakashIcon(
-                                assetName: TakashIcon.imageOff, size: 16),
-                          ),
-                        ),
-                      ),
-                    if (chat.listingThumbnailUrl != null)
-                      const SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: colorScheme.primaryContainer,
-                      backgroundImage: otherUserPhoto != null
-                          ? CachedNetworkImageProvider(otherUserPhoto)
-                          : null,
-                      child: otherUserPhoto == null
-                          ? TakashIcon(
-                              assetName: TakashIcon.person,
-                              color: colorScheme.onPrimaryContainer,
-                              size: 20)
-                          : null,
-                    ),
-                  ],
-                ),
-                title: Text(
-                  otherUserName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (chat.listingTitle != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2, bottom: 2),
-                        child: Text(
-                          '📦 ${chat.listingTitle}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    Text(
-                      chat.lastMessage,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: colorScheme.onSurfaceVariant),
-                    ),
-                  ],
-                ),
-                trailing: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      Helpers.timeAgo(chat.lastMessageAt),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(fontSize: 11),
-                    ),
-                    if (chat.offerStatus != OfferStatus.pending)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: _getOfferStatusColor(chat.offerStatus),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            _getOfferStatusLabel(chat.offerStatus),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              width: 32,
+                              height: 32,
+                              color: colorScheme.surfaceContainerHighest,
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              width: 32,
+                              height: 32,
+                              color: colorScheme.surfaceContainerHighest,
+                              child: const Icon(
+                                  Icons.image_not_supported_rounded,
+                                  size: 16),
                             ),
                           ),
                         ),
+                      if (chat.listingThumbnailUrl != null)
+                        const SizedBox(width: 8),
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: colorScheme.primaryContainer,
+                        backgroundImage: otherUserPhoto != null
+                            ? CachedNetworkImageProvider(otherUserPhoto)
+                            : null,
+                        child: otherUserPhoto == null
+                            ? Icon(Icons.person_rounded,
+                                color: colorScheme.onPrimaryContainer, size: 20)
+                            : null,
                       ),
-                  ],
+                    ],
+                  ),
+                  title: Text(otherUserName,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (chat.listingTitle != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2, bottom: 2),
+                          child: Text(
+                            '📦 ${chat.listingTitle}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: colorScheme.primary,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      Text(
+                        chat.lastMessage,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(Helpers.timeAgo(chat.lastMessageAt),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(fontSize: 11)),
+                      if (chat.offerStatus != OfferStatus.pending)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: _getOfferStatusColor(chat.offerStatus),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              _getOfferStatusLabel(chat.offerStatus),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  onTap: () {
+                    ref
+                        .read(chatControllerProvider.notifier)
+                        .markMessagesAsRead(chat.id, currentUserId);
+                    context.push('/chat/${chat.id}');
+                  },
                 ),
-                onTap: () {
-                  ref
-                      .read(chatControllerProvider.notifier)
-                      .markMessagesAsRead(chat.id, currentUserId);
-                  context.push('/chat/${chat.id}');
-                },
               );
             },
           );

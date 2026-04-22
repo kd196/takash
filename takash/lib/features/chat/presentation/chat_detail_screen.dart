@@ -18,7 +18,6 @@ import '../../profile/data/rating_repository.dart';
 import '../../listings/data/listing_repository.dart';
 import '../../listings/presentation/listings_controller.dart';
 import '../../listings/domain/listing_category.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 
 class ChatDetailScreen extends ConsumerStatefulWidget {
   final String chatId;
@@ -91,13 +90,17 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   Future<void> _pickImage() async {
-    final currentUser = ref
-        .read(userDataProvider(ref.read(authStateProvider).value?.uid ?? ''))
-        .value;
-
-    if (currentUser != null && currentUser.totalImageCount >= 3) {
-      _showLimitDialog();
-      return;
+    final chat = ref
+        .watch(userChatsProvider)
+        .value
+        ?.firstWhere((c) => c.id == widget.chatId);
+    final currentUser = ref.read(authStateProvider).value;
+    if (chat != null && currentUser != null) {
+      final myImageCount = chat.imageCountPerUser[currentUser.uid] ?? 0;
+      if (myImageCount >= 3) {
+        _showLimitDialog();
+        return;
+      }
     }
 
     final XFile? image = await _picker.pickImage(
@@ -157,9 +160,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('📸 Hesap Resim Sınırı'),
+        title: const Text('📸 Resim Sınırı'),
         content: const Text(
-          'Hesap başı 3 resim sınırına ulaştınız. Premium ile sınırsız gönderim yakında!',
+          'Bu sohbette 3 resim sınırına ulaştınız. Premium ile sınırsız gönderim yakında!',
         ),
         actions: [
           TextButton(
@@ -217,7 +220,6 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             children: [
               const Text('Diğer kullanıcıyı puanla:'),
               const SizedBox(height: 16),
-              // ── TAŞMA YAPMAYAN YILDIZ SATIRI ──
               Wrap(
                 alignment: WrapAlignment.center,
                 children: List.generate(5, (index) {
@@ -465,10 +467,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         child: Row(
           children: [
             IconButton(
-              icon: TakashIcon(
-                  assetName: TakashIcon.addPhoto,
-                  color: colorScheme.primary,
-                  size: 28),
+              icon: Icon(Icons.add_photo_alternate_rounded,
+                  color: colorScheme.primary, size: 28),
               onPressed: _pickImage,
             ),
             Expanded(
@@ -504,10 +504,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 customBorder: const CircleBorder(),
                 child: const Padding(
                   padding: EdgeInsets.all(12),
-                  child: TakashIcon(
-                      assetName: TakashIcon.send,
-                      color: Colors.white,
-                      size: 22),
+                  child:
+                      Icon(Icons.send_rounded, color: Colors.white, size: 22),
                 ),
               ),
             ),
@@ -827,15 +825,15 @@ class _ChatDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
                     width: 40,
                     height: 40,
                     color: colorScheme.surfaceContainerHighest,
-                    child: const TakashIcon(
-                        assetName: TakashIcon.imageOff, size: 20),
+                    child:
+                        const Icon(Icons.image_not_supported_rounded, size: 20),
                   ),
                   errorWidget: (context, url, error) => Container(
                     width: 40,
                     height: 40,
                     color: colorScheme.surfaceContainerHighest,
-                    child: const TakashIcon(
-                        assetName: TakashIcon.imageOff, size: 20),
+                    child:
+                        const Icon(Icons.image_not_supported_rounded, size: 20),
                   ),
                 ),
               ),
@@ -874,14 +872,14 @@ class _ChatDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (listingId != null)
           IconButton(
-            icon: const TakashIcon(assetName: TakashIcon.info, size: 22),
+            icon: const Icon(Icons.info_outline_rounded, size: 22),
             onPressed: onTapListing,
             tooltip: 'İlana Git',
           ),
         if (onCompleteExchange != null)
           TextButton.icon(
             onPressed: onCompleteExchange,
-            icon: const TakashIcon(assetName: TakashIcon.checkCircle, size: 20),
+            icon: const Icon(Icons.check_circle_outline_rounded, size: 20),
             label: const Text('Takası Bitir'),
             style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
           ),

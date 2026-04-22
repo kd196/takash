@@ -1,7 +1,9 @@
 import 'dart:developer' as developer;
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/user_model.dart';
@@ -142,5 +144,55 @@ class AuthRepository {
       return UserModel.fromJson(doc.data()!);
     }
     return null;
+  }
+
+  Future<void> updatePrivacySettings({
+    required String uid,
+    bool? isLocationShared,
+    String? profileVisibility,
+  }) async {
+    final updates = <String, dynamic>{};
+    if (isLocationShared != null) {
+      updates['isLocationShared'] = isLocationShared;
+    }
+    if (profileVisibility != null) {
+      updates['profileVisibility'] = profileVisibility;
+    }
+    if (updates.isNotEmpty) {
+      await _firestore.collection('users').doc(uid).update(updates);
+    }
+  }
+
+  Future<void> deleteAccount(String uid, String password) async {
+    final user = _auth.currentUser;
+    if (user == null) throw Exception('Kullanıcı giriş yapmamış');
+
+    final credential = EmailAuthProvider.credential(
+      email: user.email ?? '',
+      password: password,
+    );
+    await user.reauthenticateWithCredential(credential);
+
+    final batch = _firestore.batch();
+
+    final userDocRef = _firestore.collection('users').doc(uid);
+    batch.delete(userDocRef);
+
+    final listingsSnapshot = await _firestore
+        .collection('listings')
+        .where('ownerId', isEqualTo: uid)
+        .get();
+    for (final doc in listingsSnapshot.docs) {
+      batch.delete(doc.reference);
+    }
+
+    await batch.commit();
+
+    try {
+      final storage = FirebaseStorage.instance;
+      await storage.ref('profile_photos/$uid').delete();
+    } catch (_) {}
+
+    await user.delete();
   }
 }

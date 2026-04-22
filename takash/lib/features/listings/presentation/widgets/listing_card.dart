@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:takash/features/map/data/location_service.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 import '../../domain/listing_model.dart';
 import '../../domain/listing_category.dart';
 import '../listings_controller.dart';
@@ -89,18 +88,14 @@ class ListingCard extends ConsumerWidget {
                                 ),
                                 errorWidget: (_, __, ___) => Container(
                                   color: colorScheme.surfaceContainerHighest,
-                                  child: TakashIcon(
-                                      assetName: TakashIcon.imageOff,
-                                      size: 40,
-                                      color: colorScheme.outline),
+                                  child: Icon(Icons.image_not_supported_rounded,
+                                      size: 40, color: colorScheme.outline),
                                 ),
                               )
                             : Container(
                                 color: colorScheme.surfaceContainerHighest,
-                                child: TakashIcon(
-                                    assetName: TakashIcon.imageOff,
-                                    size: 40,
-                                    color: colorScheme.outline),
+                                child: Icon(Icons.image_not_supported_rounded,
+                                    size: 40, color: colorScheme.outline),
                               ),
                       ),
                     ),
@@ -134,10 +129,8 @@ class ListingCard extends ConsumerWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              TakashIcon(
-                                  assetName: TakashIcon.photoLibrary,
-                                  size: 13,
-                                  color: Colors.white),
+                              Icon(Icons.photo_library_outlined,
+                                  size: 13, color: Colors.white),
                               const SizedBox(width: 3),
                               Text(
                                 '${listing.imageUrls.length}',
@@ -176,10 +169,10 @@ class ListingCard extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          child: TakashIcon(
-                            assetName: isFavorite
-                                ? TakashIcon.favoriteActive
-                                : TakashIcon.favoriteInactive,
+                          child: Icon(
+                            isFavorite
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_border_rounded,
                             color: isFavorite ? Colors.white : Colors.grey[700],
                             size: 18,
                           ),
@@ -253,10 +246,8 @@ class ListingCard extends ConsumerWidget {
                         child: Row(
                           children: [
                             if (distanceText != null) ...[
-                              TakashIcon(
-                                  assetName: TakashIcon.locationOn,
-                                  size: 12,
-                                  color: colorScheme.outline),
+                              Icon(Icons.location_on_rounded,
+                                  size: 12, color: colorScheme.outline),
                               const SizedBox(width: 2),
                               Text(
                                 distanceText,

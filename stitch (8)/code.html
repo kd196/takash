@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Takaş - Keşfet</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#bdcac0",
+                    "primary-fixed": "#92f7c3",
+                    "on-primary-fixed": "#002113",
+                    "surface": "#131315",
+                    "on-secondary": "#003824",
+                    "surface-container-highest": "#353437",
+                    "primary-fixed-dim": "#75daa8",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#95d4b3",
+                    "surface-tint": "#75daa8",
+                    "surface-container-high": "#2a2a2c",
+                    "tertiary": "#ffb3b3",
+                    "background": "#131315",
+                    "on-secondary-fixed-variant": "#0e5138",
+                    "inverse-surface": "#e5e1e4",
+                    "outline-variant": "#3e4942",
+                    "surface-dim": "#131315",
+                    "secondary-container": "#12533a",
+                    "on-secondary-fixed": "#002114",
+                    "on-tertiary-container": "#6c1f26",
+                    "outline": "#88948b",
+                    "on-primary": "#003823",
+                    "surface-container-low": "#1c1b1d",
+                    "surface-variant": "#353437",
+                    "primary-container": "#52b788",
+                    "tertiary-fixed": "#ffdad9",
+                    "secondary-fixed": "#b1f0ce",
+                    "on-tertiary-fixed": "#40000a",
+                    "on-secondary-container": "#87c6a5",
+                    "inverse-on-surface": "#313032",
+                    "on-tertiary": "#5e141c",
+                    "tertiary-fixed-dim": "#ffb3b3",
+                    "tertiary-container": "#f18689",
+                    "primary": "#75daa8",
+                    "secondary": "#95d4b3",
+                    "surface-bright": "#39393b",
+                    "on-tertiary-fixed-variant": "#7c2b31",
+                    "on-primary-container": "#00442c",
+                    "surface-container": "#201f22",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-primary-fixed-variant": "#005235",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e1e4",
+                    "inverse-primary": "#006c48",
+                    "on-surface": "#e5e1e4",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift { background-color: rgba(28, 27, 29, 0.5); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 flex justify-between items-center px-4 h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant/30">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional studio headshot of a smiling young man with clean haircut, soft cinematic lighting, dark neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqULxiefZzCsUcN8Frhl-Axfe2szOZ8SvXij5sVn__NQO1itQxzv2OzIu65AWE5cYgpns26sxPAHR3p8O5Re8xl40cVe0glwPfUX4N5wUFUtdS0oaYb-Zs2HzvzqWAjeiPUdUn2FWv0AmxsKfG6WFb5wHmNIYXeRApxU5g-i8urN5XsKWsoNQkPEAJlwrN-erQC3kTupuw-qGG3oLR4HFa0U3hUcxKTIJbVeBK49Ysb6ERAI_1_pXvOMwLUeHDRa1RTVxwMltHGr82"/>
+</div>
+<span class="text-xl font-bold text-emerald-400 font-['Plus_Jakarta_Sans'] tracking-tight">Takaş</span>
+</div>
+<button class="text-zinc-400 hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</header>
+<main class="pt-20 px-4 max-w-5xl mx-auto">
+<!-- Search Section -->
+<section class="mb-8">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all placeholder:text-outline/60 text-body-lg" placeholder="Eşya veya kategori ara..." type="text"/>
+</div>
+</section>
+<!-- Category Filters -->
+<section class="mb-10 overflow-x-auto no-scrollbar -mx-4 px-4 flex gap-3">
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-primary text-on-primary font-semibold text-sm transition-all hover:brightness-110 active:scale-95">Hepsi</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm border border-outline-variant/10 hover:bg-surface-container-highest transition-colors active:scale-95">Elektronik</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm border border-outline-variant/10 hover:bg-surface-container-highest transition-colors active:scale-95">Giyim</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm border border-outline-variant/10 hover:bg-surface-container-highest transition-colors active:scale-95">Ev &amp; Bahçe</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm border border-outline-variant/10 hover:bg-surface-container-highest transition-colors active:scale-95">Kitap</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm border border-outline-variant/10 hover:bg-surface-container-highest transition-colors active:scale-95">Spor</button>
+</section>
+<!-- Main Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Item Card 1 -->
+<div class="group bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-300">
+<div class="relative aspect-[4/3]">
+<img alt="Vintage Camera" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of a vintage analog film camera on a dark wooden surface, dramatic mood lighting with soft emerald accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0hvXsb4zt2Welai9gO7oylyMR9dm2OJ3CvRiD-b-fIq6kDdPI7RWXkn9qHfR-tukL-UMv8XUgglJDm9LOoYYziDo0rLbLdSLOPViNECIRz5onZxBeQO8QwMjOxmnt65vK7UUad1QdkqJ0D1HQ1D0Ocom2VDMUJ5KCHbd-RO1jZTJErAbPET2UaDRFbokBwicKBRwPQ-lv9jTghAs-vbep0Gdufk2NQIzKD_UISWhKXK_EQPpMVkCMikmvgN54milpChNmuTDVqT73"/>
+<div class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 text-xs font-bold text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+                        4.9
+                    </div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-on-surface leading-tight">Fujifilm X-T30 Kit</h3>
+<span class="text-outline text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                            1.2 km
+                        </span>
+</div>
+<div class="mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                            ARANAN: Playstation 5
+                        </span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-zinc-800 overflow-hidden">
+<img alt="Owner" class="w-full h-full object-cover" data-alt="Portrait of a young creative man with glasses, professional soft lighting, minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0LdVc_i3RIJseL8K1wNhzvrw1-M3p2QQnIzRezynL4X-_8sQnJAUA4WNvkZ0aMOjnS9lZLLClWU-FdNjwvDWH6eUC25mB7GYzbO3kEdqpjyPgi7u1U1v9Ow2IHJzZZJgBp8ipwHtpIPbTtbDLxMeQrBepvUJzhZGHYEEphLZltlc8qRBkJcqqz_ptbki6zQQcyA0eYBFOhvvxUA23nt-g6LhnQvYVzciv3OUfZJd0M3dmsbMCLWAhVt5lyC1b1Y-bVuwENu0zuLwB"/>
+</div>
+<span class="text-xs text-on-surface-variant">Caner S.</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Teklif Yap <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 2 -->
+<div class="group bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-300">
+<div class="relative aspect-[4/3]">
+<img alt="Designer Watch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist luxury wristwatch on a dark slate background, crisp lighting showing elegant details and metallic textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbWKI8_UupdaFOHvSX8jXlJBaDB7OQqHuiKmTmHs2-UvR1U3-RTXwIcorPwA1feYVaDx75j3Xmsa-5JrS03S7VIULrh09NtOHCKxI_IY0LV9--CFOiAjDQDl1WsMgynxUKD1sPk_fTEh0BVLDrKCy3tSLmR0OvoucSAo2mbWYOCnf329Qn3VdN3aRa_H7SW5xDC2S-9YSk5xa-rpLEFdhNtbJIR0LkNTpXIEYYG3bcOrVTwitGfoBVSxY6DSGZzOZP_oxTgRdA3Szw"/>
+<div class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 text-xs font-bold text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+                        4.7
+                    </div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-on-surface leading-tight">Minimalist Saat</h3>
+<span class="text-outline text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                            0.5 km
+                        </span>
+</div>
+<div class="mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                            ARANAN: Mekanik Klavye
+                        </span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-zinc-800 overflow-hidden">
+<img alt="Owner" class="w-full h-full object-cover" data-alt="Studio portrait of a confident woman, warm glowing skin, dark elegant background, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnKkhOmYnEGYSK05OW-rAlGj0u70u7zD2rJ0_C5QY5IZZaFaH2w9mNRj7XJX9wOeWuc9bqkNAZBKY71yQdNJ05K8y26KDfdRMw6PQW_n0BQ3xXoJKS4BP7oOr8k7BvxCHvmNXqO2pR0KbqOTghiqbH_xHQ74q9JFK3XG2mwxxb53gK6En0FDsxznohryAis8C0sWKOpylyb6jKNj5s-ewlsVmeIUfUzf6R3HJ2t9LSouIu1ReqbVALqBRCSU3wJ1hGs59UB_aKUXXo"/>
+</div>
+<span class="text-xs text-on-surface-variant">Zeynep K.</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Teklif Yap <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 3 -->
+<div class="group bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-300">
+<div class="relative aspect-[4/3]">
+<img alt="Red Sneakers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Bright red high-top sneakers on a dark textured pavement, cinematic urban lighting, high contrast visual" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuGkwKndQNZujhb10VEFU4nO9YtDZy3cW2LHYUyaCEkuQwcEraRzAG_3ZE1uNJ2wtXvOqUGl8TDR2QeuERFu5Tp8stoCqWKSY2ok-h1u97TWC7QrSZ0L81u1Y91Y78rB8K5gHerJyr1deHL7QMC6Jq4_p3Cp2kPP9pvOr5hlE0o96NaBR6FrNvTo5TcmEYeS0UqkSdJ-UJ8s3OrBGfru1sCbv_Ty1NYR7fGIgOEPjpib6OBuY__noht0ph0xl6TUwlk-4d6TysTrrj"/>
+<div class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 text-xs font-bold text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+                        4.8
+                    </div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-on-surface leading-tight">Limited Edition Nike</h3>
+<span class="text-outline text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                            3.4 km
+                        </span>
+</div>
+<div class="mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                            ARANAN: Nintendo Switch
+                        </span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-zinc-800 overflow-hidden">
+<img alt="Owner" class="w-full h-full object-cover" data-alt="Close-up of a stylish man with a beard, natural daylight, urban background blurred" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRozyQM-z0YxfZUzNUXig7zAwOLwYTSv45XuG7pdNRsFnJ1rcmOuUYKedNrMMyB8okKMoYXqP0ah5nsNs7foaJ7yEPY_p6wJMKdnhwOwPN4LAjlEVhZL3MelEYdWWN6k41I9lgZMHiMADe4m3eVQSbp0xBVs6BIKC-Bz1JqdBJAnZvhCyUldd4iqMDmLTJWLPDJGvSF8oTTloAXmslTr1KKZWJZIsz1b2ZdGp__0LVifFnEPhryvfAwhYQcZzPatFyBzCDrKfqEr1F"/>
+</div>
+<span class="text-xs text-on-surface-variant">Arda M.</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Teklif Yap <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 4 -->
+<div class="group bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-300">
+<div class="relative aspect-[4/3]">
+<img alt="Smartphone" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Sleek modern smartphone glowing on a dark metallic surface, elegant reflections, high-tech aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU80xE8K_VqYtZ_wxmRwo9wnAZU666ldwFIN7cKUbpJxXJO9Avq5yShe-Lj17df9CfDjfiheCM0tqA_YS_zJjtD4TQ2Kz0SKH3dcqLIdxhm4HzjIOtJPpbIcF_HLvA41Z-ds6lAKNh0gtNPzJUWPIbHnYQnfidqGGEB7qywar9BXT_PqUTFeLVmssB56wleWsuaIanc16wGxZJBtWS2NmBRO1ScIvzv7K62FFZanOPeNp7WB0DH3xhmufE_o1xL3H-BLAjLu-XO7EB"/>
+<div class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 text-xs font-bold text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+                        5.0
+                    </div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-on-surface leading-tight">iPhone 13 Mini 128GB</h3>
+<span class="text-outline text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                            0.8 km
+                        </span>
+</div>
+<div class="mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                            ARANAN: iPad Pro / Air
+                        </span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-zinc-800 overflow-hidden">
+<img alt="Owner" class="w-full h-full object-cover" data-alt="Portrait of a young artistic woman with short hair, soft side lighting, moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLkc2q7E7aT4_nb38-oPIzhykkPn4cDs_pWLe5t-w8_01VenFfjHSgnmKkZmlpb4Qro_iUOxReiodwQviYW1zFzx6C2JpbtxCdsqrOS0TSzbH8dthMb_nfsTDJ8SjMgIFXAPnMw_sUspZGczQWpsDTsck6Eoa8fpZrLa_CLepUW4R_sDsXbHZ3avmfvLoqxm_k4PocSxffo06L2eYss6vSI-aApv7wWkmYoWUT3dbFY97gaQ-kEKc-GMw-xAGlWBllH-kqTwg0WTFc"/>
+</div>
+<span class="text-xs text-on-surface-variant">Melis V.</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Teklif Yap <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button (Suppressed on this sub-page if not primary, but added for "New Swap" intent if needed) -->
+<!-- Not rendered as per shell logic suppression for focused search/explore -->
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-3 pb-safe bg-zinc-950/90 backdrop-blur-lg rounded-t-2xl z-50 shadow-[0_-4px_20px_rgba(82,183,136,0.05)]">
+<a class="flex flex-col items-center justify-center text-emerald-400 bg-emerald-500/10 rounded-xl px-3 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-4xl text-emerald-400" data-icon="add_circle">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Swap</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Chats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

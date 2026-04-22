@@ -23,6 +23,7 @@ import '../features/profile/presentation/public_profile_screen.dart';
 import '../features/profile/presentation/settings_screen.dart';
 import '../features/profile/presentation/change_email_screen.dart';
 import '../features/profile/presentation/change_password_screen.dart';
+import '../features/profile/presentation/privacy_policy_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
@@ -82,15 +83,6 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/',
                 builder: (context, state) => const HomeScreen(),
-                routes: [
-                  GoRoute(
-                    path: 'listing/:id',
-                    builder: (context, state) {
-                      final id = state.pathParameters['id']!;
-                      return ListingDetailScreen(listingId: id);
-                    },
-                  ),
-                ],
               ),
             ],
           ),
@@ -143,6 +135,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
+        path: '/listing/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return ListingDetailScreen(listingId: id);
+        },
+      ),
+      GoRoute(
         path: '/edit-listing/:id',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
@@ -163,6 +162,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/change-password',
         builder: (context, state) => const ChangePasswordScreen(),
+      ),
+      GoRoute(
+        path: '/privacy-policy',
+        builder: (context, state) => const PrivacyPolicyScreen(),
       ),
     ],
   );

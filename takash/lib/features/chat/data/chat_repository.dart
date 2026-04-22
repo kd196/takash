@@ -67,7 +67,7 @@ class ChatRepository {
     }
   }
 
-  /// Kullanıcının tüm sohbetlerini dinle
+  /// Kullanıcının tüm sohbetlerini dinle (gizlenmemiş olanlar)
   Stream<List<ChatModel>> getUserChats(String userId) {
     return _firestore
         .collection('chats')
@@ -76,6 +76,7 @@ class ChatRepository {
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => ChatModel.fromJson(doc.data(), doc.id))
+            .where((chat) => !chat.hiddenFor.contains(userId))
             .toList());
   }
 
@@ -150,18 +151,19 @@ class ChatRepository {
     }
   }
 
-  /// Resim mesajı gönder (Global Limit Kontrolü - Hesap Başına 3 Resim)
+  /// Resim mesajı gönder (Sohbet Başına Kullanıcı Başına 3 Resim Limiti)
   Future<void> sendImageMessage(
       String chatId, File imageFile, String senderId) async {
-    final userRef = _firestore.collection('users').doc(senderId);
+    final chatRef = _firestore.collection('chats').doc(chatId);
+    final chatDoc = await chatRef.get();
 
-    // 1. Hesap Başına Limit Kontrolü
-    final userDoc = await userRef.get();
-    final totalImageCount = userDoc.data()?['totalImageCount'] ?? 0;
+    final imageCountPerUser =
+        Map<String, int>.from(chatDoc.data()?['imageCountPerUser'] ?? {});
+    final myImageCount = imageCountPerUser[senderId] ?? 0;
 
-    if (totalImageCount >= 3) {
+    if (myImageCount >= 3) {
       throw Exception(
-          '📸 Hesap başına resim sınırına ulaştınız (Max 3). Sınırsız gönderim için Premium çok yakında!');
+          '📸 Bu sohbette resim sınırına ulaştınız (Max 3). Sınırsız gönderim için Premium çok yakında!');
     }
 
     final messageId = const Uuid().v4();
@@ -186,16 +188,12 @@ class ChatRepository {
     );
 
     final batch = _firestore.batch();
-    final chatRef = _firestore.collection('chats').doc(chatId);
 
     batch.set(chatRef.collection('messages').doc(messageId), message.toJson());
     batch.update(chatRef, {
       'lastMessage': '📷 Fotoğraf',
       'lastMessageAt': Timestamp.fromDate(now),
-    });
-    // Kullanıcının toplam resim sayısını artır
-    batch.update(userRef, {
-      'totalImageCount': FieldValue.increment(1),
+      'imageCountPerUser.$senderId': FieldValue.increment(1),
     });
 
     await batch.commit();
@@ -212,11 +210,11 @@ class ChatRepository {
 
     batch.delete(messageRef);
 
-    // Eğer silinen mesaj bir resimse, kullanıcının limit hakkını iade et
+    // Eğer silinen mesaj bir resimse, kullanıcının sohbet bazlı resim hakkını iade et
     if (message.type == MessageType.image) {
-      final userRef = _firestore.collection('users').doc(message.senderId);
-      batch.update(userRef, {
-        'totalImageCount': FieldValue.increment(-1),
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      batch.update(chatRef, {
+        'imageCountPerUser.${message.senderId}': FieldValue.increment(-1),
       });
     }
 
@@ -403,6 +401,32 @@ class ChatRepository {
       await batch.commit();
     } catch (e) {
       debugPrint('=== completeTrade HATASI === chatId: $chatId, hata: $e');
+      rethrow;
+    }
+  }
+
+  /// Sohbeti sadece bu kullanıcı için gizle (soft delete)
+  Future<void> deleteChatForUser(String chatId, String userId) async {
+    try {
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      await chatRef.update({
+        'hiddenFor': FieldValue.arrayUnion([userId]),
+      });
+    } catch (e) {
+      debugPrint('=== deleteChatForUser HATASI === chatId: $chatId, hata: $e');
+      rethrow;
+    }
+  }
+
+  /// Sohbeti tekrar görünür yap (hiddenFor'dan kaldır)
+  Future<void> unhideChatForUser(String chatId, String userId) async {
+    try {
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      await chatRef.update({
+        'hiddenFor': FieldValue.arrayRemove([userId]),
+      });
+    } catch (e) {
+      debugPrint('=== unhideChatForUser HATASI === chatId: $chatId, hata: $e');
       rethrow;
     }
   }

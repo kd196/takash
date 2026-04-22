@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/providers.dart';
 
@@ -38,6 +39,12 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       final user = auth.currentUser;
       if (user == null) return;
 
+      final credential = EmailAuthProvider.credential(
+        email: user.email ?? '',
+        password: _currentPasswordController.text.trim(),
+      );
+      await user.reauthenticateWithCredential(credential);
+
       await user.updatePassword(_newPasswordController.text.trim());
 
       if (mounted) {
@@ -52,7 +59,10 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     } catch (e) {
       if (mounted) {
         String message = 'Bir hata oluştu';
-        if (e.toString().contains('requires-recent-login')) {
+        if (e.toString().contains('wrong-password') ||
+            e.toString().contains('invalid-credential')) {
+          message = 'Mevcut şifre yanlış';
+        } else if (e.toString().contains('requires-recent-login')) {
           message = 'Bu işlem için yeniden giriş yapmanız gerekiyor';
         } else if (e.toString().contains('weak-password')) {
           message = 'Şifre çok zayıf (en az 6 karakter)';

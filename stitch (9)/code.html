@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#bdcac0",
+                    "primary-fixed": "#92f7c3",
+                    "on-primary-fixed": "#002113",
+                    "surface": "#131315",
+                    "on-secondary": "#003824",
+                    "surface-container-highest": "#353437",
+                    "primary-fixed-dim": "#75daa8",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#95d4b3",
+                    "surface-tint": "#75daa8",
+                    "surface-container-high": "#2a2a2c",
+                    "tertiary": "#ffb3b3",
+                    "background": "#131315",
+                    "on-secondary-fixed-variant": "#0e5138",
+                    "inverse-surface": "#e5e1e4",
+                    "outline-variant": "#3e4942",
+                    "surface-dim": "#131315",
+                    "secondary-container": "#12533a",
+                    "on-secondary-fixed": "#002114",
+                    "on-tertiary-container": "#6c1f26",
+                    "outline": "#88948b",
+                    "on-primary": "#003823",
+                    "surface-container-low": "#1c1b1d",
+                    "surface-variant": "#353437",
+                    "primary-container": "#52b788",
+                    "tertiary-fixed": "#ffdad9",
+                    "secondary-fixed": "#b1f0ce",
+                    "on-tertiary-fixed": "#40000a",
+                    "on-secondary-container": "#87c6a5",
+                    "inverse-on-surface": "#313032",
+                    "on-tertiary": "#5e141c",
+                    "tertiary-fixed-dim": "#ffb3b3",
+                    "tertiary-container": "#f18689",
+                    "primary": "#75daa8",
+                    "secondary": "#95d4b3",
+                    "surface-bright": "#39393b",
+                    "on-tertiary-fixed-variant": "#7c2b31",
+                    "on-primary-container": "#00442c",
+                    "surface-container": "#201f22",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-primary-fixed-variant": "#005235",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e1e4",
+                    "inverse-primary": "#006c48",
+                    "on-surface": "#e5e1e4",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift { background-color: rgba(28, 27, 29, 0.5); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 fixed top-0 w-full z-50 flex justify-between items-center px-4 h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="high-end editorial portrait of a confident young woman with soft cinematic lighting and dark studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgYsTowfikFyVnsuTwHvrnonzJTMJMwamQulu8Y06AlVFjjd4sHXZZAaMQPXRefrb-8P0qwK8mB2rLDKgG6iKYgM6WAbf7_WULbpgVU0z-GgBtVGXBSSCT5aQ-F2Hpl9QN08SO7yOIzV2wa0CbfV8KBOhtHPuepRcJz_IxbKv-R9AWltRVqb522ZhVvF_o9U2eRMclIfFAszcwTsYGm3SCxxHe63fjzBe5R86mTkqxrV-GYVCyukVsSo0B0u_q4d7QhsI9MRV15l79"/>
+</div>
+<span class="text-xl font-bold text-emerald-400 font-['Plus_Jakarta_Sans'] tracking-tight">Takaş</span>
+</div>
+<button class="text-zinc-400 hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-20 px-4 max-w-2xl mx-auto">
+<div class="flex flex-col gap-1 mb-6">
+<h1 class="text-2xl font-bold tracking-tight text-on-surface">Sohbetler</h1>
+<p class="text-sm text-on-surface-variant">Aktif takas görüşmeleriniz ve mesajlarınız.</p>
+</div>
+<!-- Search Bar (Custom Component) -->
+<div class="mb-6 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant focus:ring-1 focus:ring-primary transition-all" placeholder="Sohbetlerde ara..." type="text"/>
+</div>
+<!-- Chat List -->
+<div class="flex flex-col space-y-3">
+<!-- Chat Item: Accepted -->
+<div class="group bg-surface-container-low hover:bg-surface-container-high transition-all duration-300 rounded-2xl p-4 cursor-pointer relative overflow-hidden">
+<div class="flex gap-4 items-center">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Contact" class="w-full h-full object-cover" data-alt="professional portrait of a middle-aged man with kind expression, dark background, moody cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGum6FWbwomQKJoSgw4T4l4pyYegaXoK4PPc5lg6-1alZe8tuI7FGlra5srYlfhFg8KPJHK_3--MT0Y_3Tq05dAyJXlyjatdRzbyrOXBnbe9R5QLx6NoAbidqavxv-UTgklaSEKYtu0DMLsK9YbSSmWH3IHWlfYy34hr6EOTg_s-gTuiJVrCTCHclc2PZt8YK5pOdfSgNwDl5UYXiNY1Krg2Aj0A1ZCEFBIkt9lX3ojMfFY1eYdrlU-4F9rO-R3BwBZKzceAAmzQbh"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-primary border-2 border-surface rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface truncate">Selim Yılmaz</h3>
+<span class="text-xs text-on-surface-variant">14:20</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<!-- Eco-Metric Chip -->
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 text-[10px] font-bold text-primary tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                ACCEPTED
+                            </div>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Harika, konumu gönderiyorum o zaman!</p>
+</div>
+</div>
+</div>
+<!-- Chat Item: Offer Pending -->
+<div class="group bg-surface-container-low hover:bg-surface-container-high transition-all duration-300 rounded-2xl p-4 cursor-pointer relative">
+<div class="flex gap-4 items-center">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Contact" class="w-full h-full object-cover" data-alt="studio portrait of a smiling woman with organic textures, soft green lighting accents, dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATbeqOu4PlLKVLsLdQ3zQGA_SfNysp1qOpjenT9vOmGhNfNCTU7eXBzbSgAiXDWBe-WT4WlFd-0LV-TX9jjN-9uM8_UdHMWMF5nLy_t63AYdPXyQ5lhQuDcPhUFEQFNJBOaF0WQVKh0DX7FmRlqCRco21dyFo_9hkCL_U1PVNjwqodA9a-Enl2a20ej8mjUUQm4S3d6ABUbeqVmyxZhIfGWHRAdUK89ZoykgDXvriC_6iZm_TVVCTMe-VKjuirhBFX65yziu3H3gXc"/>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface truncate">Melis Aksoy</h3>
+<span class="text-xs text-on-surface-variant">Dün</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/10 text-[10px] font-bold text-amber-500 tracking-wide uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                Offer Pending
+                            </div>
+</div>
+<p class="text-sm text-on-surface-variant font-medium truncate text-on-surface">Yeni teklifi kontrol ettin mi?</p>
+</div>
+<div class="w-5 h-5 bg-primary text-on-primary text-[10px] font-bold flex items-center justify-center rounded-full">2</div>
+</div>
+</div>
+<!-- Chat Item: Inquiry -->
+<div class="group bg-surface-container-low hover:bg-surface-container-high transition-all duration-300 rounded-2xl p-4 cursor-pointer relative">
+<div class="flex gap-4 items-center">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Contact" class="w-full h-full object-cover" data-alt="artistic close-up of a man looking thoughtful, moody low-key lighting with deep shadows and emerald highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYTwKGEWwfmEx-7Dp63oNu30MmxNfv1rj8wJzndtwvJfCQYJqcdulzg91fkPCqgtUIGzrd-dlazkgDsNKjDEiohkLif5xf1D8XLWlrm2JMrzt4MR-qrGLLRmmInF2B9kxOP6Cf1ZdMVlCl9CatFaXMtaNZrkJxbL7Z1MzrJKfk5iZSol4Nr-SZ_nX7DEL_i3-3tP4tKuITCBFVZZFeyBfsGZ5iTxi728xOVYpM3ofekJKsFzJQasfl6qOm-5wyJtNZ5M2XA5Nu-utm"/>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface truncate">Caner Demir</h3>
+<span class="text-xs text-on-surface-variant">Paz</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 text-[10px] font-bold text-blue-400 tracking-wide uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                                Inquiry
+                            </div>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Ürünün kondisyonu tam olarak nasıl?</p>
+</div>
+</div>
+</div>
+<!-- Chat Item: Accepted -->
+<div class="group bg-surface-container-low hover:bg-surface-container-high transition-all duration-300 rounded-2xl p-4 cursor-pointer relative">
+<div class="flex gap-4 items-center">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Contact" class="w-full h-full object-cover" data-alt="portrait of a woman with curly hair, natural aesthetic, soft focus, deep charcoal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMZuyy19W46DL51FRVdMeqpXjlDO-BrQdfSs75WXrmZ_798tcqbzJ2JcS-sj0I7nr8kb8nmLpAbsQ5V7Il-jgL-O24-dON219HwBQOyYqw_lRgACL118MWvVGKnCJho30VyiAMky0HWWZOkQ_ytRO1o3G_i0FZ9Q2efjhh9QETBfz-y-nGqZ133TPKHLtHjExJl4n0A-obYnWv5Fsep6w23bh8DuKgU_L8tdqxF4cmR6CwNwjWewaSbt6Qrp19WG14YALXuHmu_fJY"/>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface truncate">Deniz Kaya</h3>
+<span class="text-xs text-on-surface-variant">25 Eyl</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 text-[10px] font-bold text-primary tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                ACCEPTED
+                            </div>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Takas tamamlandı, teşekkürler!</p>
+</div>
+</div>
+</div>
+<!-- Chat Item: Inquiry -->
+<div class="group bg-surface-container-low hover:bg-surface-container-high transition-all duration-300 rounded-2xl p-4 cursor-pointer relative">
+<div class="flex gap-4 items-center">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Contact" class="w-full h-full object-cover" data-alt="modern close-up portrait of a man, sharp focus, vibrant emerald and teal secondary lighting, dark studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALTzRn2HbGti1pxpK3YIWqkmudAtautuitjkGKk23mAQwIpDLkCfIcCBvlUfnElzbB40dD27g3qjs-yX8MZDFAZXxzdEzsLC4s6JcfGR85MOvzDjBmQYrid4uJ6fhSMDILNkETr4I8nwRpio4OiQFACOKmRvqeD1EJ2EjEUyZ2btHdZGdmgfjLSQTFl-KRFEWacVIMaj4pa_Mf3krc2qF2XIQIVrFP8SjQftDNoUM4uB7CmZXZw3jQ2RRSxEbP75MYT8X6ll_XfotL"/>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface truncate">Arda Güler</h3>
+<span class="text-xs text-on-surface-variant">22 Eyl</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 text-[10px] font-bold text-blue-400 tracking-wide uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                                Inquiry
+                            </div>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Diğer ilanlarınıza da bakabilir miyim?</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-zinc-950/90 backdrop-blur-lg fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-3 pb-safe z-50 rounded-t-2xl shadow-[0_-4px_20px_rgba(82,183,136,0.05)] tonal-shift">
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-3xl text-emerald-400">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Swap</span>
+</div>
+<div class="flex flex-col items-center justify-center text-emerald-400 bg-emerald-500/10 rounded-xl px-3 py-1 active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Chats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Profile</span>
+</div>
+</nav>
+</body></html>

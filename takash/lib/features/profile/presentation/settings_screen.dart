@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../core/providers/theme_provider.dart';
+import '../../../core/providers.dart';
 import '../../auth/data/auth_repository.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -31,6 +32,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final notifications = await service.getNotificationsEnabled();
     final location = await service.getLocationSharing();
     final visibility = await service.getProfileVisibility();
+
+    final currentUser = ref.read(authStateProvider).value;
+    if (currentUser != null) {
+      final userData =
+          await ref.read(authRepositoryProvider).getUserData(currentUser.uid);
+      if (userData != null) {
+        setState(() {
+          _notificationsEnabled = notifications;
+          _locationSharing = userData.isLocationShared;
+          _profileVisibility = userData.profileVisibility == 'public';
+        });
+        return;
+      }
+    }
+
     setState(() {
       _notificationsEnabled = notifications;
       _locationSharing = location;
@@ -138,6 +154,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onChanged: (value) async {
               setState(() => _locationSharing = value);
               await ref.read(settingsServiceProvider).setLocationSharing(value);
+              final currentUser = ref.read(authStateProvider).value;
+              if (currentUser != null) {
+                await ref.read(authRepositoryProvider).updatePrivacySettings(
+                      uid: currentUser.uid,
+                      isLocationShared: value,
+                    );
+              }
             },
           ),
           SwitchListTile(
@@ -150,6 +173,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               await ref
                   .read(settingsServiceProvider)
                   .setProfileVisibility(value ? 'public' : 'private');
+              final currentUser = ref.read(authStateProvider).value;
+              if (currentUser != null) {
+                await ref.read(authRepositoryProvider).updatePrivacySettings(
+                      uid: currentUser.uid,
+                      profileVisibility: value ? 'public' : 'private',
+                    );
+              }
             },
           ),
 
@@ -179,8 +209,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
             title: const Text('Gizlilik Politikası'),
-            trailing: const Icon(Icons.open_in_new, size: 18),
-            onTap: () => _launchUrl('https://takash.app/gizlilik'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/privacy-policy'),
           ),
 
           const SizedBox(height: 16),
@@ -232,6 +262,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: OutlinedButton.icon(
+              onPressed: () => _showDeleteAccountDialog(context),
+              icon: Icon(Icons.delete_forever, color: colorScheme.error),
+              label: Text('Hesabı Sil',
+                  style: TextStyle(color: colorScheme.error)),
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: colorScheme.error),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ),
           const SizedBox(height: 32),
         ],
       ),
@@ -251,5 +297,86 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  void _showDeleteAccountDialog(BuildContext ctx) {
+    final passwordController = TextEditingController();
+    showDialog(
+      context: ctx,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Hesabı Sil'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Hesabınızı silmek için şifrenizi girin.'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Şifre',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Not: Tüm ilanlarınız, sohbetleriniz ve verileriniz kalıcı olarak silinecektir.',
+              style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(ctx).colorScheme.error,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (passwordController.text.isEmpty) {
+                ScaffoldMessenger.of(ctx).showSnackBar(
+                  const SnackBar(content: Text('Şifre gerekli')),
+                );
+                return;
+              }
+              Navigator.pop(dialogContext);
+              await _deleteAccount(passwordController.text);
+            },
+            child: const Text('Sil', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _deleteAccount(String password) async {
+    final currentUser = ref.read(authStateProvider).value;
+    if (currentUser == null) return;
+
+    try {
+      await ref
+          .read(authRepositoryProvider)
+          .deleteAccount(currentUser.uid, password);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Hesabınız silindi')),
+        );
+        context.go('/');
+      }
+    } catch (e) {
+      if (mounted) {
+        String message = 'Hesap silinirken hata oluştu';
+        if (e.toString().contains('wrong-password') ||
+            e.toString().contains('invalid-credential')) {
+          message = 'Şifre yanlış';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message), backgroundColor: Colors.red),
+        );
+      }
+    }
   }
 }

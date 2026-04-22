@@ -9,7 +9,6 @@ import 'package:takash/features/profile/presentation/profile_controller.dart';
 import 'package:takash/shared/widgets/custom_button.dart';
 import 'package:takash/shared/widgets/custom_text_field.dart';
 import 'package:takash/shared/widgets/loading_indicator.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -148,7 +147,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  // Profil Fotoğrafı Seçimi
                   Center(
                     child: Stack(
                       children: [
@@ -164,10 +162,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                       as ImageProvider
                                   : null),
                           child: _selectedImage == null && user.photoUrl == null
-                              ? const TakashIcon(
-                                  assetName: TakashIcon.person,
-                                  size: 60,
-                                  color: Colors.grey)
+                              ? const Icon(Icons.person_rounded,
+                                  size: 60, color: Colors.grey)
                               : null,
                         ),
                         Positioned(
@@ -187,7 +183,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  // İsim Alanı
                   CustomTextField(
                     label: 'Ad Soyad',
                     controller: _nameController,
@@ -199,7 +194,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  // Bio Alanı
                   CustomTextField(
                     label: 'Hakkında',
                     controller: _bioController,
@@ -207,7 +201,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     maxLines: 4,
                   ),
                   const SizedBox(height: 32),
-                  // Kaydet Butonu
                   CustomButton(
                     text: 'Değişiklikleri Kaydet',
                     isLoading: profileState.isLoading,

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Takaş - İlan Ver</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#bdcac0",
+                    "primary-fixed": "#92f7c3",
+                    "on-primary-fixed": "#002113",
+                    "surface": "#131315",
+                    "on-secondary": "#003824",
+                    "surface-container-highest": "#353437",
+                    "primary-fixed-dim": "#75daa8",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#95d4b3",
+                    "surface-tint": "#75daa8",
+                    "surface-container-high": "#2a2a2c",
+                    "tertiary": "#ffb3b3",
+                    "background": "#131315",
+                    "on-secondary-fixed-variant": "#0e5138",
+                    "inverse-surface": "#e5e1e4",
+                    "outline-variant": "#3e4942",
+                    "surface-dim": "#131315",
+                    "secondary-container": "#12533a",
+                    "on-secondary-fixed": "#002114",
+                    "on-tertiary-container": "#6c1f26",
+                    "outline": "#88948b",
+                    "on-primary": "#003823",
+                    "surface-container-low": "#1c1b1d",
+                    "surface-variant": "#353437",
+                    "primary-container": "#52b788",
+                    "tertiary-fixed": "#ffdad9",
+                    "secondary-fixed": "#b1f0ce",
+                    "on-tertiary-fixed": "#40000a",
+                    "on-secondary-container": "#87c6a5",
+                    "inverse-on-surface": "#313032",
+                    "on-tertiary": "#5e141c",
+                    "tertiary-fixed-dim": "#ffb3b3",
+                    "tertiary-container": "#f18689",
+                    "primary": "#75daa8",
+                    "secondary": "#95d4b3",
+                    "surface-bright": "#39393b",
+                    "on-tertiary-fixed-variant": "#7c2b31",
+                    "on-primary-container": "#00442c",
+                    "surface-container": "#201f22",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-primary-fixed-variant": "#005235",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e1e4",
+                    "inverse-primary": "#006c48",
+                    "on-surface": "#e5e1e4",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #131315;
+            color: #e5e1e4;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(28, 27, 29, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(62, 73, 66, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 fixed top-0 w-full z-50 flex justify-between items-center px-4 h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/20">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a young professional man with a friendly expression, soft studio lighting, minimalist dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC01No8zY46tOu0FPLkbGX2TqIqcmYss8E96ZpO3KPmmhQeWwfr76_0DwFhyMk84eeZf6drTHDnIfnB9rV_7iidZan-CCctOnHp6kCU2yYwAoFvV0t8yHqcDUECKBXeRQSBzoFcTOQLNw9wsDxvKZDvXEDr_E_jn50E2uEsh9ud6_6YC19FQipgNCeYO3W0mWcJzjdE0yJosv6xW3ivQjG8NMcQfauybChFyUItO4QFpvZouVN3uqTNsx3BbeLLOx3xuOi1uY4aDBni"/>
+</div>
+<span class="text-xl font-bold text-emerald-400 font-['Plus_Jakarta_Sans'] tracking-tight">Takaş</span>
+</div>
+<button class="text-zinc-400 hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</header>
+<main class="pt-24 px-4 max-w-2xl mx-auto space-y-8">
+<!-- Header Section -->
+<section>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Yeni İlan Oluştur</h1>
+<p class="text-on-surface-variant text-sm">Eşyalarını takas et, doğayı koru ve topluluğa katıl.</p>
+</section>
+<!-- Photo Upload Section (Bento Style) -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h2 class="text-sm font-semibold uppercase tracking-widest text-primary">Fotoğraflar</h2>
+<span class="text-xs text-on-surface-variant">En az 1, en fazla 5 fotoğraf</span>
+</div>
+<div class="grid grid-cols-4 grid-rows-2 gap-3 h-64">
+<div class="col-span-2 row-span-2 glass-panel rounded-xl flex flex-col items-center justify-center border-dashed border-2 border-outline-variant group hover:border-primary transition-colors cursor-pointer relative overflow-hidden">
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">add_a_photo</span>
+<p class="text-xs font-medium px-4">Kapak Fotoğrafı Ekle</p>
+</div>
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="col-span-1 row-span-1 glass-panel rounded-xl flex items-center justify-center border-dashed border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">add</span>
+</div>
+<div class="col-span-1 row-span-1 glass-panel rounded-xl flex items-center justify-center border-dashed border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">add</span>
+</div>
+<div class="col-span-1 row-span-1 glass-panel rounded-xl flex items-center justify-center border-dashed border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">add</span>
+</div>
+<div class="col-span-1 row-span-1 glass-panel rounded-xl flex items-center justify-center border-dashed border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">add</span>
+</div>
+</div>
+</section>
+<!-- Form Fields Section -->
+<section class="space-y-6">
+<div class="space-y-2">
+<label class="text-xs font-medium text-on-surface-variant ml-1">İlan Başlığı</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl p-4 text-on-surface placeholder:text-zinc-600 focus:ring-2 focus:ring-primary/50 transition-all outline-none" placeholder="Örn: Vintage Analog Kamera" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-xs font-medium text-on-surface-variant ml-1">Kategori</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-none rounded-xl p-4 text-on-surface appearance-none focus:ring-2 focus:ring-primary/50 outline-none">
+<option>Elektronik</option>
+<option>Moda</option>
+<option>Ev &amp; Yaşam</option>
+<option>Kitap &amp; Hobi</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-medium text-on-surface-variant ml-1">Durum</label>
+<div class="flex gap-2 p-1 bg-surface-container-low rounded-xl">
+<button class="flex-1 py-3 text-xs font-bold rounded-lg bg-primary text-on-primary">Yeni</button>
+<button class="flex-1 py-3 text-xs font-bold rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors">İkinci El</button>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-medium text-on-surface-variant ml-1">Açıklama</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl p-4 text-on-surface placeholder:text-zinc-600 focus:ring-2 focus:ring-primary/50 transition-all outline-none resize-none" placeholder="Eşyanızın hikayesini ve detaylarını anlatın..." rows="4"></textarea>
+</div>
+<!-- Trade Section -->
+<div class="p-6 glass-panel rounded-2xl space-y-4 border-l-4 border-l-primary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">swap_horizontal_circle</span>
+<h3 class="text-sm font-bold text-primary">Ne İle Takas Etmek İstersin?</h3>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-medium text-on-surface-variant ml-1">Aranan Eşya / Kategori</label>
+<input class="w-full bg-surface-container-highest/50 border-none rounded-xl p-4 text-on-surface placeholder:text-zinc-600 focus:ring-2 focus:ring-primary/50 transition-all outline-none" placeholder="Örn: Tablet veya Bisiklet" type="text"/>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full border border-primary/20">#ELEKTRONİK</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full border border-primary/20">#KİTAP</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full border border-primary/20">#DEĞERİNDE</span>
+</div>
+</div>
+</section>
+<!-- Action Button -->
+<section class="pt-4 pb-12">
+<button class="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-2xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span>İlanı Yayınla</span>
+<span class="material-symbols-outlined">rocket_launch</span>
+</button>
+<p class="text-center text-[10px] text-on-surface-variant mt-4 px-8">
+                Yayınla butonuna basarak Kullanım Koşulları'nı ve Gizlilik Politikası'nı kabul etmiş sayılırsınız.
+            </p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-3 pb-safe bg-zinc-950/90 backdrop-blur-lg rounded-t-2xl z-50 shadow-[0_-4px_20px_rgba(82,183,136,0.05)]">
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-emerald-400 bg-emerald-500/10 rounded-xl px-3 py-1 active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Swap</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Chats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Profile</span>
+</div>
+</nav>
+</body></html>

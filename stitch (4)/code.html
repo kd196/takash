@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#a3e2c0",
+                    "on-secondary-fixed-variant": "#456c62",
+                    "surface-container-low": "#f2f4f3",
+                    "surface-container-highest": "#dfe3e2",
+                    "primary": "#2d6a4f",
+                    "primary-container": "#b1f0ce",
+                    "inverse-on-surface": "#9b9d9d",
+                    "on-secondary-container": "#3b6158",
+                    "tertiary-dim": "#7e4500",
+                    "tertiary": "#8f4f00",
+                    "surface-variant": "#dfe3e2",
+                    "surface-dim": "#d5dbda",
+                    "secondary-fixed": "#cffaed",
+                    "error-container": "#f56965",
+                    "on-tertiary-container": "#552d00",
+                    "outline": "#767c7b",
+                    "inverse-primary": "#beffdc",
+                    "secondary-container": "#cffaed",
+                    "inverse-surface": "#0c0f0e",
+                    "on-background": "#2e3333",
+                    "secondary-dim": "#345a51",
+                    "surface-container-high": "#e5e9e8",
+                    "on-tertiary-fixed": "#351a00",
+                    "surface-tint": "#2d6a4f",
+                    "secondary-fixed-dim": "#c1ebdf",
+                    "primary-fixed": "#b1f0ce",
+                    "error": "#ac3434",
+                    "tertiary-container": "#ffa44c",
+                    "on-surface-variant": "#5b605f",
+                    "primary-dim": "#1f5e44",
+                    "surface-container": "#eceeed",
+                    "background": "#f9f9f8",
+                    "on-primary-container": "#1d5c42",
+                    "on-tertiary-fixed-variant": "#613400",
+                    "surface": "#f9f9f8",
+                    "surface-container-lowest": "#ffffff",
+                    "error-dim": "#70030f",
+                    "on-primary": "#e6ffee",
+                    "on-tertiary": "#fff7f4",
+                    "surface-bright": "#f9f9f8",
+                    "on-surface": "#2e3333",
+                    "tertiary-fixed-dim": "#fd9000",
+                    "on-secondary-fixed": "#284f46",
+                    "tertiary-fixed": "#ffa44c",
+                    "on-error-container": "#65000b",
+                    "secondary": "#40665d",
+                    "on-primary-fixed": "#014931",
+                    "outline-variant": "#aeb3b2",
+                    "on-primary-fixed-variant": "#29664c",
+                    "on-error": "#fff7f6",
+                    "on-secondary": "#e3fff6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex items-center justify-between px-6 h-16 bg-[#f9f9f8]/80 dark:bg-zinc-950/80 backdrop-blur-xl z-50">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover bg-surface-container" data-alt="close up professional portrait of a smiling young person with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpJVjnHrnS-EVslMB23xXgKZ9M8bKO4MtUG9k-YxNoq5QePa9ks2Ds7ri7gbsqjaNO_ObGIgq28XQkxPEyijeLlTDNgIqQwtEWMiE2YDNt_JBZlRJsJAh6rwFwT4F3KHuth_Qs2kkBOTe7xcf6v9YztdWOKfMR3vOnQkzPApaVt85uG7r8lTJ5TjC1rxZcYEhjnhWTqjrT5l0uz2yXDbzfDPySJrQMLN9Nx55Qgw7bIAn_epfE0wu6ScbLi1OITQoF9Hp5STGbtgZT"/>
+<h1 class="text-xl font-bold text-[#2d6a4f] dark:text-[#52b788] Plus Jakarta Sans Display md tight tracking -0.02em">Takaş</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-[#eceeed]/50 dark:hover:bg-zinc-800/50 p-2 rounded-full duration-200 ease-in-out active:scale-95">
+<span class="material-symbols-outlined text-[#2d6a4f]">search</span>
+</button>
+<button class="hover:bg-[#eceeed]/50 dark:hover:bg-zinc-800/50 p-2 rounded-full duration-200 ease-in-out active:scale-95">
+<span class="material-symbols-outlined text-[#2d6a4f]">tune</span>
+</button>
+</div>
+</header>
+<main class="pt-20 px-6 max-w-7xl mx-auto">
+<!-- Hero Search Context -->
+<section class="mb-8">
+<h2 class="text-2xl font-extrabold tracking-tight text-on-surface mb-2">Find your next swap.</h2>
+<p class="text-on-surface-variant mb-6">Trading in <span class="text-primary font-semibold">Kadikoy, Istanbul</span></p>
+<!-- Category Filter Row -->
+<div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-full font-medium shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+                    All
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full font-medium flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">devices</span>
+                    Electronics
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full font-medium flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">apparel</span>
+                    Clothing
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full font-medium flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">chair</span>
+                    Furniture
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full font-medium flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+                    Skills
+                </button>
+</div>
+</section>
+<!-- Swap Feed Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="minimalist mechanical keyboard with wooden aesthetic and warm ambient desk lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAVKddNkC240FsEz6OhM554rFxTYLr_H0RFz_HNTCdOcT3XNvfCjRCNGdjwwExt34Sz5zAN7GFJMp080Ii-kEYGN-Vj5KNo0De8u5Mm5SHpW9lQYpWP_7KjqWk9Ni1eEZiRIC-CPwMkSSN32tZXavjLHM5rdP_q6s-4-jBXUED3Wg0GNPSBAMGFiKr5zItk9tTYBOK31tPZmQ9mvlE0SW7fi5W0X5Fyx2LBZe5118JD0oduiYluNuoBPJWLennrm6yrmu5enmoKVw0"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Wanted: Tablet</span>
+</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<img class="w-6 h-6 rounded-full" data-alt="close up profile of a middle aged man with glasses and friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO_ah4LJ0kchgKkJE-z4Ej-Y-bfWdZRlKsq-ld4LyO6zJN-IIxLOLEBVqr7h6i9lvo84x5_XwQhFlJ_EexY38uKVh0nWc9vg8x37GI_SZieXzdumLyYmElPKqmN3qlkEdGOMr7mlb40dJqABbgmHOUzX4PIso__Ls-yiy8frMzfpiy4ugyF3QVgwqYLUf3NZ2UL7djojLa8rFoN5vAxt3tX2NEtZsGKdW3zqC-o4l5RqQKkp9dX4LiJsBIu9clKogXHEiaKT2d221S"/>
+<div class="flex items-center pr-1">
+<span class="material-symbols-outlined text-[14px] text-[#ffa44c]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.8</span>
+</div>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Mechanical Keyboard (Custom)</h3>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Kadikoy, 2km</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="premium minimalist watch on white background with soft shadows and elegant lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7qWBuJpaeX9Xw63WnXy7VyPioVCECSiI759JfAi2527y0MilI0FLOodIeYp3JqQkXYUjfEopkXE8higAWrin4bdUpQDkuNS5U5oN8vZwKSltbjKZdnn8bbv_RhmRL5zsdLPQjKh2ib--MJaA8x7yFdfApZy54OEKXcxvdENPBjlizdOaeJQ6EMJJy4AYnDx4wFZ667AQlCwWnGdKN2MwEu0tT-qkjr6yhA4DudsG_RoXnzSXDouP5TsPv4Quow8RFCbqVa1UpBcnS"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Wanted: Bike</span>
+</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<img class="w-6 h-6 rounded-full" data-alt="smiling young woman with blonde hair and sunlit park background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1yHHyt-jf2AIDRHjNRoDXuyU3_qSuf0vX7sD_32bkJNb5nerSsMbI0rK5jHnjMZY78ewb7sflHe6Q_vpUSrzfJk7jRtgSU50A--8mvbEjMGwQG558XLNln9JzA4zvr_op1hs4myl-4zSmNnCB8wrsw-5N0QfnFtgk6gm6s0CEHMivFW8YERo_X-oupl1UYC6mpBCItGIpz7nu_xwt_9eCdf0DIFpSkRsT0sMOkXKYXod2Pmyf1PGRHb3-X3kGJBoAc5kocQEDs-4H"/>
+<div class="flex items-center pr-1">
+<span class="material-symbols-outlined text-[14px] text-[#ffa44c]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">5.0</span>
+</div>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Minimalist Analog Watch</h3>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Moda, 1.2km</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="vintage denim jacket styled on a rustic wooden chair with morning sun rays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv929JzrR1mgmQBvBks8w_JFOIAGh5EbzGiJ_gxTtit-nw137GQjSicUI-km5Z89YU0QPpk9LYJVrlNtTHyziWcPqssklRNbUhIzVSufRP6qahsneTtgy_KHZaQ1hx66IsuRxVQx420gAFeSL6QtrzddRvgWP9Ohx3QqjX_sKQ-vwR8hYclmUIiRkZro3-_C4RhdPxV9ztRsjKdnNzntA4wBxcCoYL8FCi-Zu9m73DDArvUv8xF5sVXYxw_SKQMllgRfgGLZmkikxe"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Wanted: Vinyl</span>
+</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<img class="w-6 h-6 rounded-full" data-alt="artist in studio with paint splattered apron and focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpQkjpci37MtB5A9Dye7k_NRBh6P97GGgleogTxaO1h2_ffz-zGoj-y77yyxzNJgTnHwXolnbECOA132Z-rBnDemv_h5fAzF9q4PTC2iMekpaygUesmvVXe6AT5dBGIEGNzaUW-pVhizoTgMIoxGFI5F4vL77ru0sON3n1hkT6sa9sZlk1NowchRGip4aYOGPcIZKqFQjVOP31nm313PWnHDbYxRx3BYhhYwwt5rhCvfVjeEtTtMZzf-dOU5gffEMAH4tuUd3j43Jf"/>
+<div class="flex items-center pr-1">
+<span class="material-symbols-outlined text-[14px] text-[#ffa44c]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.5</span>
+</div>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Vintage Levi's Jacket</h3>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Suadiye, 5km</span>
+</div>
+</div>
+</div>
+<!-- Card 4 (Skill Example) -->
+<div class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden transition-all duration-300 hover:translate-y-[-4px]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="close up of hands playing acoustic guitar in a cozy library setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlwt-y3wqzvCzt5pBkNxt_ByPDEv5HfAKuRV6EiHBop2d7gC53MASQhmAb5ha1TjEPmykPK3GpcQavaU3YFEFSl3IMs5OQpvUWiVvtBmgE33xwtOPTxBFQ3sOQlYgSZDSRjTtN7NW2MysxVIE1EXU_cynfq-nlZqLyhXS5FpwRHpZG8bbaJdh6lPy-gz3n24vZnHTOrdzAuDwwUkpQ8XK1i6PHkSn0KHHe6__hlat_uOxw4n0UmJHd0VP3quo-ppDlcKyAbEyuISUu"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Wanted: Yoga</span>
+</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-1.5 rounded-full flex items-center gap-1 shadow-sm">
+<img class="w-6 h-6 rounded-full" data-alt="close up of a musician with earphones and warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_X5tC21Wt8LfE3RG81MjKLHtgk3X7VRsaq19Sqo-YFJTfj9zTVXn9LCCLT-7AI4zZ2ABHXEAh-MdGCCbnFsDEgPq4v4ZHoeItzqiZlyS6buWMnO45uLiigaMeuX3IqoZNuf9a03otpFrQ-wU02Rk424FoSuUCZNrtpxnC05958ecuiXgf7rjmEHfEMDgKUKDyTIOky-bEwlH2CS4ttqJoLe01CHJ733IflpOtEvaStPeQ-0eHlPt7eErOcyCE42Uo5m5on5Udr94A"/>
+<div class="flex items-center pr-1">
+<span class="material-symbols-outlined text-[14px] text-[#ffa44c]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.9</span>
+</div>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Guitar Lessons (Beginner)</h3>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Fenerbahce, 3km</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#f9f9f8]/85 dark:bg-zinc-950/85 backdrop-blur-xl z-50 shadow-[0_-8px_24px_-4px_rgba(46,51,51,0.06)]">
+<button class="flex flex-col items-center justify-center bg-[#cffaed] dark:bg-[#1f5e44]/30 text-[#3b6158] dark:text-[#cffaed] rounded-full px-5 py-1.5 Active: scale-90 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Map</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#2d6a4f] hover:text-[#1f5e44] transition-colors -mt-8">
+<div class="bg-primary p-3 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-white text-[32px]">add_circle</span>
+</div>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium mt-1 text-[#5b605f]">Swap</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Chats</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#5b605f] dark:text-zinc-400 px-5 py-1.5 hover:text-[#2d6a4f] transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] Plus Jakarta Sans Label md font-medium">Profile</span>
+</button>
+</nav>
+</body></html>

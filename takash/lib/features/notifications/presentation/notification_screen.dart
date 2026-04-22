@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 import '../domain/notification_model.dart';
 import 'notification_controller.dart';
 
@@ -38,10 +37,8 @@ class NotificationScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TakashIcon(
-                      assetName: TakashIcon.notifications,
-                      size: 80,
-                      color: Colors.grey),
+                  Icon(Icons.notifications_none_rounded,
+                      size: 80, color: Colors.grey),
                   const SizedBox(height: 16),
                   const Text(
                     'Henüz bildirim yok',

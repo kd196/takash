@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#bdcac0",
+                    "primary-fixed": "#92f7c3",
+                    "on-primary-fixed": "#002113",
+                    "surface": "#131315",
+                    "on-secondary": "#003824",
+                    "surface-container-highest": "#353437",
+                    "primary-fixed-dim": "#75daa8",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#95d4b3",
+                    "surface-tint": "#75daa8",
+                    "surface-container-high": "#2a2a2c",
+                    "tertiary": "#ffb3b3",
+                    "background": "#131315",
+                    "on-secondary-fixed-variant": "#0e5138",
+                    "inverse-surface": "#e5e1e4",
+                    "outline-variant": "#3e4942",
+                    "surface-dim": "#131315",
+                    "secondary-container": "#12533a",
+                    "on-secondary-fixed": "#002114",
+                    "on-tertiary-container": "#6c1f26",
+                    "outline": "#88948b",
+                    "on-primary": "#003823",
+                    "surface-container-low": "#1c1b1d",
+                    "surface-variant": "#353437",
+                    "primary-container": "#52b788",
+                    "tertiary-fixed": "#ffdad9",
+                    "secondary-fixed": "#b1f0ce",
+                    "on-tertiary-fixed": "#40000a",
+                    "on-secondary-container": "#87c6a5",
+                    "inverse-on-surface": "#313032",
+                    "on-tertiary": "#5e141c",
+                    "tertiary-fixed-dim": "#ffb3b3",
+                    "tertiary-container": "#f18689",
+                    "primary": "#75daa8",
+                    "secondary": "#95d4b3",
+                    "surface-bright": "#39393b",
+                    "on-tertiary-fixed-variant": "#7c2b31",
+                    "on-primary-container": "#00442c",
+                    "surface-container": "#201f22",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-primary-fixed-variant": "#005235",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e1e4",
+                    "inverse-primary": "#006c48",
+                    "on-surface": "#e5e1e4",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .map-gradient-overlay {
+            background: radial-gradient(circle at center, transparent 0%, rgba(19, 19, 21, 0.4) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 flex justify-between items-center px-4 h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30 active:scale-95 transition-transform cursor-pointer">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a young man with a friendly expression in soft studio lighting against a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQxkQ8jc5dOy8rfdzWJOT2P6PQPSw2uVocOd8pHRxZ23AWozVvCCu4uD42ZQqjOPxyXxmDVDCQSc5e-yRqIQrjKSyI7gHacFhc3ov6C1VsfDHgrT4d4HW_sEGAG_S2PX0E-O2tPirwW9Ze_fnMXbZZ6W98yG4ZVgPyiEh4lBUY9RY07nfcfRC-ZyqpIJdjkF7YzcWffNGHZUVvQjr_Nu0yWIJZ5ae_Hpc7IdfqZ2c_L34C2qGfqb9MkUrkeybgrBeXe6MRIOnQ3sQg"/>
+</div>
+<h1 class="text-xl font-bold text-emerald-400 font-['Plus_Jakarta_Sans'] tracking-tight">Takaş</h1>
+</div>
+<button class="text-zinc-400 hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</header>
+<!-- Main Canvas: Full Screen Map Area -->
+<main class="relative h-screen w-full pt-16 pb-24 overflow-hidden">
+<!-- Mock Map Background -->
+<div class="absolute inset-0 bg-[#0e0e10]">
+<img alt="Map" class="w-full h-full object-cover opacity-40 grayscale contrast-125" data-alt="A dark monochromatic satellite map of an urban city with emerald green bioluminescent highlights for streets and landmarks" data-location="Istanbul" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClsepcplmY0tpLtDWffHOyIpS-0gt1VZIYSITwvM3HMw4ItgwGrWYCuAYkuMom-EFSGSqVmw-Lnu_HVjV-PLGOZ41O2cdZAr5_2ClnVtNoWjvErOHbdkXDzqlP4j3YRSNUNYEWpID88aRH7GiRX1obQIVBI-8yLGtUlOD67fRYk4AlBSn8KZ0ugdf5c0cFx_-jz3mEsURKXUhx51Uq_5nD2VU37-ptbypuRb4UQoavgMEhEiZtfOJ2hQ4NNqjLTMZFRlSJMQWfFM7f"/>
+<div class="absolute inset-0 map-gradient-overlay"></div>
+</div>
+<!-- Floating Search/Filter Bar -->
+<div class="absolute top-20 left-4 right-4 z-10">
+<div class="bg-surface-container-high/60 backdrop-blur-md rounded-2xl p-1 flex items-center shadow-lg border border-outline-variant/10">
+<div class="flex-1 flex items-center px-3 gap-2">
+<span class="material-symbols-outlined text-primary text-sm">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 text-on-surface w-full placeholder:text-on-surface-variant/50" placeholder="Yakınında takas ara..." type="text"/>
+</div>
+<div class="w-px h-6 bg-outline-variant/20 mx-2"></div>
+<button class="p-2 text-primary">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+<!-- Circular Map Markers (Other Users/Items) -->
+<div class="absolute inset-0 pointer-events-none">
+<!-- Marker 1 -->
+<div class="absolute top-[35%] left-[25%] pointer-events-auto">
+<div class="relative flex flex-col items-center">
+<div class="w-12 h-12 rounded-full border-2 border-primary p-0.5 bg-surface-container shadow-[0_0_15px_rgba(117,218,168,0.4)] transition-transform active:scale-90 cursor-pointer">
+<img alt="Marker User" class="w-full h-full rounded-full object-cover" data-alt="Small circular thumbnail portrait of a woman with curly hair looking towards the camera in a modern urban setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxQm39Cp1Q-IlNuYCeiHXc1Hcz1AbHTFzoIsMZUeanPWBbltc_zwYEAjCyCWaVNUuzXEt4m6XGCNxIWWh7JVP9cfudgEqIXzsngV6LqRWRa-IE5CeAWaWgKDG5X7BWtNy8lTL_E4iKV3Wpd9NqUgW8-x4bWKj2FXunbuZMILM1yoEx9hxG4EFzgGzB4-K3vxK2dA6eBpkQe4mIa07LZdkpTWQDeXDN75-Jw5FyOangBt3si4VVE6T8VISmcGHlj-Gkm0X3CsKKq9Hp"/>
+</div>
+<div class="mt-1 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">Bitki Takası</div>
+</div>
+</div>
+<!-- Marker 2 -->
+<div class="absolute top-[55%] right-[20%] pointer-events-auto">
+<div class="relative flex flex-col items-center">
+<div class="w-12 h-12 rounded-full border-2 border-primary p-0.5 bg-surface-container shadow-[0_0_15px_rgba(117,218,168,0.4)] transition-transform active:scale-90 cursor-pointer">
+<img alt="Marker User" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a person with a beanie hat, warm lighting and shallow depth of field, focused on facial expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALTQOp87FPf-0P6Zk4Ie-R2gT9nSiGFLKJVF0OlBr-rkVlSYoygGablPDlr-k4pPawDH6Cw_4nO83daCCUfNSG44sXlpzoKb73_VLY_5V_bnEMQHkHtikLPF2wNGlnr7qAZi8_fxKLhpLWs1UrM-31_FlmjVavBafoYg4rgr6GQuMy0NGBVDXhlt3WZOaqbw1CStOFr-2UNYUVEFJVlulQdSzvUefvW9GU68-eNCRKN9qC7HUQkK9iM4ZdFT8mUPCSAivO2m43b5uo"/>
+</div>
+<div class="mt-1 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">Kitap</div>
+</div>
+</div>
+<!-- Marker 3 (Active Selection) -->
+<div class="absolute top-[45%] left-[55%] pointer-events-auto">
+<div class="relative flex flex-col items-center scale-110">
+<div class="w-14 h-14 rounded-full border-2 border-emerald-400 p-0.5 bg-surface-container shadow-[0_0_25px_rgba(117,218,168,0.6)]">
+<img alt="Marker User" class="w-full h-full rounded-full object-cover" data-alt="Close-up of a smiling young woman with vibrant energy, natural outdoor lighting with soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR5kisIXWGbBaxLpgBkq5rCw91HnoSY8N-j3p7LdJhg9nR4JA36igp-bcJdUyhfYF-UzZBgb_l3D65XV6NvlZkxOaV8kmRKYcKK9bTrneGsKGdtkedXUzZzyOFfRvCICS3DdsMzm9Cj7qg8wFkIsIGKYltg2FJ0lxuaenNp7Yf_Ml2f8kqJvTzK9ouwUe1jRQyOnGi4u0BnXo3zLZOHogLmjO2rMwGPQZ6sxj8DXDu8QtdVlepjsgX_lK62bKo1QAxRRFO7YZ2DxE7"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-emerald-500 w-4 h-4 rounded-full border-2 border-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Buttons -->
+<div class="absolute bottom-40 right-4 flex flex-col gap-3 z-20">
+<button class="w-12 h-12 rounded-2xl bg-surface-container-high/80 backdrop-blur-md text-on-surface flex items-center justify-center shadow-xl border border-outline-variant/20 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 rounded-2xl bg-surface-container-high/80 backdrop-blur-md text-on-surface flex items-center justify-center shadow-xl border border-outline-variant/20 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-12 h-12 rounded-2xl bg-primary text-on-primary flex items-center justify-center shadow-[0_0_20px_rgba(117,218,168,0.4)] active:scale-90 transition-transform mt-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">my_location</span>
+</button>
+</div>
+<!-- Selected Item Preview Card -->
+<div class="absolute bottom-24 left-4 right-4 z-30">
+<div class="bg-surface-container-low/90 backdrop-blur-xl rounded-[2rem] p-3 flex gap-4 shadow-2xl border border-outline-variant/10 ring-1 ring-white/5">
+<div class="w-24 h-24 rounded-2xl overflow-hidden shrink-0">
+<img alt="Product" class="w-full h-full object-cover" data-alt="Lush green Monstera Deliciosa plant in a minimalist clay pot against a clean dark studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABW9twfC0av0sCqExu8XhkxUc8nJGlDE9Afm9PvNCw6AeEjTd27x4Xe0phtQ6cFtoVTtdFVOsWBzi0Jb2_oMf2sMj_NKI3xUACzbEUmBMfmXGp899wlJCvGuHFNHPsxRqmdxS7FAgZFw8tkBnJ1KLT7gCMqxJJliFAR_tonUjccCz6Vbete6T1NgTZn7SLvciuYiNJRr7-EwgGbhkzRGnYWF5OL7GkmIangP_Ixw48S7Dywo8Jn2nrjh0TSc9b9JHiQinhVi-GrATK"/>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-on-surface text-lg leading-tight">Monstera Deliciosa</h3>
+<p class="text-on-surface-variant text-sm font-medium">Melis S. • 1.2km</p>
+</div>
+<div class="bg-primary-container/20 text-primary text-[10px] font-bold px-2 py-1 rounded-lg">AKTİF</div>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<div class="flex items-center gap-1 bg-surface-container-highest px-2 py-1 rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">eco</span>
+<span class="text-[10px] font-bold text-primary">Sürdürülebilir</span>
+</div>
+<button class="ml-auto text-primary font-bold text-xs flex items-center gap-1 hover:opacity-80">
+                            Detaylar <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-3 pb-safe bg-zinc-950/90 backdrop-blur-lg rounded-t-2xl z-50 tonal-shift bg-zinc-900/50 shadow-[0_-4px_20px_rgba(82,183,136,0.05)]">
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-emerald-400 bg-emerald-500/10 rounded-xl px-3 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-3xl text-emerald-400" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Swap</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Chats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-medium">Profile</span>
+</a>
+</nav>
+</body></html>

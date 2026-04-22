@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -16,28 +15,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<_OnboardingPage> _pages = [
     _OnboardingPage(
-      assetName: TakashIcon.swap,
+      icon: Icons.swap_horiz_rounded,
       title: 'Eşya ve Yetenek Takası',
       description:
           'İhtiyacın olan şeyi para harcamadan al!\nYakınındaki insanlarla eşya ve yetenek takası yap.',
       color: Colors.green,
     ),
     _OnboardingPage(
-      assetName: TakashIcon.locationOn,
+      icon: Icons.location_on_rounded,
       title: 'Yakınındaki İlanları Keşfet',
       description:
           'Konumuna göre sana en yakın ilanları gör.\n5-10 km içindeki fırsatları kaçırma.',
       color: Colors.blue,
     ),
     _OnboardingPage(
-      assetName: TakashIcon.chatBubble,
+      icon: Icons.chat_bubble_outline_rounded,
       title: 'Anında Sohbet Başlat',
       description:
           'Beğendiğin ilana teklif ver ve hemen sohbete başla.\nTakas detaylarını karşı tarafla konuş.',
       color: Colors.amber,
     ),
     _OnboardingPage(
-      assetName: TakashIcon.starInactive,
+      icon: Icons.star_outline_rounded,
       title: 'Güvenli Takas Deneyimi',
       description:
           'Her takas sonrası puanlama yaparak güvenilir bir topluluk oluştur.\nYıldızlar güveni gösterir.',
@@ -89,8 +88,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             color: page.color.withOpacity(0.15),
                             shape: BoxShape.circle,
                           ),
-                          child: TakashIcon(
-                            assetName: page.assetName,
+                          child: Icon(
+                            page.icon,
                             size: 80,
                             color: page.color,
                           ),
@@ -185,13 +184,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 }
 
 class _OnboardingPage {
-  final String assetName;
+  final IconData icon;
   final String title;
   final String description;
   final Color color;
 
   _OnboardingPage({
-    required this.assetName,
+    required this.icon,
     required this.title,
     required this.description,
     required this.color,

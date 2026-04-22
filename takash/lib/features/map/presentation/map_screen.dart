@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
 import 'package:go_router/go_router.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:takash/shared/widgets/takash_icon.dart';
 import '../data/location_service.dart';
 import '../../listings/presentation/listings_controller.dart';
 import '../../listings/domain/listing_model.dart';
@@ -46,7 +45,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         title: const Text('Yakınımdakiler'),
         actions: [
           IconButton(
-            icon: const TakashIcon(assetName: TakashIcon.myLocation),
+            icon: const Icon(Icons.my_location_rounded),
             onPressed: () => _centerOnUser(),
           ),
         ],
@@ -112,10 +111,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TakashIcon(
-                assetName: TakashIcon.locationOff,
-                size: 64,
-                color: Theme.of(context).colorScheme.outline),
+            Icon(Icons.location_off_rounded,
+                size: 64, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: 16),
             Text(
               'Konum izni gerekli',
@@ -191,7 +188,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             const SizedBox(height: 12),
             TextButton(
               onPressed: () {
-                // İzin olmadan tüm ilanları göster
                 ref.invalidate(userLocationProvider);
               },
               child: const Text('İzinsiz devam et'),
@@ -219,7 +215,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 coordinates: mapbox.Position(
                     listing.location!.longitude, listing.location!.latitude),
               ),
-              circleColor: const Color(0xFF2E7D32).value, // Takash Yeşili
+              circleColor: const Color(0xFF2E7D32).value,
               circleRadius: 10.0,
               circleStrokeColor: Colors.white.value,
               circleStrokeWidth: 3.0,

@@ -125,7 +125,7 @@ extension ListingConditionExtension on ListingCondition {
       case ListingCondition.fair:
         return '⚠️';
       case ListingCondition.worn:
-        return '�折旧';
+        return '🔧';
     }
   }
 
