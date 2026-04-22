@@ -10,6 +10,7 @@ class UserModel {
   final String? bio;
   final double rating;
   final int ratingCount;
+  final int completedTradesCount;
   final DateTime createdAt;
   final int totalImageCount;
 
@@ -22,6 +23,7 @@ class UserModel {
     this.bio,
     this.rating = 0.0,
     this.ratingCount = 0,
+    this.completedTradesCount = 0,
     required this.createdAt,
     this.totalImageCount = 0,
   });
@@ -36,6 +38,7 @@ class UserModel {
       bio: json['bio'],
       rating: (json['rating'] ?? 0.0).toDouble(),
       ratingCount: json['ratingCount'] ?? 0,
+      completedTradesCount: json['completedTradesCount'] ?? 0,
       createdAt: (json['createdAt'] as Timestamp).toDate(),
       totalImageCount: json['totalImageCount'] ?? 0,
     );
@@ -64,6 +67,7 @@ class UserModel {
     String? bio,
     double? rating,
     int? ratingCount,
+    int? completedTradesCount,
     int? totalImageCount,
   }) {
     return UserModel(
@@ -75,6 +79,7 @@ class UserModel {
       bio: bio ?? this.bio,
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
+      completedTradesCount: completedTradesCount ?? this.completedTradesCount,
       createdAt: createdAt,
       totalImageCount: totalImageCount ?? this.totalImageCount,
     );

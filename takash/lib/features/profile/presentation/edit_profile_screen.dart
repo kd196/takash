@@ -9,6 +9,7 @@ import 'package:takash/features/profile/presentation/profile_controller.dart';
 import 'package:takash/shared/widgets/custom_button.dart';
 import 'package:takash/shared/widgets/custom_text_field.dart';
 import 'package:takash/shared/widgets/loading_indicator.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -163,8 +164,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                       as ImageProvider
                                   : null),
                           child: _selectedImage == null && user.photoUrl == null
-                              ? const Icon(Icons.person,
-                                  size: 60, color: Colors.grey)
+                              ? const TakashIcon(
+                                  assetName: TakashIcon.person,
+                                  size: 60,
+                                  color: Colors.grey)
                               : null,
                         ),
                         Positioned(

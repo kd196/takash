@@ -40,8 +40,9 @@ final unreadCountProvider = Provider<int>((ref) {
   return chatCount + notificationCount;
 });
 
-/// Badge metnini hesaplayan provider
+/// Badge metnini hesaplayan provider - bildirim sayısı değiştiğinde otomatik güncellenir
 final badgeTextProvider = Provider<String?>((ref) {
+  ref.watch(unreadNotificationCountProvider);
   final count = ref.watch(unreadCountProvider);
   final formatted = formatBadgeCount(count);
   return formatted.isEmpty ? null : formatted;

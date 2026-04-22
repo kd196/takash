@@ -57,6 +57,7 @@ dependencies:
   share_plus: ^12.0.1
   url_launcher: ^6.3.0
   package_info_plus: ^9.0.0
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,14 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/icons/actions/
+    - assets/icons/buttons/
+    - assets/icons/form/
+    - assets/icons/listing/
+    - assets/icons/map/
+    - assets/icons/navigation/
+    - assets/icons/profile/
+    - assets/icons/rating/
 
 flutter_native_splash:
   color: "#4CAF50"

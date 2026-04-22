@@ -7,6 +7,7 @@ import 'package:takash/features/listings/presentation/listings_controller.dart';
 import 'package:takash/features/listings/presentation/widgets/listing_card.dart';
 import 'package:takash/features/listings/domain/listing_category.dart';
 import 'package:takash/shared/widgets/loading_indicator.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 class PublicProfileScreen extends ConsumerWidget {
   final String userId;
@@ -49,8 +50,10 @@ class PublicProfileScreen extends ConsumerWidget {
                               ? CachedNetworkImageProvider(user.photoUrl!)
                               : null,
                           child: user.photoUrl == null
-                              ? Icon(Icons.person,
-                                  size: 60, color: colorScheme.outline)
+                              ? TakashIcon(
+                                  assetName: TakashIcon.person,
+                                  size: 60,
+                                  color: colorScheme.outline)
                               : null,
                         ),
                       ),
@@ -68,10 +71,23 @@ class PublicProfileScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.star, color: Colors.amber, size: 20),
+                          const TakashIcon(
+                              assetName: TakashIcon.starActive,
+                              color: Colors.amber,
+                              size: 20),
                           const SizedBox(width: 4),
                           Text(
-                            '${user.rating.toStringAsFixed(1)} (${user.ratingCount} Değerlendirme)',
+                            '${user.rating.toStringAsFixed(1)} (${user.ratingCount} değerlendirme)',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(width: 16),
+                          const TakashIcon(
+                              assetName: TakashIcon.swap,
+                              color: Colors.green,
+                              size: 20),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${user.completedTradesCount} takas',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -140,8 +156,10 @@ class PublicProfileScreen extends ConsumerWidget {
                         child: Center(
                           child: Column(
                             children: [
-                              Icon(Icons.inventory_2_outlined,
-                                  size: 48, color: Colors.grey),
+                              TakashIcon(
+                                  assetName: TakashIcon.inventory,
+                                  size: 48,
+                                  color: Colors.grey),
                               SizedBox(height: 12),
                               Text('Bu kullanıcının aktif ilanı bulunmuyor.'),
                             ],

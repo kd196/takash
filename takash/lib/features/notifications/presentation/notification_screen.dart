@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 import '../domain/notification_model.dart';
-import '../presentation/notification_controller.dart';
+import 'notification_controller.dart';
 
 class NotificationScreen extends ConsumerWidget {
   const NotificationScreen({super.key});
@@ -11,6 +12,13 @@ class NotificationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationsAsync = ref.watch(userNotificationsProvider);
     final controller = ref.read(notificationControllerProvider.notifier);
+
+    notificationsAsync.whenData((notifications) {
+      final unreadCount = notifications.where((n) => !n.isRead).length;
+      if (ref.read(unreadNotificationCountProvider) != unreadCount) {
+        ref.read(unreadNotificationCountProvider.notifier).state = unreadCount;
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +38,10 @@ class NotificationScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.notifications_none, size: 80, color: Colors.grey),
+                  TakashIcon(
+                      assetName: TakashIcon.notifications,
+                      size: 80,
+                      color: Colors.grey),
                   const SizedBox(height: 16),
                   const Text(
                     'Henüz bildirim yok',

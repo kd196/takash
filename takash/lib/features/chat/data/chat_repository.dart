@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../domain/chat_model.dart';
 import '../domain/message_model.dart';
 import '../../auth/domain/user_model.dart';
+import '../../listings/domain/listing_model.dart';
 
 class ChatRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -240,6 +241,170 @@ class ChatRepository {
     }
 
     await batch.commit();
+  }
+
+  /// Teklif gönder (listing'ten listing'e)
+  Future<void> sendOffer({
+    required String chatId,
+    required String offerListingId,
+    required String targetListingId,
+    required String senderId,
+    required ListingModel offerListing,
+    required ListingModel targetListing,
+  }) async {
+    try {
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      final now = DateTime.now();
+
+      await chatRef.update({
+        'offerStatus': OfferStatus.pending.name,
+        'offerListingId': offerListingId,
+        'targetListingId': targetListingId,
+        'offerSenderId': senderId,
+        'offerUpdatedAt': Timestamp.fromDate(now),
+        'listingId': targetListingId,
+        'listingTitle': targetListing.title,
+        'listingThumbnailUrl': targetListing.imageUrls.isNotEmpty
+            ? targetListing.imageUrls.first
+            : null,
+      });
+
+      final chatDoc = await chatRef.get();
+      final participants =
+          List<String>.from(chatDoc.data()?['participants'] ?? []);
+      final receiverId = participants.firstWhere((id) => id != senderId);
+
+      final notificationId = const Uuid().v4();
+      await _firestore.collection('notifications').doc(notificationId).set({
+        'id': notificationId,
+        'userId': receiverId,
+        'type': 'newOffer',
+        'title': 'Yeni Teklif',
+        'body': '${offerListing.title} için teklif aldınız',
+        'relatedId': chatId,
+        'isRead': false,
+        'createdAt': Timestamp.fromDate(now),
+      });
+    } catch (e) {
+      debugPrint('=== sendOffer HATASI === chatId: $chatId, hata: $e');
+      rethrow;
+    }
+  }
+
+  /// Teklifi kabul et
+  Future<void> acceptOffer(String chatId, String userId) async {
+    try {
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      final now = DateTime.now();
+
+      await chatRef.update({
+        'offerStatus': OfferStatus.accepted.name,
+        'offerUpdatedAt': Timestamp.fromDate(now),
+      });
+
+      final chatDoc = await chatRef.get();
+      final senderId = chatDoc.data()?['offerSenderId'] as String?;
+      final receiverId = (chatDoc.data()?['participants'] as List?)
+          ?.firstWhere((id) => id != userId);
+
+      if (senderId != null) {
+        final notificationId = const Uuid().v4();
+        await _firestore.collection('notifications').doc(notificationId).set({
+          'id': notificationId,
+          'userId': senderId,
+          'type': 'tradeCompleted',
+          'title': 'Teklif Kabul Edildi',
+          'body': 'Takas teklifiniz kabul edildi!',
+          'relatedId': chatId,
+          'isRead': false,
+          'createdAt': Timestamp.fromDate(now),
+        });
+      }
+    } catch (e) {
+      debugPrint('=== acceptOffer HATASI === chatId: $chatId, hata: $e');
+      rethrow;
+    }
+  }
+
+  /// Teklifi reddet
+  Future<void> declineOffer(String chatId, String userId) async {
+    try {
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      final now = DateTime.now();
+
+      await chatRef.update({
+        'offerStatus': OfferStatus.declined.name,
+        'offerUpdatedAt': Timestamp.fromDate(now),
+      });
+
+      final chatDoc = await chatRef.get();
+      final senderId = chatDoc.data()?['offerSenderId'] as String?;
+
+      if (senderId != null) {
+        final notificationId = const Uuid().v4();
+        await _firestore.collection('notifications').doc(notificationId).set({
+          'id': notificationId,
+          'userId': senderId,
+          'type': 'newOffer',
+          'title': 'Teklif Reddedildi',
+          'body': 'Takas teklifiniz reddedildi',
+          'relatedId': chatId,
+          'isRead': false,
+          'createdAt': Timestamp.fromDate(now),
+        });
+      }
+    } catch (e) {
+      debugPrint('=== declineOffer HATASI === chatId: $chatId, hata: $e');
+      rethrow;
+    }
+  }
+
+  /// Takası tamamla (ilanları pasif yapar + completedTradesCount artır)
+  Future<void> completeTrade(String chatId) async {
+    try {
+      final chatRef = _firestore.collection('chats').doc(chatId);
+      final chatDoc = await chatRef.get();
+      final offerListingId = chatDoc.data()?['offerListingId'] as String?;
+      final targetListingId = chatDoc.data()?['targetListingId'] as String?;
+      final participants =
+          List<String>.from(chatDoc.data()?['participants'] ?? []);
+      final now = DateTime.now();
+
+      if (participants.length != 2) {
+        throw Exception('Geçersiz katılımcı sayısı');
+      }
+
+      final batch = _firestore.batch();
+
+      batch.update(chatRef, {
+        'offerStatus': OfferStatus.completed.name,
+        'offerUpdatedAt': Timestamp.fromDate(now),
+      });
+
+      if (offerListingId != null) {
+        batch.update(_firestore.collection('listings').doc(offerListingId), {
+          'status': 'traded',
+        });
+      }
+
+      if (targetListingId != null) {
+        batch.update(_firestore.collection('listings').doc(targetListingId), {
+          'status': 'traded',
+        });
+      }
+
+      batch.update(_firestore.collection('users').doc(participants[0]), {
+        'completedTradesCount': FieldValue.increment(1),
+      });
+      batch.update(_firestore.collection('users').doc(participants[1]), {
+        'completedTradesCount': FieldValue.increment(1),
+      });
+
+      await batch.commit();
+    } catch (e) {
+      debugPrint('=== completeTrade HATASI === chatId: $chatId, hata: $e');
+      rethrow;
+    }
   }
 }
 

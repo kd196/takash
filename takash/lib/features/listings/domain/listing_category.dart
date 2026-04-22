@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart' show Color, Colors;
+
 enum ListingCategory {
   electronics,
   clothing,
@@ -84,6 +86,61 @@ extension ListingStatusExtension on ListingStatus {
         return '🔄';
       case ListingStatus.cancelled:
         return '❌';
+    }
+  }
+}
+
+enum ListingCondition {
+  newCondition,
+  likeNew,
+  good,
+  fair,
+  worn,
+}
+
+extension ListingConditionExtension on ListingCondition {
+  String get label {
+    switch (this) {
+      case ListingCondition.newCondition:
+        return 'Sıfır';
+      case ListingCondition.likeNew:
+        return 'Az Kullanılmış';
+      case ListingCondition.good:
+        return 'İyi';
+      case ListingCondition.fair:
+        return 'Orta';
+      case ListingCondition.worn:
+        return 'Yıpranmış';
+    }
+  }
+
+  String get icon {
+    switch (this) {
+      case ListingCondition.newCondition:
+        return '🆕';
+      case ListingCondition.likeNew:
+        return '✨';
+      case ListingCondition.good:
+        return '✅';
+      case ListingCondition.fair:
+        return '⚠️';
+      case ListingCondition.worn:
+        return '�折旧';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case ListingCondition.newCondition:
+        return Colors.green;
+      case ListingCondition.likeNew:
+        return Colors.lightGreen;
+      case ListingCondition.good:
+        return Colors.teal;
+      case ListingCondition.fair:
+        return Colors.orange;
+      case ListingCondition.worn:
+        return Colors.red;
     }
   }
 }

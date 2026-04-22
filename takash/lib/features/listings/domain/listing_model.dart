@@ -12,6 +12,7 @@ class ListingModel {
   final GeoPoint? location;
   final String? geohash;
   final ListingStatus status;
+  final ListingCondition condition;
   final DateTime createdAt;
   final DateTime? updatedAt;
 
@@ -26,6 +27,7 @@ class ListingModel {
     this.location,
     this.geohash,
     this.status = ListingStatus.active,
+    this.condition = ListingCondition.good,
     required this.createdAt,
     this.updatedAt,
   });
@@ -42,12 +44,22 @@ class ListingModel {
       'location': location,
       'geohash': geohash,
       'status': status.name,
+      'condition': condition.name,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
     };
   }
 
   factory ListingModel.fromJson(Map<String, dynamic> json) {
+    final conditionStr = json['condition'] as String?;
+    ListingCondition condition = ListingCondition.good;
+    if (conditionStr != null) {
+      condition = ListingCondition.values.firstWhere(
+        (e) => e.name == conditionStr,
+        orElse: () => ListingCondition.good,
+      );
+    }
+
     return ListingModel(
       id: json['id'] as String,
       ownerId: json['ownerId'] as String,
@@ -65,6 +77,7 @@ class ListingModel {
         (e) => e.name == json['status'],
         orElse: () => ListingStatus.active,
       ),
+      condition: condition,
       createdAt: (json['createdAt'] as Timestamp).toDate(),
       updatedAt: json['updatedAt'] != null
           ? (json['updatedAt'] as Timestamp).toDate()
@@ -83,6 +96,7 @@ class ListingModel {
     GeoPoint? location,
     String? geohash,
     ListingStatus? status,
+    ListingCondition? condition,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -97,6 +111,7 @@ class ListingModel {
       location: location ?? this.location,
       geohash: geohash ?? this.geohash,
       status: status ?? this.status,
+      condition: condition ?? this.condition,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

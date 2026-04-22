@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 import '../domain/listing_category.dart';
 import 'listings_controller.dart';
 import 'widgets/manage_listing_card.dart';
@@ -98,8 +99,10 @@ class MyListingsScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.inbox_outlined,
-                  size: 64, color: Theme.of(context).colorScheme.outline),
+              TakashIcon(
+                  assetName: TakashIcon.inventory,
+                  size: 64,
+                  color: Theme.of(context).colorScheme.outline),
               const SizedBox(height: 16),
               Text(
                 emptyMessage,

@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'chat_controller.dart';
+import '../domain/chat_model.dart';
 import '../../../core/providers.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../shared/widgets/loading_indicator.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 /// Sohbet listesi ekranı — Tüm aktif konuşmalar burada listelenir
 class ChatListScreen extends ConsumerWidget {
@@ -29,8 +31,10 @@ class ChatListScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.chat_bubble_outline,
-                      size: 64, color: colorScheme.outline),
+                  TakashIcon(
+                      assetName: TakashIcon.chatBubble,
+                      size: 64,
+                      color: colorScheme.outline),
                   const SizedBox(height: 16),
                   Text(
                     'Henüz bir sohbetiniz yok',
@@ -68,16 +72,47 @@ class ChatListScreen extends ConsumerWidget {
               return ListTile(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                leading: CircleAvatar(
-                  radius: 28,
-                  backgroundColor: colorScheme.primaryContainer,
-                  backgroundImage: otherUserPhoto != null
-                      ? CachedNetworkImageProvider(otherUserPhoto)
-                      : null,
-                  child: otherUserPhoto == null
-                      ? Icon(Icons.person,
-                          color: colorScheme.onPrimaryContainer)
-                      : null,
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (chat.listingThumbnailUrl != null)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: CachedNetworkImage(
+                          imageUrl: chat.listingThumbnailUrl!,
+                          width: 32,
+                          height: 32,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            width: 32,
+                            height: 32,
+                            color: colorScheme.surfaceContainerHighest,
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            width: 32,
+                            height: 32,
+                            color: colorScheme.surfaceContainerHighest,
+                            child: const TakashIcon(
+                                assetName: TakashIcon.imageOff, size: 16),
+                          ),
+                        ),
+                      ),
+                    if (chat.listingThumbnailUrl != null)
+                      const SizedBox(width: 8),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: colorScheme.primaryContainer,
+                      backgroundImage: otherUserPhoto != null
+                          ? CachedNetworkImageProvider(otherUserPhoto)
+                          : null,
+                      child: otherUserPhoto == null
+                          ? TakashIcon(
+                              assetName: TakashIcon.person,
+                              color: colorScheme.onPrimaryContainer,
+                              size: 20)
+                          : null,
+                    ),
+                  ],
                 ),
                 title: Text(
                   otherUserName,
@@ -108,12 +143,38 @@ class ChatListScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                trailing: Text(
-                  Helpers.timeAgo(chat.lastMessageAt),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(fontSize: 11),
+                trailing: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      Helpers.timeAgo(chat.lastMessageAt),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(fontSize: 11),
+                    ),
+                    if (chat.offerStatus != OfferStatus.pending)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: _getOfferStatusColor(chat.offerStatus),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            _getOfferStatusLabel(chat.offerStatus),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 onTap: () {
                   ref
@@ -130,5 +191,31 @@ class ChatListScreen extends ConsumerWidget {
         error: (err, stack) => Center(child: Text('Hata: $err')),
       ),
     );
+  }
+
+  Color _getOfferStatusColor(OfferStatus status) {
+    switch (status) {
+      case OfferStatus.pending:
+        return Colors.amber;
+      case OfferStatus.accepted:
+        return Colors.green;
+      case OfferStatus.declined:
+        return Colors.red;
+      case OfferStatus.completed:
+        return Colors.blue;
+    }
+  }
+
+  String _getOfferStatusLabel(OfferStatus status) {
+    switch (status) {
+      case OfferStatus.pending:
+        return 'Bekliyor';
+      case OfferStatus.accepted:
+        return 'Kabul';
+      case OfferStatus.declined:
+        return 'Red';
+      case OfferStatus.completed:
+        return 'Tamam';
+    }
   }
 }

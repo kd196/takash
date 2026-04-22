@@ -10,6 +10,7 @@ import '../../chat/presentation/chat_controller.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../core/providers.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 /// İlan detay ekranı — Fotoğraf carousel, bilgiler, ilan sahibi, teklif ver
 class ListingDetailScreen extends ConsumerWidget {
@@ -143,8 +144,10 @@ class ListingDetailScreen extends ConsumerWidget {
           shape: BoxShape.circle,
         ),
         child: IconButton(
-          icon: Icon(Icons.arrow_back_rounded,
-              color: colorScheme.onSurface, size: 22),
+          icon: TakashIcon(
+              assetName: TakashIcon.arrowBack,
+              color: colorScheme.onSurface,
+              size: 22),
           onPressed: () => context.pop(),
         ),
       ),
@@ -163,8 +166,10 @@ class ListingDetailScreen extends ConsumerWidget {
             ],
           ),
           child: IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
+            icon: TakashIcon(
+              assetName: isFavorite
+                  ? TakashIcon.favoriteActive
+                  : TakashIcon.favoriteInactive,
               color: isFavorite ? Colors.red : colorScheme.onSurface,
               size: 22,
             ),
@@ -189,8 +194,10 @@ class ListingDetailScreen extends ConsumerWidget {
             ],
           ),
           child: IconButton(
-            icon: Icon(Icons.share_rounded,
-                color: colorScheme.onSurface, size: 22),
+            icon: TakashIcon(
+                assetName: TakashIcon.share,
+                color: colorScheme.onSurface,
+                size: 22),
             onPressed: () {
               Share.share(
                 '🔄 ${listing.title}\n\n${listing.description}\n\nKarşılığında: ${listing.wantedItem}\n\nTakaş ile takas yap!',
@@ -204,7 +211,10 @@ class ListingDetailScreen extends ConsumerWidget {
             ? _ImageCarousel(imageUrls: listing.imageUrls)
             : Container(
                 color: colorScheme.surfaceContainerHighest,
-                child: Icon(Icons.image, size: 64, color: colorScheme.outline),
+                child: TakashIcon(
+                    assetName: TakashIcon.imageOff,
+                    size: 64,
+                    color: colorScheme.outline),
               ),
       ),
     );
@@ -225,6 +235,22 @@ class ListingDetailScreen extends ConsumerWidget {
             '${listing.category.icon}  ${listing.category.label}',
             style: TextStyle(
               color: colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: listing.condition.color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            '${listing.condition.icon} ${listing.condition.label}',
+            style: TextStyle(
+              color: listing.condition.color,
               fontWeight: FontWeight.w600,
               fontSize: 13,
             ),
@@ -278,8 +304,10 @@ class ListingDetailScreen extends ConsumerWidget {
               color: colorScheme.secondary.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(Icons.swap_horiz_rounded,
-                color: colorScheme.secondary, size: 24),
+            child: TakashIcon(
+                assetName: TakashIcon.swap,
+                color: colorScheme.secondary,
+                size: 24),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -336,8 +364,10 @@ class ListingDetailScreen extends ConsumerWidget {
                     ? CachedNetworkImageProvider(user!.photoUrl!)
                     : null,
                 child: user?.photoUrl == null
-                    ? Icon(Icons.person,
-                        color: colorScheme.onPrimaryContainer, size: 32)
+                    ? TakashIcon(
+                        assetName: TakashIcon.person,
+                        color: colorScheme.onPrimaryContainer,
+                        size: 32)
                     : null,
               ),
               const SizedBox(width: 16),
@@ -354,7 +384,10 @@ class ListingDetailScreen extends ConsumerWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 16),
+                        const TakashIcon(
+                            assetName: TakashIcon.starActive,
+                            color: Colors.amber,
+                            size: 16),
                         const SizedBox(width: 4),
                         Text(
                           '${user?.rating.toStringAsFixed(1) ?? "0.0"} (${user?.ratingCount ?? 0} Değerlendirme)',
@@ -365,7 +398,9 @@ class ListingDetailScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: colorScheme.outline),
+              TakashIcon(
+                  assetName: TakashIcon.chevronRight,
+                  color: colorScheme.outline),
             ],
           ),
         ),
@@ -412,8 +447,8 @@ class ListingDetailScreen extends ConsumerWidget {
                   }
                 }
               },
-              icon: const Icon(Icons.chat_bubble_outline),
-              label: const Text('Mesaj Gönder'),
+              icon: const TakashIcon(assetName: TakashIcon.swap),
+              label: const Text('Takas Teklif Et'),
               style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
@@ -466,7 +501,7 @@ class ListingDetailScreen extends ConsumerWidget {
                       }
                     }
                   : null,
-              icon: const Icon(Icons.handshake),
+              icon: const TakashIcon(assetName: TakashIcon.swap),
               label: const Text('Teklif Ver'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.primary,
@@ -502,7 +537,7 @@ class ListingDetailScreen extends ConsumerWidget {
                     .updateStatus(listing.id, ListingStatus.traded);
               }
             },
-            icon: const Icon(Icons.bookmark),
+            icon: const TakashIcon(assetName: TakashIcon.bookmark),
             label: const Text('Rezerve Et'),
           ),
         const SizedBox(height: 8),
@@ -524,7 +559,8 @@ class ListingDetailScreen extends ConsumerWidget {
               }
             }
           },
-          icon: Icon(Icons.delete_outline, color: colorScheme.error),
+          icon: TakashIcon(
+              assetName: TakashIcon.delete, color: colorScheme.error),
           label: Text('İlanı Sil', style: TextStyle(color: colorScheme.error)),
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: colorScheme.error),
@@ -585,7 +621,7 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
               errorWidget: (_, __, ___) => const Center(
-                child: Icon(Icons.broken_image, size: 48),
+                child: TakashIcon(assetName: TakashIcon.imageOff, size: 48),
               ),
             );
           },

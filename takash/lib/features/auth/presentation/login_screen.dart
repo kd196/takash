@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 import 'auth_controller.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -172,8 +173,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ],
                         ),
-                        child: const Icon(Icons.swap_horiz_rounded,
-                            color: Colors.white, size: 40),
+                        child: TakashIcon(
+                            assetName: TakashIcon.swap,
+                            color: Colors.white,
+                            size: 40),
                       ),
                       const SizedBox(height: 16),
                       Text(

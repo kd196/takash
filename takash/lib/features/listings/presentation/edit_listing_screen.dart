@@ -22,6 +22,7 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
   late TextEditingController _descriptionController;
   late TextEditingController _wantedItemController;
   ListingCategory _selectedCategory = ListingCategory.other;
+  ListingCondition _selectedCondition = ListingCondition.good;
   final List<File> _selectedImages = [];
   List<String> _existingImageUrls = [];
   final _picker = ImagePicker();
@@ -48,6 +49,7 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
         _descriptionController.text = listing.description;
         _wantedItemController.text = listing.wantedItem;
         _selectedCategory = listing.category;
+        _selectedCondition = listing.condition;
         _existingImageUrls = List.from(listing.imageUrls);
       });
     }
@@ -131,11 +133,8 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       category: _selectedCategory,
+      condition: _selectedCondition,
       wantedItem: _wantedItemController.text.trim(),
-      // Not: Controller image upload kısmını handle ediyor eğer newImages verilirse.
-      // Ancak mevcut controller tasarımı sadece newImages varsa her şeyi siliyor ve yenilerini yüklüyor.
-      // Bu basit MVP tasarımı olduğu için şimdilik öyle bırakabiliriz ya da iyileştirebiliriz.
-      // Kullanıcının isteği doğrultusunda "Düzenle" ekranını yapıyorum.
     );
 
     final success = await controller.updateListing(
@@ -240,6 +239,35 @@ class _EditListingScreenState extends ConsumerState<EditListingScreen> {
                 onChanged: (value) {
                   if (value != null) setState(() => _selectedCategory = value);
                 },
+              ),
+              const SizedBox(height: 16),
+
+              // ── Kondisyon ──
+              Text(
+                'Ürün Kondisyonu',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: ListingCondition.values.map((condition) {
+                  final isSelected = _selectedCondition == condition;
+                  return ChoiceChip(
+                    label: Text('${condition.icon} ${condition.label}'),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      if (selected) {
+                        setState(() => _selectedCondition = condition);
+                      }
+                    },
+                    selectedColor: condition.color.withValues(alpha: 0.2),
+                    labelStyle: TextStyle(
+                      color: isSelected ? condition.color : null,
+                      fontWeight: isSelected ? FontWeight.bold : null,
+                    ),
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 16),
 

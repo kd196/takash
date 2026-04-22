@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'chat_controller.dart';
+import '../data/chat_repository.dart';
+import '../domain/chat_model.dart';
 import '../domain/message_model.dart';
 import '../../../core/providers.dart';
 import '../../../core/utils/helpers.dart';
@@ -15,6 +18,7 @@ import '../../profile/data/rating_repository.dart';
 import '../../listings/data/listing_repository.dart';
 import '../../listings/presentation/listings_controller.dart';
 import '../../listings/domain/listing_category.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 class ChatDetailScreen extends ConsumerStatefulWidget {
   final String chatId;
@@ -48,6 +52,42 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         .read(chatControllerProvider.notifier)
         .sendTextMessage(widget.chatId, text);
     _messageController.clear();
+  }
+
+  Future<void> _acceptOffer() async {
+    final currentUser = ref.read(authStateProvider).value;
+    if (currentUser == null) return;
+
+    try {
+      await ref.read(chatRepositoryProvider).acceptOffer(
+            widget.chatId,
+            currentUser.uid,
+          );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Teklif kabul edilirken hata: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _declineOffer() async {
+    final currentUser = ref.read(authStateProvider).value;
+    if (currentUser == null) return;
+
+    try {
+      await ref.read(chatRepositoryProvider).declineOffer(
+            widget.chatId,
+            currentUser.uid,
+          );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Teklif reddedilirken hata: $e')),
+        );
+      }
+    }
   }
 
   Future<void> _pickImage() async {
@@ -135,8 +175,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Takas Tamamlansın mı?'),
-        content:
-            const Text('Bu işlem geri alınamaz ve ilan yayından kaldırılır.'),
+        content: const Text(
+            'Bu işlem geri alınamaz ve ilanlar yayından kaldırılır.'),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context, false),
@@ -150,9 +190,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
     if (confirmed == true) {
       try {
-        await ref
-            .read(listingRepositoryProvider)
-            .updateListingStatus(listingId, ListingStatus.traded);
+        await ref.read(chatRepositoryProvider).completeTrade(widget.chatId);
 
         if (mounted) {
           _showRatingDialog(otherUserId, listingId);
@@ -248,63 +286,40 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             .valueOrNull ??
         false;
 
-    final isCompleted = listingAsync.when(
-      data: (listing) => listing?.status == ListingStatus.traded,
-      loading: () => false,
-      error: (_, __) => false,
-    );
+    final isCompleted = chat?.offerStatus == OfferStatus.completed;
 
     return Scaffold(
       appBar: _selectedImageFile != null
           ? null
-          : AppBar(
-              title: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundImage: otherUserDetails?['photo'] != null
-                        ? CachedNetworkImageProvider(otherUserDetails!['photo'])
-                        : null,
-                    child: otherUserDetails?['photo'] == null
-                        ? const Icon(Icons.person, size: 20)
-                        : null,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      otherUserDetails?['name'] ?? 'Sohbet',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-              actions: [
-                if (isListingOwner && chat != null && !isCompleted)
-                  TextButton.icon(
-                    onPressed: () =>
-                        _completeExchange(chat.listingId!, otherUserId!),
-                    icon: const Icon(Icons.check_circle_outline, size: 20),
-                    label: const Text('Takası Bitir'),
-                    style: TextButton.styleFrom(
-                        foregroundColor: colorScheme.primary),
-                  ),
-                if (isCompleted)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Chip(
-                      label: const Text('Tamamlandı'),
-                      backgroundColor: Colors.green.shade100,
-                      labelStyle:
-                          TextStyle(color: Colors.green.shade800, fontSize: 12),
-                    ),
-                  ),
-              ],
+          : _ChatDetailAppBar(
+              listingId: chat?.listingId,
+              listingTitle: chat?.listingTitle,
+              listingThumbnailUrl: chat?.listingThumbnailUrl,
+              otherUserName: otherUserDetails?['name'] ?? 'Kullanıcı',
+              otherUserPhoto: otherUserDetails?['photo'],
+              offerStatus: chat?.offerStatus,
+              isCompleted: isCompleted,
+              onTapListing: () {
+                if (chat?.listingId != null) {
+                  context.push('/listing/${chat!.listingId}');
+                }
+              },
+              onCompleteExchange: chat?.offerStatus == OfferStatus.accepted &&
+                      chat?.listingId != null &&
+                      otherUserId != null
+                  ? () => _completeExchange(chat!.listingId!, otherUserId!)
+                  : null,
             ),
       body: Stack(
         children: [
           Column(
             children: [
+              if (chat != null && chat.offerStatus != OfferStatus.pending)
+                _OfferStatusBanner(
+                  offerStatus: chat.offerStatus,
+                  onAccept: () => _acceptOffer(),
+                  onDecline: () => _declineOffer(),
+                ),
               Expanded(
                 child: messagesAsync.when(
                   data: (messages) {
@@ -450,8 +465,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         child: Row(
           children: [
             IconButton(
-              icon: Icon(Icons.add_photo_alternate_rounded,
-                  color: colorScheme.primary, size: 28),
+              icon: TakashIcon(
+                  assetName: TakashIcon.addPhoto,
+                  color: colorScheme.primary,
+                  size: 28),
               onPressed: _pickImage,
             ),
             Expanded(
@@ -487,8 +504,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 customBorder: const CircleBorder(),
                 child: const Padding(
                   padding: EdgeInsets.all(12),
-                  child:
-                      Icon(Icons.send_rounded, color: Colors.white, size: 22),
+                  child: TakashIcon(
+                      assetName: TakashIcon.send,
+                      color: Colors.white,
+                      size: 22),
                 ),
               ),
             ),
@@ -679,6 +698,203 @@ class _MessageBubble extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _OfferStatusBanner extends StatelessWidget {
+  final OfferStatus offerStatus;
+  final VoidCallback onAccept;
+  final VoidCallback onDecline;
+
+  const _OfferStatusBanner({
+    required this.offerStatus,
+    required this.onAccept,
+    required this.onDecline,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    Color bgColor;
+    Color textColor;
+    String message;
+    IconData icon;
+
+    switch (offerStatus) {
+      case OfferStatus.pending:
+        bgColor = Colors.amber.shade100;
+        textColor = Colors.amber.shade800;
+        message = 'Teklif bekleniyor...';
+        icon = Icons.hourglass_empty;
+        break;
+      case OfferStatus.accepted:
+        bgColor = Colors.green.shade100;
+        textColor = Colors.green.shade800;
+        message = 'Teklif kabul edildi! Takası koordine edin';
+        icon = Icons.check_circle;
+        break;
+      case OfferStatus.declined:
+        bgColor = Colors.red.shade100;
+        textColor = Colors.red.shade800;
+        message = 'Teklif reddedildi';
+        icon = Icons.cancel;
+        break;
+      case OfferStatus.completed:
+        bgColor = Colors.blue.shade100;
+        textColor = Colors.blue.shade800;
+        message = 'Takas tamamlandı!';
+        icon = Icons.verified;
+        break;
+    }
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      color: bgColor,
+      child: Row(
+        children: [
+          Icon(icon, color: textColor, size: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
+            ),
+          ),
+          if (offerStatus == OfferStatus.pending) ...[
+            TextButton(
+              onPressed: onAccept,
+              child: const Text('Kabul'),
+            ),
+            TextButton(
+              onPressed: onDecline,
+              child: Text('Red', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ChatDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String? listingId;
+  final String? listingTitle;
+  final String? listingThumbnailUrl;
+  final String? otherUserName;
+  final String? otherUserPhoto;
+  final OfferStatus? offerStatus;
+  final bool isCompleted;
+  final VoidCallback? onTapListing;
+  final VoidCallback? onCompleteExchange;
+
+  const _ChatDetailAppBar({
+    required this.listingId,
+    required this.listingTitle,
+    required this.listingThumbnailUrl,
+    required this.otherUserName,
+    required this.otherUserPhoto,
+    required this.offerStatus,
+    required this.isCompleted,
+    required this.onTapListing,
+    required this.onCompleteExchange,
+  });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return AppBar(
+      titleSpacing: 0,
+      title: Row(
+        children: [
+          if (listingThumbnailUrl != null)
+            GestureDetector(
+              onTap: onTapListing,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: CachedNetworkImage(
+                  imageUrl: listingThumbnailUrl!,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    width: 40,
+                    height: 40,
+                    color: colorScheme.surfaceContainerHighest,
+                    child: const TakashIcon(
+                        assetName: TakashIcon.imageOff, size: 20),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    width: 40,
+                    height: 40,
+                    color: colorScheme.surfaceContainerHighest,
+                    child: const TakashIcon(
+                        assetName: TakashIcon.imageOff, size: 20),
+                  ),
+                ),
+              ),
+            )
+          else
+            const SizedBox(width: 40),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (listingTitle != null)
+                  Text(
+                    listingTitle!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                Text(
+                  otherUserName ?? 'Kullanıcı',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        if (listingId != null)
+          IconButton(
+            icon: const TakashIcon(assetName: TakashIcon.info, size: 22),
+            onPressed: onTapListing,
+            tooltip: 'İlana Git',
+          ),
+        if (onCompleteExchange != null)
+          TextButton.icon(
+            onPressed: onCompleteExchange,
+            icon: const TakashIcon(assetName: TakashIcon.checkCircle, size: 20),
+            label: const Text('Takası Bitir'),
+            style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
+          ),
+        if (isCompleted)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Chip(
+              label: const Text('Tamamlandı'),
+              backgroundColor: Colors.green.shade100,
+              labelStyle: TextStyle(color: Colors.green.shade800, fontSize: 12),
+            ),
+          ),
+      ],
     );
   }
 }

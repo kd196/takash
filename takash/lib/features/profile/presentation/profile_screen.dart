@@ -10,6 +10,7 @@ import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/profile_controller.dart';
 import '../../listings/presentation/listings_controller.dart';
 import '../../auth/domain/user_model.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   final String? userId;
@@ -153,8 +154,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     ? CachedNetworkImageProvider(user.photoUrl!)
                                     : null,
                                 child: user.photoUrl == null
-                                    ? const Icon(Icons.person_rounded,
-                                        size: 48, color: Colors.white)
+                                    ? const TakashIcon(
+                                        assetName: TakashIcon.person,
+                                        size: 48,
+                                        color: Colors.white)
                                     : null,
                               ),
                             ),
@@ -190,8 +193,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.star_rounded,
-                                    color: Colors.amber, size: 20),
+                                const TakashIcon(
+                                    assetName: TakashIcon.starActive,
+                                    color: Colors.amber,
+                                    size: 20),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${user.rating.toStringAsFixed(1)} ',
@@ -205,6 +210,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   '(${user.ratingCount})',
                                   style: TextStyle(
                                     color: Colors.white.withValues(alpha: 0.7),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                const Icon(Icons.swap_horiz_rounded,
+                                    color: Colors.white70, size: 20),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '${user.completedTradesCount}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const Text(
+                                  ' takas',
+                                  style: TextStyle(
+                                    color: Colors.white70,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                   ),

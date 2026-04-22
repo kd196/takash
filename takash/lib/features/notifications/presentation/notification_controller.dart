@@ -61,6 +61,11 @@ class NotificationController extends AsyncNotifier<void> {
     state = const AsyncLoading();
     await AsyncValue.guard(() async {
       await _notificationService.markAsRead(notificationId);
+      final currentCount = ref.read(unreadNotificationCountProvider);
+      if (currentCount > 0) {
+        ref.read(unreadNotificationCountProvider.notifier).state =
+            currentCount - 1;
+      }
     });
     state = const AsyncData(null);
   }

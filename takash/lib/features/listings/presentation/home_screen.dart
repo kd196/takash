@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 import '../domain/listing_category.dart';
 import 'listings_controller.dart';
 import 'widgets/listing_card.dart';
@@ -34,8 +35,7 @@ class HomeScreen extends ConsumerWidget {
                     color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(Icons.swap_horiz_rounded,
-                      color: Colors.white, size: 22),
+                  child: const TakashIcon(assetName: TakashIcon.swap, size: 22),
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -154,7 +154,10 @@ class HomeScreen extends ConsumerWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.search_rounded, size: 22, color: colorScheme.outline),
+              TakashIcon(
+                  assetName: TakashIcon.search,
+                  size: 22,
+                  color: colorScheme.outline),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -235,8 +238,10 @@ class HomeScreen extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.search_rounded,
-              size: 18, color: colorScheme.onSecondaryContainer),
+          TakashIcon(
+              assetName: TakashIcon.search,
+              size: 18,
+              color: colorScheme.onSecondaryContainer),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -278,8 +283,10 @@ class HomeScreen extends ConsumerWidget {
                 color: colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.inventory_2_outlined,
-                  size: 36, color: colorScheme.outline),
+              child: TakashIcon(
+                  assetName: TakashIcon.inventory,
+                  size: 36,
+                  color: colorScheme.outline),
             ),
             const SizedBox(height: 20),
             Text(
@@ -340,7 +347,7 @@ class HomeScreen extends ConsumerWidget {
           autofocus: true,
           decoration: const InputDecoration(
             hintText: 'Başlık veya açıklama ara...',
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: TakashIcon(assetName: TakashIcon.search),
           ),
           onSubmitted: (value) {
             ref.read(searchQueryProvider.notifier).state = value.trim();

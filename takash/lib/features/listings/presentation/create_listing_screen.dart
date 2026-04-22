@@ -24,6 +24,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
   final _wantedItemController = TextEditingController();
 
   ListingCategory _selectedCategory = ListingCategory.other;
+  ListingCondition _selectedCondition = ListingCondition.good;
   GeoPoint? _selectedLocation;
   bool _isGettingLocation = false;
   final List<File> _selectedImages = [];
@@ -114,6 +115,7 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       category: _selectedCategory,
+      condition: _selectedCondition,
       wantedItem: _wantedItemController.text.trim(),
       images: _selectedImages,
       location: _selectedLocation,
@@ -214,6 +216,35 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 onChanged: (value) {
                   if (value != null) setState(() => _selectedCategory = value);
                 },
+              ),
+              const SizedBox(height: 16),
+
+              // ── Kondisyon ──
+              Text(
+                'Ürün Kondisyonu',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: ListingCondition.values.map((condition) {
+                  final isSelected = _selectedCondition == condition;
+                  return ChoiceChip(
+                    label: Text('${condition.icon} ${condition.label}'),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      if (selected) {
+                        setState(() => _selectedCondition = condition);
+                      }
+                    },
+                    selectedColor: condition.color.withValues(alpha: 0.2),
+                    labelStyle: TextStyle(
+                      color: isSelected ? condition.color : null,
+                      fontWeight: isSelected ? FontWeight.bold : null,
+                    ),
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 16),
 
@@ -569,6 +600,8 @@ class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: InkWell(
+                    splashColor: colorScheme.primary.withValues(alpha: 0.05),
+                    highlightColor: colorScheme.primary.withValues(alpha: 0.03),
                     onTap: () => showModalBottomSheet(
                       context: context,
                       builder: (context) => SafeArea(

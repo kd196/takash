@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:takash/features/listings/presentation/listings_controller.dart';
 import 'package:takash/features/listings/presentation/widgets/listing_card.dart';
 import 'package:takash/shared/widgets/loading_indicator.dart';
+import 'package:takash/shared/widgets/takash_icon.dart';
 
 class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
@@ -24,7 +25,10 @@ class FavoritesScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, size: 64, color: colorScheme.outline),
+                  TakashIcon(
+                      assetName: TakashIcon.favoriteInactive,
+                      size: 64,
+                      color: colorScheme.outline),
                   const SizedBox(height: 16),
                   Text(
                     'Henüz favori ilanınız yok',
@@ -66,14 +70,16 @@ class FavoritesScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const LoadingIndicator(message: 'Favoriler yükleniyor...'),
+        loading: () =>
+            const LoadingIndicator(message: 'Favoriler yükleniyor...'),
         error: (err, stack) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.error_outline, size: 48, color: colorScheme.error),
               const SizedBox(height: 16),
-              Text('Hata oluştu: $err', style: TextStyle(color: colorScheme.error)),
+              Text('Hata oluştu: $err',
+                  style: TextStyle(color: colorScheme.error)),
             ],
           ),
         ),
